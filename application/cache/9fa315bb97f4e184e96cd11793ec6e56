@@ -1,0 +1,662 @@
+1428294615TS---><!DOCTYPE html> 
+<html lang="en-US">
+<head>
+  <title>K2-A Dashboard</title>
+  <meta charset="utf-8">
+  
+    <link href="http://192.168.2.11/k2-idol/assets/css/admin/global.css" rel="stylesheet" type="text/css">  
+  
+  
+   <link href="http://192.168.2.11/k2-idol/assets/themes/lte/css/LTE.min.css" rel="stylesheet" type="text/css"> 
+   <link href="http://192.168.2.11/k2-idol/assets/themes/lte/css/skins/skin-blue.min.css" rel="stylesheet" type="text/css"> 
+  
+  
+  
+  <link href="http://192.168.2.11/k2-idol/assets/lib/magic.suggest/magicsuggest.css" rel="stylesheet" type="text/css">
+  <link href="http://192.168.2.11/k2-idol/assets/lib/bootstrap.switch/bootstrap-switch.css" rel="stylesheet" type="text/css">
+  <link href="http://192.168.2.11/k2-idol/assets/lib/bootstrap.slider/css/bootstrap-slider.css" rel="stylesheet" type="text/css"> 
+  <link href="http://192.168.2.11/k2-idol/assets/lib/bootstrap.jspanel/jsPanel.css" rel="stylesheet" type="text/css">
+  <!--<link href="http://192.168.2.11/k2-idol/assets/lib/bootsidemenu/css/BootSideMenu.css" rel="stylesheet" type="text/css">-->
+  
+  <link href="http://192.168.2.11/k2-idol/assets/lib/bootstrap.datepicker/css/bootstrap-datepicker.css" rel="stylesheet" type="text/css">
+  <link href="http://192.168.2.11/k2-idol/assets/lib/bootstrap.select/css/bootstrap-select.css" rel="stylesheet" type="text/css">
+  <link href="http://192.168.2.11/k2-idol/assets/lib/jquery.treegrid/css/jquery-treegrid.css" rel="stylesheet" type="text/css">
+  <link href="http://192.168.2.11/k2-idol/assets/lib/jquery.easytree/css/jquery-easytree.css" rel="stylesheet" type="text/css">
+  <link href="http://192.168.2.11/k2-idol/assets/lib/dtree/css/dtree.css" rel="stylesheet" type="text/css">  
+  <link href="http://192.168.2.11/k2-idol/assets/lib/fancytree/skin-xp/ui.fancytree.css" rel="stylesheet" type="text/css">  
+  <link href="http://192.168.2.11/k2-idol/assets/lib/bootstrap.tour/bootstrap-tour.css" rel="stylesheet" type="text/css">  
+  <!--<link rel="stylesheet" href="assets/lib/awesome.checkbox/bower_components/Font-Awesome/css/font-awesome.css"/>-->
+  <link href="http://192.168.2.11/k2-idol/assets/lib/awesome.checkbox/build.css" rel="stylesheet" type="text/css">
+  
+  
+  <!--<link href="http://192.168.2.11/k2-idol/assets/themes/admin/startbootstrap-sb-admin-1.0.2/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="http://192.168.2.11/k2-idol/assets/themes/admin/startbootstrap-sb-admin-1.0.2/css/sb-admin.css" rel="stylesheet" type="text/css">-->
+  
+ 
+  
+  
+</head>
+<body class="skin-blue fixed" >
+	<div class="wrapper">
+
+ 
+  <!-- Main Header -->
+<header class="main-header">
+
+<!-- Logo -->
+<a href="index2.html" class="logo">K2-A Dashboard</a>
+
+<!-- Header Navbar -->
+<nav class="navbar navbar-static-top" role="navigation">
+  <!-- Sidebar toggle button-->
+  <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+	<span class="sr-only">Toggle navigation</span>
+  </a>
+  <!-- Navbar Right Menu -->
+  <div class="navbar-custom-menu">
+	<ul class="nav navbar-nav">
+	  <!-- Messages: style can be found in dropdown.less-->
+	  <li class="dropdown messages-menu">
+		<!-- Menu toggle button -->
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		  <i class="fa fa-envelope-o"></i>
+		  <span class="label label-success">4</span>
+		</a>
+		<ul class="dropdown-menu">
+		  <li class="header">You have 4 messages</li>
+		  <li>
+			<!-- inner menu: contains the messages -->
+			<ul class="menu">
+			  <li><!-- start message -->
+				<a href="#">
+				  <div class="pull-left">
+					<!-- User Image -->
+					<img src="http://192.168.2.11/k2-idol/assets/themes/lte/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
+				  </div>
+				  <!-- Message title and timestamp -->
+				  <h4>                            
+					Support Team
+					<small><i class="fa fa-clock-o"></i> 5 mins</small>
+				  </h4>
+				  <!-- The message -->
+				  <p>Why not buy a new awesome theme?</p>
+				</a>
+			  </li><!-- end message -->                      
+			</ul><!-- /.menu -->
+		  </li>
+		  <li class="footer"><a href="#">See All Messages</a></li>
+		</ul>
+	  </li><!-- /.messages-menu -->
+
+	  <!-- Notifications Menu -->
+	  <li class="dropdown notifications-menu">
+		<!-- Menu toggle button -->
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		  <i class="fa fa-bell-o"></i>
+		  <span class="label label-warning">10</span>
+		</a>
+		<ul class="dropdown-menu">
+		  <li class="header">You have 10 notifications</li>
+		  <li>
+			<!-- Inner Menu: contains the notifications -->
+			<ul class="menu">
+			  <li><!-- start notification -->
+				<a href="#">
+				  <i class="fa fa-users text-aqua"></i> 5 new members joined today
+				</a>
+			  </li><!-- end notification -->                      
+			</ul>
+		  </li>
+		  <li class="footer"><a href="#">View all</a></li>
+		</ul>
+	  </li>
+	  <!-- Tasks Menu -->
+	  <li class="dropdown tasks-menu">
+		<!-- Menu Toggle Button -->
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		  <i class="fa fa-flag-o"></i>
+		  <span class="label label-danger">9</span>
+		</a>
+		<ul class="dropdown-menu">
+		  <li class="header">You have 9 tasks</li>
+		  <li>
+			<!-- Inner menu: contains the tasks -->
+			<ul class="menu">
+			  <li><!-- Task item -->
+				<a href="#">
+				  <!-- Task title and progress text -->
+				  <h3>
+					Design some buttons
+					<small class="pull-right">20%</small>
+				  </h3>
+				  <!-- The progress bar -->
+				  <div class="progress xs">
+					<!-- Change the css width attribute to simulate progress -->
+					<div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+					  <span class="sr-only">20% Complete</span>
+					</div>
+				  </div>
+				</a>
+			  </li><!-- end task item -->                      
+			</ul>
+		  </li>
+		  <li class="footer">
+			<a href="#">View all tasks</a>
+		  </li>
+		</ul>
+	  </li>
+	  <!-- User Account Menu -->
+	  <li class="dropdown user user-menu">
+		<!-- Menu Toggle Button -->
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		  <!-- The user image in the navbar-->
+		  <img src="http://192.168.2.11/k2-idol/assets/themes/lte/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
+		  <!-- hidden-xs hides the username on small devices so only the image appears. -->
+		  <span class="hidden-xs">Alexander Pierce</span>
+		</a>
+		<ul class="dropdown-menu">
+		  <!-- The user image in the menu -->
+		  <li class="user-header">
+			<img src="http://192.168.2.11/k2-idol/assets/themes/lte/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+			<p>
+			  Alexander Pierce - Web Developer
+			  <small>Member since Nov. 2012</small>
+			</p>
+		  </li>
+		  <!-- Menu Body -->
+		  <li class="user-body">
+			<div class="col-xs-4 text-center">
+			  <a href="#">Followers</a>
+			</div>
+			<div class="col-xs-4 text-center">
+			  <a href="#">Sales</a>
+			</div>
+			<div class="col-xs-4 text-center">
+			  <a href="#">Friends</a>
+			</div>
+		  </li>
+		  <!-- Menu Footer-->
+		  <li class="user-footer">
+			<div class="pull-left">				
+			  <a href="http://192.168.2.11/k2-idol/auth/member" class="btn btn-default btn-flat">Profile</a> 
+			</div>
+			<div class="pull-right">
+			  <a href="http://192.168.2.11/k2-idol/auth/logout" class="btn btn-default btn-flat">Sign out</a> 
+			</div>
+		  </li>
+		</ul>
+	  </li>
+	</ul>
+  </div>
+</nav>
+</header>
+ 
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+
+<!-- sidebar: style can be found in sidebar.less -->
+<section class="sidebar">
+
+  <!-- Sidebar user panel (optional) -->
+  <div class="user-panel">
+	<div class="pull-left image">
+	  <img src="http://192.168.2.11/k2-idol/assets/themes/lte/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+	</div>
+	<div class="pull-left info">
+	  <p>Admin istrator </p>
+	  <!-- Status -->
+	  <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+	</div>
+  </div>
+
+  <!-- search form (Optional) -->
+  <form action="#" method="get" class="sidebar-form">
+	<div class="input-group">
+	  <input type="text" name="q" class="form-control" placeholder="Search..."/>
+	  <span class="input-group-btn">
+		<button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+	  </span>
+	</div>
+  </form>
+  <!-- /.search form -->
+
+  <!-- Sidebar Menu -->
+  <ul class="sidebar-menu">
+	
+	
+	<li class="header">MAIN</li>
+							
+		<li class=" ">				
+						<a href="http://192.168.2.11/k2-idol/dashboard/index"><i class="fa fa-dashboard"></i> Dashboard</a>
+			
+						
+		</li>						
+							
+		<li class=" ">				
+						<a href="http://192.168.2.11/k2-idol/dashboard/settings"><i class="fa fa-cog"></i> Settings</a>
+			
+						
+		</li>						
+							
+		<li class=" ">				
+						<a href="http://192.168.2.11/k2-idol/dashboard/tools"><i class="fa fa-wrench"></i> Tools</a>
+			
+						
+		</li>						
+							
+		<li class="treeview ">				
+						<a href="#">
+				<i class="fa fa-users"></i> 
+				Users/Departments				<i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="treeview-menu">
+						
+					
+						<li class="">								
+							<a href="http://192.168.2.11/k2-idol/auth/members"><i class="fa fa-users"></i> All Users</a>
+						</li>
+						
+					
+						<li class="">								
+							<a href="http://192.168.2.11/k2-idol/auth/create_user"><i class="fa fa-plus"></i> Add User</a>
+						</li>
+						
+					
+						<li class="">								
+							<a href="http://192.168.2.11/k2-idol/auth/groups"><i class="fa fa-building"></i> All Departments</a>
+						</li>
+						
+					
+						<li class="">								
+							<a href="http://192.168.2.11/k2-idol/auth/create_group"><i class="fa fa-plus"></i> Add Department</a>
+						</li>
+				                          
+			</ul>
+						
+		</li>						
+							
+		<li class="treeview ">				
+						<a href="#">
+				<i class="fa fa-shield"></i> 
+				Search				<i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="treeview-menu">
+						
+					
+						<li class="">								
+							<a href="http://192.168.2.11/k2-idol/search/application"><i class="fa fa-eye-slash"></i> Application</a>
+						</li>
+						
+					
+						<li class="">								
+							<a href="http://192.168.2.11/k2-idol/search/template"><i class="fa fa-clipboard"></i> Template</a>
+						</li>
+						
+					
+						<li class="">								
+							<a href="http://192.168.2.11/k2-idol/search/settings"><i class="fa fa-cog"></i> Settings</a>
+						</li>
+				                          
+			</ul>
+						
+		</li>						
+							
+		<li class=" active">				
+						<a href="http://192.168.2.11/k2-idol/widgets/index"><i class="fa fa-th-list"></i> Widgets</a>
+			
+						
+		</li>						
+		<li class="header">Your Pages</li>
+	
+	
+  </ul><!-- /.sidebar-menu -->
+</section>
+<!-- /.sidebar -->
+</aside>
+
+
+
+
+
+
+ <div class="content-wrapper">	
+	
+	<section class="content-header">
+	  <h1>
+		Widgets		<small>Available widgets to add on pages.</small>
+	  </h1>
+	  <ul class="breadcrumb p-10"><li>
+						  <a href="widgets">
+							Widgets
+						  </a> 
+						</li><li>
+						  <a href="#">
+							Index
+						  </a> 
+						</li></ul>	</section>
+	 <section class="content">	
+		<div class="row">
+						
+				<div class="col-md-3 col-sm-6 col-xs-6">	
+					<div class="box box-primary">
+						<div class="box-header">
+						  <h3 class="box-title">Area Chart</h3>
+							<div class="box-tools pull-right">
+								<a class="btn btn-box-tool" onClick="javascript:confirmDeleteWdiget('http://192.168.2.11/k2-idol/widgets/delete/1_bar_0b4115a2d37ed71f77e01a5572289b10')" href="#" class="text-muted" data-toggle="tooltip" title="Delete Widget"><i class="fa fa-trash"></i></a>
+								<a class="btn btn-box-tool" href="http://192.168.2.11/k2-idol/widgets/configure/1_bar_0b4115a2d37ed71f77e01a5572289b10" class="text-muted" data-toggle="tooltip" title="Configure Widget"><i class="fa fa-gear"></i></a>
+								
+							</div>
+						</div>
+						<div class="box-body">
+							<div class="widget widget-sm" 
+								data-bind="DXBar: { 
+									ajax : 'http://192.168.2.11/k2-idol/widgets/get_config', 
+									widget: '1_bar_0b4115a2d37ed71f77e01a5572289b10'
+								}"
+							></div>
+						</div>
+					</div>
+				
+					
+				</div>
+			
+						
+		</div>
+		<div class="row">	
+			<div class="col-md-4 col-sm-6 col-xs-6 col-xs-offset-3 col-sm-offset-3 col-md-offset-4">
+				<a href="http://192.168.2.11/k2-idol/widgets/select" class="info-box bg-aqua">						
+					<span class="info-box-icon ">
+						<i class="ion ion-ios-plus-outline"></i>
+					</span>					
+					<div class="info-box-content">
+					  <span class="info-box-text">Widgets</span>
+					  <span class="info-box-number">1</span>
+					  <div class="progress">
+						<div style="width: 50%" class="progress-bar"></div>
+					  </div>
+					  <span class="progress-description">
+						Add more widgets. Click here.
+					  </span>
+					</div>
+				</a>
+			 </div>
+		</div>
+		<script type="text/javascript">
+			function confirmDeleteWdiget(url){
+				if(confirm('Do you want to Delete this record ?'))
+				{
+					window.location.href=url;
+				}	
+			}
+		</script>	
+		
+	</section>
+	
+	<div id="search-tools" 
+	class="no-print open floating-tools-button">
+	<i class="fa fa-tasks"></i>
+</div>
+<div id="search-tools-content" class="no-print floating-tools-content" data-bind="">
+
+	<h4 style="border-bottom: 1px solid #ddd; " class="m-b-5 m-t-0 p-b-15 text-light-blue">Widgets</h4>
+	<small>Available widgets to add on pages.</small>
+	
+	<div class="m-t-10" data-bind="SlimScroll: { height: 450, width: '100%'}">
+		  <ul class="nav nav-pills nav-stacked">
+			
+			<li class=""><a href="http://192.168.2.11/k2-idol/widgets/index/" >
+				<i class="fa fa-area-chart"></i> All 
+				<span class="pull-right text-red"><i class="fa fa-angle-down"></i> 12%</span></a>
+			</li>
+							<li class="active"><a href="http://192.168.2.11/k2-idol/widgets/index/Bar" >
+					<i class="ion ion-stats-bars"></i> Bar 
+					<span class="pull-right text-red"><i class="fa fa-angle-down"></i> Go</span></a>
+				</li>
+							<li class=""><a href="http://192.168.2.11/k2-idol/widgets/index/Bargauge" >
+					<i class="ion ion-android-wifi"></i> Bar Gauge 
+					<span class="pull-right text-red"><i class="fa fa-angle-down"></i> Go</span></a>
+				</li>
+							<li class=""><a href="http://192.168.2.11/k2-idol/widgets/index/Bubble" >
+					<i class="ion ion-ios-keypad-outline"></i> Bubble 
+					<span class="pull-right text-red"><i class="fa fa-angle-down"></i> Go</span></a>
+				</li>
+							<li class=""><a href="http://192.168.2.11/k2-idol/widgets/index/Circulargauge" >
+					<i class="ion ion-android-wifi"></i> Circular Gauge 
+					<span class="pull-right text-red"><i class="fa fa-angle-down"></i> Go</span></a>
+				</li>
+							<li class=""><a href="http://192.168.2.11/k2-idol/widgets/index/Geospatial" >
+					<i class="ion ion-navigate"></i> Geospatial 
+					<span class="pull-right text-red"><i class="fa fa-angle-down"></i> Go</span></a>
+				</li>
+							<li class=""><a href="http://192.168.2.11/k2-idol/widgets/index/Line" >
+					<i class="fa fa-line-chart"></i> Line 
+					<span class="pull-right text-red"><i class="fa fa-angle-down"></i> Go</span></a>
+				</li>
+							<li class=""><a href="http://192.168.2.11/k2-idol/widgets/index/Lineargauge" >
+					<i class="fa fa-area-chart"></i> Linear Gauge 
+					<span class="pull-right text-red"><i class="fa fa-angle-down"></i> Go</span></a>
+				</li>
+							<li class=""><a href="http://192.168.2.11/k2-idol/widgets/index/Map" >
+					<i class="ion ion-compass"></i> Vector Map 
+					<span class="pull-right text-red"><i class="fa fa-angle-down"></i> Go</span></a>
+				</li>
+							<li class=""><a href="http://192.168.2.11/k2-idol/widgets/index/Pie" >
+					<i class="ion ion-ios-pie-outline"></i> Pie 
+					<span class="pull-right text-red"><i class="fa fa-angle-down"></i> Go</span></a>
+				</li>
+							<li class=""><a href="http://192.168.2.11/k2-idol/widgets/index/Sparkline" >
+					<i class="fa fa-area-chart"></i> Sparkline 
+					<span class="pull-right text-red"><i class="fa fa-angle-down"></i> Go</span></a>
+				</li>
+							<li class=""><a href="http://192.168.2.11/k2-idol/widgets/index/Timeline" >
+					<i class="fa fa-area-chart"></i> Timeline 
+					<span class="pull-right text-red"><i class="fa fa-angle-down"></i> Go</span></a>
+				</li>
+							<li class=""><a href="http://192.168.2.11/k2-idol/widgets/index/Zooming" >
+					<i class="fa fa-area-chart"></i> Zooming 
+					<span class="pull-right text-red"><i class="fa fa-angle-down"></i> Go</span></a>
+				</li>
+						
+		  </ul>
+	
+	</div>
+	
+	
+	
+	
+	
+	
+</div>
+
+
+<div class="modal fade" id="modal-widget-options">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+			<div class="text-center has-spinner active">
+				<span class="spinner"><i class="fa fa-spinner fa-spin"></i></span>
+			</div>
+			</div>			
+		</div>
+	  </div>
+</div>
+
+
+
+</div>
+	
+
+		<!-- Main Footer -->
+		<footer class="main-footer">
+			<!-- To the right -->
+			<div class="pull-right hidden-xs">
+			  Anything you want
+			</div>
+			<!-- Default to the left --> 
+			<strong>Copyright &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.
+		</footer>
+</div><!-- #wrapper -->
+	
+	<script src="http://192.168.2.11/k2-idol/assets/js/jquery.js"></script>
+	<!--<script src="http://192.168.2.11/k2-idol/assets/js/jquery-ui-1.10.4.custom.js"></script>-->
+	
+	<script src="http://192.168.2.11/k2-idol/assets/js/jquery-ui.min.js"></script>	
+	<script src="http://192.168.2.11/k2-idol/assets/js/bootstrap.min.js"></script>	
+	
+	<script src="http://192.168.2.11/k2-idol/assets/lib/knockout/knockout-3.3.0.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/lib/moment/moment.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/lib/globalize/globalize.js"></script>	
+	<script src="http://192.168.2.11/k2-idol/assets/js/dx.all.js"></script>	
+	
+	<!-- librararies -->
+	<script src="http://192.168.2.11/k2-idol/assets/lib/d3/d3.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/lib/d3/tag.cloud/d3.layout.cloud.js"></script>	
+	<script src="http://192.168.2.11/k2-idol/assets/lib/magic.suggest/magicsuggest.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/lib/typeahead/bootstrap-typeahead.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/lib/bootstrap.switch/bootstrap-switch.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/lib/bootstrap.tour/bootstrap-tour.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/lib/bootstrap.slider/js/bootstrap-slider.js"></script>	
+	<script src="http://192.168.2.11/k2-idol/assets/lib/bootstrap.jsPanel/jquery.jspanel.bs-1.4.0.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/lib/bootsidemenu/js/BootSideMenu.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/lib/jquery.treegrid/js/jquery-treegrid.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/lib/jquery.easytree/js/jquery-easytree.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/lib/dtree/js/dtree.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/lib/fancytree/jquery.fancytree.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/lib/scrolltofixed/jquery-scrolltofixed.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/lib/slimScroll/jquery.slimscroll.min.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/lib/jquery.redirect/jquery.redirect.js"></script>
+	
+	
+	<script src="http://192.168.2.11/k2-idol/assets/lib/nicescroll/jquery.nicescroll.min.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/lib/bootstrap.datepicker/js/bootstrap-datepicker.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/lib/bootstrap.select/js/bootstrap-select.js"></script>
+	
+	<script src="http://192.168.2.11/k2-idol/assets/themes/lte/js/app.min.js"></script>
+	
+	<!-- knockoutjs custom bindings -->
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/jquery.draggable.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/jquery.sortable.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/jquery.droppable.js"></script>	
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/magicsuggest.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/typeahead.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/bootstrap.switch.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/bootstrap.slider.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/bootsidemenu.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/bootstrap.select.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/bootstrap.datepicker.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/nicescroll.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/d3.tagcloud.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/jquery.treegrid.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/jquery.easytree.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/dtree.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/fancytree.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/scrolltofixed.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/slimscroll.js"></script>
+	
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/charts/bar.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/charts/bargauge.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/charts/bubble.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/charts/circulargauge.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/charts/geospatial.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/charts/line.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/charts/lineargauge.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/charts/map.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/charts/pie.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/charts/sparkline.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/charts/timeline.js"></script>
+	<script src="http://192.168.2.11/k2-idol/assets/ko.custom.bindings/charts/zooming.js"></script>	
+	
+	<!-- knockoutjs models -->
+	<script src="http://192.168.2.11/k2-idol/assets/ko.models/search.model.js"></script>
+	
+	
+	
+	
+<script>
+		
+		$(document).ready(function() {
+			$("body").tooltip({ selector: '[data-toggle=tooltip]' });
+		});
+		$('[data-toggle="popover"]').popover();		
+		
+		// Instance the tour
+		var tour = new Tour({
+			keyboard: true,
+			backdrop: true,
+			backdropPadding: 0,
+			template: "<div class='popover tour'>" +
+						"<div class='arrow'></div>" +
+						"<h3 class='popover-title bg-info'></h3>" +
+						"<div class='popover-content'></div>" +
+						"<div class='popover-navigation'>" +
+							"<button class='btn btn-xs btn-info' data-role='prev'>« Prev</button>" +
+							"<button class='btn btn-xs btn-info' data-role='next'>Next »</button>" +
+							"<button class='btn btn-xs btn-danger' data-role='end'>End tour</button>" +
+						"</div>" +	
+					  "</div>"
+			});
+
+		
+		 
+			tour.addSteps([
+			  {
+				placement: 'bottom',
+				element: "#main-navigation ul li:eq(0) a",
+				title: "Dashboard",
+				content: "<span class='label label-warning'>Navigate Pages with this Menu</span> Introduce new users to your product by walking them through it step by step."
+			  },
+			  {
+				placement: 'bottom',
+				element: "#main-navigation ul li:eq(1) a",
+				title: "Settings",
+				content: "<span class='label label-warning'>Navigate Pages with this Menu</span> Introduce new users to your product by walking them through it step by step."
+			  },
+			  {
+				placement: 'bottom',
+				element: "#main-navigation ul li:eq(2) a",
+				title: "Tools",
+				content: "<span class='label label-warning'>Navigate Pages with this Menu</span> Introduce new users to your product by walking them through it step by step."
+			  },
+			  {
+				placement: 'bottom',
+				element: "#user-profile-menu",
+				title: "Access Your Personal Information",
+				content: "<span class='label label-warning'>Navigate Pages with this Menu</span>  Easy is better, right? The tour is up and running with just a few options and steps."
+			  }
+			]);
+		 
+			// Initialize the tour
+			tour.init();
+		 
+			// Start the tour
+			tour.start();
+			
+			
+			
+			$('body').on('hidden.bs.modal', '.modal', function () {
+			  $(this).removeData('bs.modal');
+			});
+			
+			$('#search-options').collapse('hide');
+			
+			$('.dropdown-menu.search-options *').on('click', function(e){ 
+				e.stopPropagation();				
+				$(this).closest('dropdown').toggleClass('open');
+				
+			} );
+			
+			
+			$('#search-tools').on('click', function () {
+				if (!$(this).hasClass("open")) {
+				  $(this).animate({"right": "250px"});
+				  $('#search-tools-content').animate({"right": "0"});
+				  $(this).addClass("open");
+				} else {
+				  $(this).animate({"right": "0"});
+				  $('#search-tools-content').animate({"right": "-250px"});
+				  $(this).removeClass("open");
+				}
+			});			
+	</script>
+</body>
+</html>

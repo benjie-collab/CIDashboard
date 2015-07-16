@@ -1,0 +1,20 @@
+<html>
+<head>
+	<title>jJsonViewer</title>
+
+	<link rel="stylesheet" href="css/jjsonviewer.css">
+</head>
+<body>
+	<div id="jjson" class="jjson"></div>
+
+	<script type="text/javascript" src="js/lib/jquery.js"></script>
+	<script type="text/javascript" src="js/jjsonviewer.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var jjson = '{"autnresponse":{"action":{"$":"QUERY"},"response":{"$":"SUCCESS"},"responsedata":{"autn:hit":[{"autn:reference":{"$":"cust0005"},"autn:id":{"$":"29698"},"autn:section":{"$":"0"},"autn:weight":{"$":"96.00"},"autn:database":{"$":"dbs_custs"}},{"autn:reference":{"$":"cust0004"},"autn:id":{"$":"29697"},"autn :section":{"$":"0"},"autn:weight":{"$":"96.00"},"autn:database":{"$":"dbs_custs"}},{"autn:reference" :{"$":"cust0003"},"autn:id":{"$":"29696"},"autn:section":{"$":"0"},"autn:weight":{"$":"96.00"},"autn :database":{"$":"dbs_custs"}},{"autn:reference":{"$":"cust0002"},"autn:id":{"$":"29695"},"autn:section" :{"$":"0"},"autn:weight":{"$":"96.00"},"autn:database":{"$":"dbs_custs"}},{"autn:reference":{"$":"cust0001"},"autn:id":{"$":"29694"},"autn:section":{"$":"0"},"autn:weight":{"$":"96.00"},"autn:database":{"$":"dbs_custs"}},{"autn:reference":{"$":"web000129"},"autn:id":{"$":"29692"},"autn:section":{"$":"0"},"autn:weight":{"$":"96.00"},"autn:database":{"$":"dbs_web"},"autn:title":{"$":"iBanking FAQ on Debit Card Activation"}},{"autn:reference":{"$":"web000128"},"autn:id":{"$":"29691"},"autn:section":{"$":"0"},"autn:weight" :{"$":"96.00"},"autn:database":{"$":"dbs_web"},"autn:title":{"$":"Cancelling and Replacing Cards, Changing Your PIN"}},{"autn:reference":{"$":"web000127"},"autn:id":{"$":"29690"},"autn:section":{"$":"0"},"autn :weight":{"$":"96.00"},"autn:database":{"$":"dbs_web"},"autn:title":{"$":"Transfer Funds to Another Bank \u2019s Account"}},{"autn:reference":{"$":"web000126"},"autn:id":{"$":"29689"},"autn:section":{"$":"0"},"autn:weight":{"$":"96.00"},"autn:database":{"$":"dbs_web"},"autn:title":{"$":"Transfer Funds to Another Bank\u2019s Account"}},{"autn:reference":{"$":"web000125"},"autn:id":{"$":"29688"},"autn:section":{"$":"0"},"autn:weight":{"$":"96.00"},"autn:database":{"$":"dbs_web"},"autn:title":{"$":"POSB Everyday Card"}}],"autn:numhits":{"$":"10"}}}}';
+
+			$("#jjson").jJsonViewer(jjson);
+		});
+	</script>
+</body>
+</html>

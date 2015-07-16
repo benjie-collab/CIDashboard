@@ -1,0 +1,18 @@
+{
+"DREREFERENCE":"DREREFERENCE",
+"DRETITLE": "DRETITLE",
+"APPLICATION_ID": "APPLICATION_ID",
+"APPLICATION_NAME": "APPLICATION_NAME",
+"AUTN_GROUP": "AUTN_GROUP",
+"AUTN_IDENTIFIER": "AUTN_IDENTIFIER",
+"TYPE": "TYPE",
+"UPDATED_TIME": "UPDATED_TIME",
+"DRECONTENT": "DRECONTENT",
+"autn:reference": "autn:reference",
+"autn:id": "autn:id",
+"autn:section": "autn:section",
+"autn:weight": "autn:weight",
+"autn:links": "autn:links",
+"autn:database": "autn:database",
+"autn:title": "autn:title"
+}
