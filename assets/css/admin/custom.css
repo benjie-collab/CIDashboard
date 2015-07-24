@@ -1,3 +1,67 @@
+g.context g.brush rect.background {
+	fill: rgba(0,0,0,.1);
+}
+
+g.context g.axis path {
+	stroke-opacity: 0;
+}
+
+g.context g.axis line {
+	stroke-opacity: .1;
+}
+.axis path, .axis line {
+	fill: none;
+	stroke: #aaa;
+	shape-rendering: 'crispEdges';
+}
+.brush .extent {
+	stroke: #fff;
+	fill-opacity: .5;
+	shape-rendering: 'crispEdges';
+}
+
+g.context rect.background {
+	fill: rgb(200,200,255);
+	visibility: visible!important;
+}
+.floating-tools-button {
+	position: fixed; 	
+	right: 0; 
+	background: none repeat scroll 0% 0% rgb(255, 255, 255); 
+	border-radius: 5px 0px 0px 5px; 
+	padding: 10px 15px; 
+	font-size: 16px; 
+	z-index: 1031; 
+	cursor: pointer; 
+	color: rgb(60, 141, 188); 
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+.floating-tools-button.open{
+	right: 250px; 
+}
+
+
+.floating-tools-button:nth-of-type(1){
+	top: 70px; 
+}
+
+.floating-tools-button:nth-of-type(2){
+	top: 115px; 
+}
+
+.floating-tools-button:nth-of-type(3){
+	top: 160px; 
+}
+
+.floating-tools-button:nth-of-type(4){
+	top: 205px; 
+}
+
+.floating-tools-button:nth-of-type(5){
+	top: 250px; 
+}
+
+
 .list-selection li .list-select{
 	opacity: 0.5;
 }
@@ -464,22 +528,7 @@ fieldset[disabled] .twitter-typeahead .tt-input {
 }
 
 
-.floating-tools-button {
-	position: fixed; 
-	top: 70px; 
-	right: 0; 
-	background: none repeat scroll 0% 0% rgb(255, 255, 255); 
-	border-radius: 5px 0px 0px 5px; 
-	padding: 10px 15px; 
-	font-size: 16px; 
-	z-index: 1031; 
-	cursor: pointer; 
-	color: rgb(60, 141, 188); 
-	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-}
-.floating-tools-button.open{
-	right: 250px; 
-}
+
 
 .b-radius-0{border-radius: 0px!important;}
 .b-radius-5{border-radius: 5px!important;}
@@ -508,6 +557,7 @@ fieldset[disabled] .twitter-typeahead .tt-input {
 
 .p-relative{position: relative!important;}
 .p-absolute{position: absolute!important;}
+.p-fixed{position: fixed!important;}
 .o-visible{ overflow: visible!important;}
 .o-hidden{ overflow: hidden!important;}
 .o-x-hidden{ overflow-x: hidden!important;}
@@ -609,6 +659,13 @@ fieldset[disabled] .twitter-typeahead .tt-input {
 .p-b-20{padding-bottom: 20px!important;}
 .p-b-30{padding-bottom: 30px!important;}
 .p-b-40{padding-bottom: 40px!important;}
+
+
+.popover.popover-xs { max-width: 150px;}
+.popover.popover-sm { max-width: 250px;}
+.popover.popover-md { max-width: 320px;}
+.popover.popover-lg { max-width: 420px;}
+.popover.popover-xl { max-width: 500px;}
 
 
 .widget { min-height: 40px; margin-bottom: 10px;}

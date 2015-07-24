@@ -12,14 +12,14 @@ ko.bindingHandlers.SigmaNetwork= {
 		
 		
 		
-		var SN= new SigmaNetwork(
-				{					
+		
+		var default_options = {					
 					'el_zoom': '#zoom',
 					'el_show_groups': '#showGroups',
 					'el_search': '#search',
 					
 					"type": "network",
-					"data": "assets/ko.models/twitter_mutual2.json",
+					"data": "",
 					"version": "1.0",
 					"legend": {
 						"nodeLabel": "A twitter account.",
@@ -30,7 +30,7 @@ ko.bindingHandlers.SigmaNetwork= {
 						"search": {
 							"enabled": true
 						},
-						"hoverBehaviour": "default",
+						"hoverBehaviour": "dim",
 						"groupSelector": {
 							"enabled": true,
 							"attribute": "whatAttributeShouldWeGroupBy"
@@ -65,9 +65,9 @@ ko.bindingHandlers.SigmaNetwork= {
 						}
 					}
 					
-				});
-		
-		
+				};		
+		$(element)
+		.SigmaNetwork($.extend(default_options,options));
 	},	
 		
 	update: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {

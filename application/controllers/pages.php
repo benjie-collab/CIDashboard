@@ -44,10 +44,14 @@ class Pages extends CI_Controller {
 				$data['title'] 				= element('page_name', $page);
 				$data['js'] 				= array('js/pages.js');				
 				$data['page'] 				= $page;
-				$data['tools'] 				= 'pages/tools-index';
+				$data['tools'] 				= array(
+												'edit' => 'pages/tools-edit'
+											);
 				$data['main_content']		= 'pages/templates/' . $template;
 				
 				$this->session->set_userdata('current_page', $page);
+				$this->session->set_userdata('widgets_tool', array());
+				$this->session->set_userdata('widgets_js', array());
 				$this->session->set_userdata('current_search', $parameters);
 				$this->load->view('pages/index', $data); 
 			}else{

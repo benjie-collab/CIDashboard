@@ -66,7 +66,7 @@ if($autnhit){
 					if(element('doc_summary',$template)){
 						foreach( element('doc_summary',$template) as $meta):
 				?>	
-						<p>
+						<p data-bind="CreateSynonym:{}">
 							<?=(element(end(explode('/', $meta)), $document))?>
 							
 							<?=(element($meta, $solution))?>

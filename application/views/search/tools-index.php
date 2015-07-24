@@ -2,12 +2,12 @@
 	$delimiter = $this->application->get_config('metakey_delimiter', 'template');
 	$search_page_settings = $this->usermeta_model->get_usermeta(0, array('meta_key'=>'search_page_settings'));
 ?>
-<a id="floating-tool" href="javascript:void(0)" 
-	class="floating-tools-button">
-	<i class="fa-gear fa"></i>
+<a href="javascript:void(0)" 
+	class="no-print floating-tools-button">
+	<i class="fa-tasks fa"></i>
 </a>
-<div id="floating-tool-content" class="no-print floating-tools-content">
-	<div class="connected-widgets-droppable" data-url="<?=base_url('/app/delete_widget')?>">	
+<div class="no-print floating-tools-content">
+	<!--<div class="connected-widgets-droppable" data-url="<?=base_url('/app/delete_widget')?>">	-->
 		<?php 		
 		$atts = array(
 				'class' => '',
@@ -26,8 +26,6 @@
 		
 		<h4 style="border-bottom: 1px solid #ddd; " class="text-light-blue p-b-15 m-t-0 m-b-5"><?php echo lang('search_widgets_heading');?></h4>
 		<small><?php echo lang('search_widgets_subheading');?></small>
-		
-		
 		<div data-bind="CustomScrollbar: { axis:'y', theme:'dark'}" class="max-height-320">
 		
 		<?php 				
@@ -56,24 +54,12 @@
 		?>	
 		</div>	
 		
-		
-	</div>
-	<div class="drop-here-helper">
-		<div class="p-relative">
-			<span class="ion-trash-a"></span>
-		</div>
-	</div>
+		<div class="box-footer">
+			<a class="btn btn-default btn-flat btn-sm edit-confirm" target="_blank"
+				href="javascript:void(0)"
+				data-url="<?=base_url('settings/search')?>"						
+			>Configure Search</a>	
+		</div>	
+	<!--</div>-->
 </div>
 
-
-<div class="modal fade" id="modal-widget-options">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-body">
-			<div class="text-center has-spinner active">
-				<span class="spinner"><i class="fa fa-spinner fa-spin"></i></span>
-			</div>
-			</div>			
-		</div>
-	</div>
-</div>

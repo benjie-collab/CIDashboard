@@ -10,6 +10,8 @@
 	$is_statistics		= false;
 	$widget_key 		= extract_metakey($meta_key, $delimiter);	
 	$exist 				= file_exists( FCPATH . '\\application\\views\\widgets\\' . $widget_key);	
+	$widgets_tool		= $this->application->get_session_userdata('widgets_tool');
+	$widgets_js			= $this->application->get_session_userdata('widgets_js');
 	
 	if($exist){
 		$folder 		= $widget_key;
@@ -18,6 +20,21 @@
 		$keys 			= $this->statistics_lib->extract_statistics_key($widget_key);
 		$folder 		= element('type', $keys);
 		$is_statistics 	= true;
+	}
+	
+	$tools_exist		= file_exists( FCPATH . '\\application\\views\\widgets\\' . $folder . '\\tools.php');	
+	$tool 				= 'widgets/' . $folder . '/tools';
+	if($tools_exist && !in_array($tool, $widgets_tool))	{
+		array_push($widgets_tool, $tool);
+		$this->session->set_userdata('widgets_tool', $widgets_tool);		
+	}
+	
+	
+	$js_exist		= file_exists( FCPATH . '\\application\\views\\widgets\\' . $folder . '\\index.js');	
+	if($js_exist)	{
+		$js = 'application/views/widgets/' . $folder . '/index.js';
+		array_push($widgets_js, $js);
+		$this->session->set_userdata('widgets_js', $widgets_js);		
 	}
 	
 	$data['widget_key'] = $widget_key;

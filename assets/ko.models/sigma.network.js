@@ -51,7 +51,7 @@ function SigmaNetwork(settings){
 							};
 						
 						var a = sigma.init(document.getElementById("sigma-canvas")).drawingProperties(drawProps).graphProperties(graphProps).mouseProperties(mouseProps);
-						sigInst = a;
+						self.sigInst = a;
 						a.active = !1;
 						a.neighbors = {};
 						a.detail = !1;
@@ -93,10 +93,10 @@ function SigmaNetwork(settings){
 					if (self.config.features.hoverBehaviour == "dim") {
 
 						var greyColor = '#ccc';
-						sigInst.bind('overnodes',function(event){
+						self.sigInst.bind('overnodes',function(event){
 						var nodes = event.content;
 						var neighbors = {};
-						sigInst.iterEdges(function(e){
+						self.sigInst.iterEdges(function(e){
 						if(nodes.indexOf(e.source)<0 && nodes.indexOf(e.target)<0){
 							if(!e.attr['grey']){
 								e.attr['true_color'] = e.color;
@@ -123,7 +123,7 @@ function SigmaNetwork(settings){
 							}
 						}).draw(2,2,2);
 						}).bind('outnodes',function(){
-						sigInst.iterEdges(function(e){
+						self.sigInst.iterEdges(function(e){
 							e.color = e.attr['grey'] ? e.attr['true_color'] : e.color;
 							e.attr['grey'] = 0;
 						}).iterNodes(function(n){
@@ -134,10 +134,10 @@ function SigmaNetwork(settings){
 
 					} else if (self.config.features.hoverBehaviour == "hide") {
 
-						sigInst.bind('overnodes',function(event){
+						self.sigInst.bind('overnodes',function(event){
 							var nodes = event.content;
 							var neighbors = {};
-						sigInst.iterEdges(function(e){
+						self.sigInst.iterEdges(function(e){
 							if(nodes.indexOf(e.source)>=0 || nodes.indexOf(e.target)>=0){
 								neighbors[e.source] = 1;
 								neighbors[e.target] = 1;
@@ -150,7 +150,7 @@ function SigmaNetwork(settings){
 						  }
 						}).draw(2,2,2);
 						}).bind('outnodes',function(){
-						sigInst.iterEdges(function(e){
+						self.sigInst.iterEdges(function(e){
 							e.hidden = 0;
 						}).iterNodes(function(n){
 							n.hidden = 0;
@@ -158,11 +158,11 @@ function SigmaNetwork(settings){
 						});
 
 					}
-					self._GP.bg = $(sigInst._core.domElements.bg);
-					self._GP.bg2 = $(sigInst._core.domElements.bg2);
+					self._GP.bg = $(self.sigInst._core.domElements.bg);
+					self._GP.bg2 = $(self.sigInst._core.domElements.bg2);
 					var a = [],
 						b,x=1;
-						for (b in sigInst.clusters) a.push('<div style="line-height:12px"><a href="#' + b + '"><div style="width:40px;height:12px;border:1px solid #fff;background:' + b + ';display:inline-block"></div> Group ' + (x++) + ' (' + sigInst.clusters[b].length + ' members)</a></div>');
+						for (b in self.sigInst.clusters) a.push('<div style="line-height:12px"><a href="#' + b + '"><div style="width:40px;height:12px;border:1px solid #fff;background:' + b + ';display:inline-block"></div> Group ' + (x++) + ' (' + self.sigInst.clusters[b].length + ' members)</a></div>');
 					//a.sort();
 					self._GP.cluster.content(a.join(""));
 					b = {
@@ -176,10 +176,10 @@ function SigmaNetwork(settings){
 							b = a.attr("rel");
 						a.click(function () {
 							if (b == "center") {
-								sigInst.position(0,0,1).draw();
+								self.sigInst.position(0,0,1).draw();
 							} else {
-								var a = sigInst._core;
-								sigInst.zoomTo(a.domElements.nodes.width / 2, a.domElements.nodes.height / 2, a.mousecaptor.ratio * ("in" == b ? 1.5 : 0.5));		
+								var a = self.sigInst._core;
+								self.sigInst.zoomTo(a.domElements.nodes.width / 2, a.domElements.nodes.height / 2, a.mousecaptor.ratio * ("in" == b ? 1.5 : 0.5));		
 							}
 
 						})
@@ -256,7 +256,7 @@ function SigmaNetwork(settings){
 						this.results.empty();
 						if (2 >= a.length) this.results.html("<i>You must search for a name with a minimum of 3 letters.</i>");
 						else {
-							sigInst.iterNodes(function (a) {
+							self.sigInst.iterNodes(function (a) {
 								g.test(a.label.toLowerCase()) && c.push({
 									id: a.id,
 									name: a.label
@@ -264,7 +264,7 @@ function SigmaNetwork(settings){
 							});
 							c.length ? (b = !0, self.nodeActive(c[0].id)) : b = self.showCluster(a);
 							a = ["<b>Search Results: </b>"];
-							if (1 < c.length) for (var d = 0, h = c.length; d < h; d++) a.push('<a href="#' + c[d].name + '" onclick="nodeActive(\'' + c[d].id + "')\">" + c[d].name + "</a>");
+							if (1 < c.length) for (var d = 0, h = c.length; d < h; d++) a.push('<a href="#' + c[d].name + '" oncclick="nodeActive(\'' + c[d].id + "')\">" + c[d].name + "</a>");
 							0 == c.length && !b && a.push("<i>No results found.</i>");
 							1 < a.length && this.results.html(a.join(""));
 						   }
@@ -308,15 +308,15 @@ function SigmaNetwork(settings){
 				}.bind(self);
 
 	self.nodeNormal = function () {
-					!0 != self._GP.calculating && !1 != sigInst.detail && (self.showGroups(!1), self._GP.calculating = !0, sigInst.detail = !0, self._GP.info.delay(400).animate({width:'hide'},350),self._GP.cluster.hide(), sigInst.iterEdges(function (a) {
+					!0 != self._GP.calculating && !1 != self.sigInst.detail && (self.showGroups(!1), self._GP.calculating = !0, self.sigInst.detail = !0, self._GP.info.delay(400).animate({width:'hide'},350),self._GP.cluster.hide(), self.sigInst.iterEdges(function (a) {
 						a.attr.color = !1;
 						a.hidden = !1
-					}), sigInst.iterNodes(function (a) {
+					}), self.sigInst.iterNodes(function (a) {
 						a.hidden = !1;
 						a.attr.color = !1;
 						a.attr.lineWidth = !1;
 						a.attr.size = !1
-					}), sigInst.draw(2, 2, 2, 2), sigInst.neighbors = {}, sigInst.active = !1, self._GP.calculating = !1, window.location.hash = "")
+					}), self.sigInst.draw(2, 2, 2, 2), self.sigInst.neighbors = {}, self.sigInst.active = !1, self._GP.calculating = !1, window.location.hash = "")
 				}.bind(self);
 
 	self.nodeActive = function (a) {
@@ -324,12 +324,12 @@ function SigmaNetwork(settings){
 					var groupByDirection=false;
 					if (self.config.informationPanel.groupByEdgeDirection && self.config.informationPanel.groupByEdgeDirection==true)	groupByDirection=true;
 					
-					sigInst.neighbors = {};
-					sigInst.detail = !0;
-					var b = sigInst._core.graph.nodesIndex[a];
+					self.sigInst.neighbors = {};
+					self.sigInst.detail = !0;
+					var b = self.sigInst._core.graph.nodesIndex[a];
 					self.showGroups(!1);
 					var outgoing={},incoming={},mutual={};//SAH
-					sigInst.iterEdges(function (b) {
+					self.sigInst.iterEdges(function (b) {
 						b.attr.lineWidth = !1;
 						b.hidden = !0;
 						
@@ -340,11 +340,11 @@ function SigmaNetwork(settings){
 						
 					   if (a==b.source) outgoing[b.target]=n;		//SAH
 					   else if (a==b.target) incoming[b.source]=n;		//SAH
-					   if (a == b.source || a == b.target) sigInst.neighbors[a == b.target ? b.source : b.target] = n;
+					   if (a == b.source || a == b.target) self.sigInst.neighbors[a == b.target ? b.source : b.target] = n;
 					   b.hidden = !1, b.attr.color = "rgba(0, 0, 0, 1)";
 					});
 					var f = [];
-					sigInst.iterNodes(function (a) {
+					self.sigInst.iterNodes(function (a) {
 						a.hidden = !0;
 						a.attr.lineWidth = !1;
 						a.attr.color = a.color
@@ -365,10 +365,10 @@ function SigmaNetwork(settings){
 					var createList=function(c) {
 						var f = [];
 						var e = [],
-							 //c = sigInst.neighbors,
+							 //c = self.sigInst.neighbors,
 							 g;
 					for (g in c) {
-						var d = sigInst._core.graph.nodesIndex[g];
+						var d = self.sigInst._core.graph.nodesIndex[g];
 						d.hidden = !1;
 						d.attr.lineWidth = !1;
 						d.attr.color = c[g].colour;
@@ -391,9 +391,9 @@ function SigmaNetwork(settings){
 							c = e[g];
 							/*if (c.group != d) {
 								d = c.group;
-								f.push('<li class="cf" rel="' + c.color + '"><div class=""></div><div class="">' + d + "</div></li>");
+								f.push('<li class="cf" rel="' + c.color + '"><div class=""></div><div class="">' + d + "</div></li>"); 
 							}*/
-							f.push('<li class="membership"><a href="#' + c.name + '" onmouseover="sigInst._core.plotter.drawHoverNode(sigInst._core.graph.nodesIndex[\'' + c.id + '\'])\" onclick=\"nodeActive(\'' + c.id + '\')" onmouseout="sigInst.refresh()">' + c.name + "</a></li>");
+							f.push('<li class="membership"><a class="cluster" data-id="' + c.id + '" href="#' + c.name + '" onnmouseover="self.sigInst._core.plotter.drawHoverNode(self.sigInst._core.graph.nodesIndex[\'' + c.id + '\'])\" oncclick=\"nodeActive(\'' + c.id + '\')" onmouseout="self.sigInst.refresh()">' + c.name + "</a></li>");
 						}
 						return f;
 					}
@@ -409,7 +409,7 @@ function SigmaNetwork(settings){
 					var f=[];
 					
 					//console.log("neighbors:");
-					//console.log(sigInst.neighbors);
+					//console.log(self.sigInst.neighbors);
 
 					if (groupByDirection) {
 						size=self.size(mutual);
@@ -422,14 +422,14 @@ function SigmaNetwork(settings){
 						f.push("<h2>Outgoing (" + size + ")</h2>");
 						(size>0)? f=f.concat(createList(outgoing)) : f.push("No outgoing links<br>");
 					} else {
-						f=f.concat(createList(sigInst.neighbors));
+						f=f.concat(createList(self.sigInst.neighbors));
 					}
 					//b is object of active node -- SAH
 					b.hidden = !1;
 					b.attr.color = b.color;
 					b.attr.lineWidth = 6;
 					b.attr.strokeStyle = "#000000";
-					sigInst.draw(2, 2, 2, 2);
+					self.sigInst.draw(2, 2, 2, 2);
 
 					self._GP.info_link.find("ul").html(f.join(""));
 					self._GP.info_link.find("li").each(function () {
@@ -456,10 +456,10 @@ function SigmaNetwork(settings){
 						}
 
 						if (image_attribute) {
-							//image_index = jQuery.inArray(image_attribute, temp_array);
-							self._GP.info_name.html("<div><img src=" + f.attributes[image_attribute] + " style=\"vertical-align:middle\" /> <span onmouseover=\"sigInst._core.plotter.drawHoverNode(sigInst._core.graph.nodesIndex['" + b.id + '\'])" onmouseout="sigInst.refresh()">' + b.label + "</span></div>");
+							//image_index = jQuery.inArray(image_attribute, temp_array 
+							self._GP.info_name.html("<div><img src=" + f.attributes[image_attribute] + " style=\"vertical-align:middle\" /> <span onnmouseover=\"self.sigInst._core.plotter.drawHoverNode(self.sigInst._core.graph.nodesIndex['" + b.id + '\'])" onmouseout="self.sigInst.refresh()">' + b.label + "</span></div>");
 						} else {
-							self._GP.info_name.html("<div><span onmouseover=\"sigInst._core.plotter.drawHoverNode(sigInst._core.graph.nodesIndex['" + b.id + '\'])" onmouseout="sigInst.refresh()">' + b.label + "</span></div>");
+							self._GP.info_name.html("<div><span onnmouseover=\"self.sigInst._core.plotter.drawHoverNode(self.sigInst._core.graph.nodesIndex['" + b.id + '\'])" onmouseout="self.sigInst.refresh()">' + b.label + "</span></div>");
 						}
 						// Image field for attribute pane
 						self._GP.info_data.html(e.join("<br/>"))
@@ -469,30 +469,30 @@ function SigmaNetwork(settings){
 					self._GP.info.animate({width:'show'},350);
 					self._GP.info_donnees.hide();
 					self._GP.info_donnees.show();
-					sigInst.active = a;
+					self.sigInst.active = a;
 					window.location.hash = b.label;
 				}.bind(self);
 
 	self.showCluster = function (a) {
-					var b = sigInst.clusters[a];
+					var b = self.sigInst.clusters[a];
 					if (b && 0 < b.length) {
 						self.showGroups(!1);
-						sigInst.detail = !0;
+						self.sigInst.detail = !0;
 						b.sort();
-						sigInst.iterEdges(function (a) {
+						self.sigInst.iterEdges(function (a) {
 							a.hidden = !1;
 							a.attr.lineWidth = !1;
 							a.attr.color = !1
 						});
-						sigInst.iterNodes(function (a) {
+						self.sigInst.iterNodes(function (a) {
 							a.hidden = !0
 						});
 						for (var f = [], e = [], c = 0, g = b.length; c < g; c++) {
-							var d = sigInst._core.graph.nodesIndex[b[c]];
-							!0 == d.hidden && (e.push(b[c]), d.hidden = !1, d.attr.lineWidth = !1, d.attr.color = d.color, f.push('<li class="membership"><a href="#'+d.label+'" onmouseover="sigInst._core.plotter.drawHoverNode(sigInst._core.graph.nodesIndex[\'' + d.id + "'])\" onclick=\"nodeActive('" + d.id + '\')" onmouseout="sigInst.refresh()">' + d.label + "</a></li>"))
+							var d = self.sigInst._core.graph.nodesIndex[b[c]];
+							!0 == d.hidden && (e.push(b[c]), d.hidden = !1, d.attr.lineWidth = !1, d.attr.color = d.color, f.push('<li class="membership"><a class="cluster" data-id="' + d.id + '" href="#'+d.label+'" onnmouseover="self.sigInst._core.plotter.drawHoverNode(self.sigInst._core.graph.nodesIndex[\'' + d.id + "'])\" oncclick=\"nodeActive('" + d.id + '\')" onmouseout="self.sigInst.refresh()">' + d.label + "</a></li>"))
 						}
-						sigInst.clusters[a] = e;
-						sigInst.draw(2, 2, 2, 2);
+						self.sigInst.clusters[a] = e;
+						self.sigInst.draw(2, 2, 2, 2);
 						self._GP.info_name.html("<b>" + a + "</b>");
 						self._GP.info_data.hide();
 						self._GP.info_p.html("Group Members:");
@@ -548,13 +548,29 @@ function SigmaNetwork(settings){
 	self._GP.info_close2.click(self.nodeNormal);
 	self._GP.form = $("#mainpanel").find("form");
 	self._GP.search = new self.Search(self._GP.form.find("#search"));
+	
+	/**
 	if (!self.config.features.search.enabled == true) {
 		$("#search").hide();
 	}
 	if (!self.config.features.groupSelector.enabled == true) {
 		$("#attributeselect").hide();
-	}
+	}**/
 	self._GP.cluster = new self.Cluster(self._GP.form.find("#attributeselect"));
+	
+	
+	/** Actions **/
+	$(document)
+	.on('click', '.cluster', function(){ 
+		var id= $(this).data('id'); console.log(id); self.nodeActive(id); 
+	})
+	.on('hover', '.cluster', function(){ 
+		var id= $(this).data('id');
+		self.sigInst._core.plotter.drawHoverNode(self.sigInst._core.graph.nodesIndex[id]);
+	})
+	
+	
+	
 	
 	self.initSigma();
 

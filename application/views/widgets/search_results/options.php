@@ -26,11 +26,11 @@ $ts 		= generate_timestamp();
 echo form_open( 'app/widget_options', $atts, $hidden ); ?>
 	<div class="nav-tabs-custom">
 		<ul class="nav nav-tabs pull-right">
-		  <li class="active"><a data-toggle="tab" data-target="#options-tab-1" href="javascript:void(0)">Display</a></li>
-		  <li class=""><a data-toggle="tab" data-target="#options-tab-4" href="javascript:void(0)">Data</a></li>
-		  <li class=""><a data-toggle="tab" data-target="#options-tab-3" href="javascript:void(0)">Template</a></li>
-		  <li class=""><a data-toggle="tab" data-target="#options-tab-2" href="javascript:void(0)">Tools</a></li>
-		 
+			<li class="active"><a data-toggle="tab" data-target="#options-tab-1" href="javascript:void(0)">Display</a></li>
+			<li class=""><a data-toggle="tab" data-target="#options-tab-4" href="javascript:void(0)">Data</a></li>
+			<li class=""><a data-toggle="tab" data-target="#options-tab-3" href="javascript:void(0)">Template</a></li>
+			<li class=""><a data-toggle="tab" data-target="#options-tab-2" href="javascript:void(0)">Tools</a></li>	
+			<li class=""><a data-toggle="tab" data-target="#options-tab-5" href="javascript:void(0)">Plugins</a></li>	
 		</ul>
 		<div class="tab-content p-0 p-t-20">
 			<div id="options-tab-1" class="tab-pane active">
@@ -188,6 +188,50 @@ echo form_open( 'app/widget_options', $atts, $hidden ); ?>
 					<?php		
 					}
 					?>
+			</div>
+			
+			<div id="options-tab-5" class="tab-pane">
+				<?php 
+					$plugins_options= array_get_value($options, 'plugins');
+				?>
+				<div class="form-group">
+					<label class="col-sm-3 control-label" for="plugins_metatagging">Meta Tagging</label>	
+					<div class="col-sm-9" >				
+						<input type="hidden" name="plugins[metatagging]" value="0"/>
+					   <?php $data = array(
+							'name'        => 'plugins[metatagging]',
+							'id'          => 'plugins_metatagging',
+							'value'       => 1,
+							'checked'     => element('metatagging', $plugins_options) == 1,
+							'style'       => 'margin:10px',
+							'class'		  => 'm-0 p-absolute',
+							'data-bind'	=> 'BootstrapSwitch:{ size: \'mini\' }'
+							);
+
+						echo form_checkbox($data); ?>
+							
+						<p class="help-block">Some help text.</p>
+					</div>	
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label" for="plugins_synonyms">Add Synonyms</label>	
+					<div class="col-sm-9" >				
+						<input type="hidden" name="plugins[synonyms]" value="0"/>
+					   <?php $data = array(
+							'name'        => 'plugins[synonyms]',
+							'id'          => 'plugins_synonyms',
+							'value'       => 1,
+							'checked'     => element('synonyms', $plugins_options) == 1,
+							'style'       => 'margin:10px',
+							'class'		  => 'm-0 p-absolute',
+							'data-bind'	=> 'BootstrapSwitch:{ size: \'mini\' }'
+							);
+
+						echo form_checkbox($data); ?>
+							
+						<p class="help-block">Some help text.</p>
+					</div>	
+				</div>
 			</div>
 		</div>
 	</div>

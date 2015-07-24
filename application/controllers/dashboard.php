@@ -45,7 +45,9 @@ class Dashboard extends CI_Controller {
 				$data['js'] 	= array('js/dashboard.js');
 				$data['message'] 	= (validation_errors()) ? validation_errors() : $this->session->flashdata('message');			
 				$data['main_content'] = 'dashboard/index';
-				$data['tools'] 	= 'dashboard/tools-index';
+				$data['tools'] 	= array(
+									'edit' => 'dashboard/tools-edit'
+								);
 				
 				$this->load->view('dashboard/template', $data); 
 			}		

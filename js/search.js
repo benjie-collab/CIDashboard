@@ -12,6 +12,22 @@ $( document ).ready(function() {
 		cancelButton: 'No'
 	});
 	
+	$('.edit-confirm').confirm({
+		title:'Redirect confirmation',
+		text: 'This is very dangerous, you shouldn\'t do it! Are you really really sure?',
+		confirm: function(button) {			
+			var url = $(button).data('url');
+			if($(button).attr('target')=='_blank')
+			window.open(url, '_blank');
+			else
+			window.location.href = url;
+		},
+		cancel: function(button) {
+		},
+		confirmButton: 'Yes I am',
+		cancelButton: 'No'
+	});
+	
 	
 	$('.delete-widget-confirm').confirm({
 		title:'Delete confirmation',

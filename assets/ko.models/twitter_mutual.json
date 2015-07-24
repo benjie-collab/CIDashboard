@@ -1,0 +1,94 @@
+{
+    "nodes": [{
+        "attributes": {
+            "Joined Twitter Date (UTC)": "07\/12\/2010 13:11:14",
+            "Tweets": 93,
+            "Description": "Philosopher & historian of science at Humboldt University Berlin",
+            "Followed": 78,
+            "Followers": 85,
+            "Image File": "http:\/\/a1.twimg.com\/profile_images\/1185729030\/Photo-Davidkl_normal.jpg"
+        },
+        "label": "davidundludwig",
+        "id": "n98",
+        "color": "rgb(139,185,208)",
+        "y": 1466.2357,
+        "size": 15.717465,
+        "x": -110.0839,
+		"url": "\/k2dashboard\/assets\/img\/k2-logo.png",
+		"type": "image",
+        "z": 0.0
+    }, {
+        "attributes": {
+            "Joined Twitter Date (UTC)": "11\/01\/2010 19:15:42",
+            "Tweets": 12,
+            "Followed": 31,
+            "Time Zone": "Mexico City",
+            "Followers": 15,
+            "Image File": "http:\/\/a2.twimg.com\/profile_images\/1128484476\/f1_normal.jpg"
+        },
+        "label": "fcoregalado",
+        "id": "n108",
+        "color": "rgb(101,153,65)",
+        "y": 645.65314,
+        "size": 15.717465,
+        "x": 1037.645,
+		"url": "\/k2dashboard\/assets\/img\/skins\/skin-black.gif",
+		"type": "image",
+        "z": 0.0
+    }, {
+        "attributes": {
+            "Joined Twitter Date (UTC)": "11\/01\/2010 19:15:42",
+            "Tweets": 12,
+            "Followed": 31,
+            "Time Zone": "Mexico City",
+            "Followers": 15,
+            "Image File": "http:\/\/a2.twimg.com\/profile_images\/1128484476\/f1_normal.jpg"
+        },
+        "label": "fcoregalado1",
+        "id": "n109",
+        "color": "rgb(101,153,65)",
+        "y": 100.65314,
+        "size": 15.717465,
+        "x": 800.645,
+		"url": "\/k2dashboard\/assets\/img\/skins\/skin-blue.gif",
+		"type": "image",
+        "z": 0.0
+    }],
+    "edges": [{
+        "source": "n98",
+        "attributes": {
+            "weight": 1.0,
+            "Edge Id": 27639,
+            "Relationship": "Follower"
+        },
+        "target": "n108",
+        "id": "00"
+    }, {
+        "source": "n108",
+        "attributes": {
+            "weight": 1.0,
+            "Edge Id": 29293,
+            "Relationship": "Follower"
+        },
+        "target": "n98",
+        "id": "01"
+    }, {
+        "source": "n108",
+        "attributes": {
+            "weight": 1.0,
+            "Edge Id": 29294,
+            "Relationship": "Follower"
+        },
+        "target": "n109",
+        "id": "03"
+    }, {
+        "source": "n109",
+        "attributes": {
+            "weight": 1.0,
+            "Edge Id": 29295,
+            "Relationship": "Follower"
+        },
+        "target": "n98",
+        "id": "04"
+    }]
+}

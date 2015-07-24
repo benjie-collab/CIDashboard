@@ -43,10 +43,10 @@ $( document ).ready(function() {
 	.bootstrapSwitch({
 					onColor: 'primary', 
 					offColor: 'warning',
-					size: 'medium', 
+					size: 'small', 
 					onText: 'On', 
 					offText: 'Off', 
-					labelText: 'Location'
+					labelText: '<i class="fa ion-ios-location"></i>'
 				})
 	.bootstrapSwitch('state', shareLocation, true);
 	

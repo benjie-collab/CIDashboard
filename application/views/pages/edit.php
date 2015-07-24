@@ -64,7 +64,7 @@ $hidden 		= array();
 			<div class="form-group">	
 				<label class="control-label">Template</label>
 			   <?php 
-					$value = element('page_desc', $page);
+					$value = element('template', $page);
 					$templates = $this->application->get_templates('application/views/pages/templates/');
 					$atts = 'class="form-control selectpicker" 
 					data-bind="BootstrapSelect:{}"';

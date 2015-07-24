@@ -4,49 +4,80 @@
 <?php 
 	$mode   = $this->application->get_mode('pages_mode');
 ?>
- <div class="content-wrapper" id="pages_page">	
+ <div class="content-wrapper <?=strcasecmp(element('template', $page), 'full-page')==0? 'p-0' : ''?>" id="pages_page">	
 	<?php $this->load->view($main_content); ?>
 </div>
-<div class="bg-gray p-10 p-l-20 p-r-20 main-footer" id="edit-mode-helper" data-bind="ScrollToFixed:{ bottom: 0, limit: $('#edit-mode-helper').offset().top}">
-	<ul class="list-inline m-0">
-		<li>
-			<a class="sidebar-toggle btn-group" href="javascript:void(0)" data-toggle="offcanvas">
-			  <button class="btn btn-default" type="button">Menu</button>
-			  <button class="btn btn-default" type="button" >
-				<i class="fa fa-bars"></i>
-			  </button>			 
-			</a>
-		</li>
-		<li class="pull-right">
-			<?php 
-				$atts = array(
-					'class' => '',
-					'method' => 'POST',
-					'id' => 'app-switch-mode'
-				);					
-				$hidden = array('name'=> 'pages_mode');
+
+
+
+<a href="javascript:void(0)" 
+	class="no-print floating-tools-button">
+	<i class="fa-wrench fa"></i>
+</a>
+<div class="no-print floating-tools-content">
+	<h4 class="text-light-blue p-b-15 m-t-0 m-b-5" style="border-bottom: 1px solid #ddd;">Page Tools</h4>
+	<div class="">
+		<div class="form-group">
+			<label class="control-label ">Toggle Menu</label>
+			<div class="">
+				<a class="sidebar-toggle btn-group" href="javascript:void(0)" data-toggle="offcanvas">
+				  <button class="btn btn-default btn-sm" type="button">Menu</button>
+				  <button class="btn btn-default btn-sm" type="button" >
+					<i class="fa fa-bars"></i>
+				  </button>			 
+				</a>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label ">Share Location</label>
+			<div class="">
+				<input type="checkbox" class="share-location" value="" name="share-location" data-bind=""/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label ">Page Mode</label>
+			<div class="">
+				<?php 
+					$atts = array(
+						'class' => '',
+						'method' => 'POST',
+						'id' => 'app-switch-mode'
+					);					
+					$hidden = array('name'=> 'pages_mode');
 				echo form_open( 'app/switch_mode/', $atts, $hidden); ?>		
 				<input type="checkbox" <?=(bool)$mode? 'checked' : '' ?> name="mode"
-					data-bind="BootstrapSwitch:{
-						onColor: 'danger', 
-						offColor: 'warning',
-						size: 'medium', 
-						onText: 'Edit', 
-						offText: 'View', 
-						labelText: 'Mode',
-						onSwitchChange: function(event, state){	
-							$('#app-switch-mode').trigger('submit');							
-						}}"/>
-			<?=form_close()?>			
-		</li>
-		<li class="pull-right">	
-			<input type="checkbox" class="share-location" value="" name="share-location" data-bind=""/>
-		</li>
-	</ul>
+				data-bind="BootstrapSwitch:{
+					onColor: 'danger', 
+					offColor: 'warning',
+					size: 'small', 
+					onText: 'Edit', 
+					offText: 'View', 
+					onSwitchChange: function(event, state){	
+						$('#app-switch-mode').trigger('submit');							
+					}}"/>
+				<?=form_close()?>
+			</div>
+		</div>
+	</div>
+	
+	
 </div>
-<?php 
-if($mode )
-$this->load->view($tools); 
+
+
+
+
+<?php 			
+	foreach($tools as $key=>$tool){		
+		if(!strcasecmp($key, 'edit')==0)
+		$this->load->view($tool);
+		elseif($mode && strcasecmp($key, 'edit')==0)
+		$this->load->view($tool);
+	}	
+	/** Widget Tools **/
+	$widgets_tool = $this->application->get_session_userdata('widgets_tool');
+	foreach($widgets_tool as $tool){		
+		$this->load->view($tool);
+	}
 ?>
 <?php $this->load->view('template/footer'); ?>
 <?php $this->load->view('template/footer_scripts'); ?>

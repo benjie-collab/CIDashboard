@@ -29,7 +29,7 @@ $( document ).ready(function() {
    
    $('.draggable-widgets').draggable({
 		helper: 'clone',
-		handle: '.handle',
+		//handle: '.handle',
 		appendTo: document.body,
 		connectToSortable: '.connected-widgets',
 		revert: 'true',
@@ -40,7 +40,8 @@ $( document ).ready(function() {
 			$(window).trigger('resize');
 			var ts = moment().valueOf();	
 			$('[data-toggle=popover]').popover('hide');		
-			$(ui.helper).find('li').removeAttr('data-toggle');			
+			//$(ui.helper).find('li').removeAttr('data-toggle');	
+			$(ui.helper).removeAttr('data-toggle');					
 			$(ui.helper).attr('data-widget', data.widget + data.delimiter + ts);		
 		},
 		stop: function(){							

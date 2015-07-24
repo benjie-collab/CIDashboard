@@ -39,18 +39,62 @@
 	
 	
 	<!-- librararies -->
+	
+	
+	
+	
+	<script src="<?=base_url('assets/lib/sigma/src/sigma.core.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/conrad.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/utils/sigma.utils.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/utils/sigma.polyfills.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/sigma.settings.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/classes/sigma.classes.dispatcher.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/classes/sigma.classes.configurable.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/classes/sigma.classes.graph.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/classes/sigma.classes.camera.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/classes/sigma.classes.quad.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/captors/sigma.captors.mouse.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/captors/sigma.captors.touch.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/renderers/sigma.renderers.canvas.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/renderers/sigma.renderers.webgl.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/renderers/sigma.renderers.def.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/renderers/webgl/sigma.webgl.nodes.def.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/renderers/webgl/sigma.webgl.nodes.fast.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/renderers/webgl/sigma.webgl.edges.def.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/renderers/webgl/sigma.webgl.edges.fast.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/renderers/webgl/sigma.webgl.edges.arrow.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/renderers/canvas/sigma.canvas.labels.def.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/renderers/canvas/sigma.canvas.hovers.def.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/renderers/canvas/sigma.canvas.nodes.def.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/renderers/canvas/sigma.canvas.edges.def.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/renderers/canvas/sigma.canvas.edges.curve.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/renderers/canvas/sigma.canvas.edges.arrow.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/renderers/canvas/sigma.canvas.edges.curvedArrow.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/middlewares/sigma.middlewares.rescale.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/middlewares/sigma.middlewares.copy.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/misc/sigma.misc.animation.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/misc/sigma.misc.bindEvents.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/src/misc/sigma.misc.drawHovers.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/plugins/sigma.plugins.filter/sigma.plugins.filter.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/plugins/sigma.plugins.neighborhoods/sigma.plugins.neighborhoods.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/plugins/sigma.layout.forceAtlas2/worker.js');?>"></script>
+	<script src="<?=base_url('assets/lib/sigma/plugins/sigma.layout.forceAtlas2/supervisor.js');?>"></script>
+	
+	
+	
+	
+	<script src="<?php echo base_url('assets/lib/sigma.network/js/sigma.network.js'); ?>"></script>
+	
+	
+	
 	<script src="<?php echo base_url('assets/lib/d3/d3.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/lib/d3/tag.cloud/d3.layout.cloud.js'); ?>"></script>	
-	<script src="<?php echo base_url('assets/lib/magic.suggest/magicsuggest.js'); ?>"></script>
+	<!--<script src="<?php echo base_url('assets/lib/magic.suggest/magicsuggest.js'); ?>"></script>-->
+	<script src="<?=base_url('assets/lib/d3.multipleareachart/js/d3.multipleareachart.js'); ?>"></script>
 	
 	
-	<script src="<?php echo base_url('assets/lib/sigma/sigma.min.js'); ?>"></script>
-	<script src="<?php echo base_url('assets/lib/sigma/sigma.parseGexf.js'); ?>"></script>
-	<script src="<?php echo base_url('assets/lib/sigma/sigma.parseJson.js'); ?>"></script>
-	
-	
-	<script src="<?php echo base_url('assets/lib/jquery.datatables/js/jquery.dataTables.min.js'); ?>"></script>	
-	
+	<script src="<?php echo base_url('assets/lib/jquery.datatables/js/jquery.dataTables.min.js'); ?>"></script>		
 	<script src="<?php echo base_url('assets/lib/jquery.datatables/extensions/Responsive/js/dataTables.responsive.min.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/lib/jquery.datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'); ?>"></script>
 		
@@ -126,7 +170,7 @@
 	<!--<script src="<?php echo base_url('assets/lib/jquery.anylist.scroller/js/jquery.als-1.7.min.js'); ?>"></script>-->
 	<script src="<?php echo base_url('assets/lib/jquery.customscrollbar/js/jquery.customscrollbar.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/lib/nicescroll/jquery.nicescroll.min.js'); ?>"></script>
-	<script src="<?=$template_url?>/js/app.min.js"></script>
+	<script src="<?=$template_url?>/js/app.js"></script>
 	
 	<!-- knockoutjs custom bindings -->
 	<script src="<?php echo base_url('assets/ko.custom.bindings/jquery.draggable.js'); ?>"></script>
@@ -153,6 +197,7 @@
 	<script src="<?php echo base_url('assets/ko.custom.bindings/nicescroll.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/ko.custom.bindings/d3.tagcloud.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/ko.custom.bindings/d3.circlepacking.js'); ?>"></script>
+	
 	<script src="<?php echo base_url('assets/ko.custom.bindings/jquery.treegrid.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/ko.custom.bindings/jquery.easytree.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/ko.custom.bindings/dtree.js'); ?>"></script>
@@ -187,23 +232,27 @@
 	<script src="<?php echo base_url('assets/ko.custom.bindings/charts/timeline.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/ko.custom.bindings/charts/zooming.js'); ?>"></script>	
 	<script src="<?php echo base_url('assets/ko.custom.bindings/charts/geospatial.js'); ?>"></script>
+	<script src="<?php echo base_url('assets/ko.custom.bindings/charts/d3.multipleareachart.js'); ?>"></script>
 	
 	<!-- knockoutjs models -->
 	<script src="<?php echo base_url('assets/ko.models/app.js'); ?>"></script>
-	<script src="<?php echo base_url('assets/ko.models/sigma.network.js'); ?>"></script>
+	<!-- <script src="<?php echo base_url('assets/ko.models/sigma.network.js'); ?>"></script>-->
 	<script src="<?php echo base_url('assets/ko.models/view.js'); ?>"></script>
 	
-	
-	
-	<?php 
-		if(isset($js) && is_array($js)){
 		
+	<?php 
+		/** Widget Scripts **/
+		$widgets_js = $this->application->get_session_userdata('widgets_js');
+		foreach($widgets_js as $script){		
+			echo '<script src="' . base_url($script) . '"></script>';
+		}
+		
+		/** Page Scripts **/
+		if(isset($js) && is_array($js)){		
 			foreach($js as $script):
 				echo '<script src="' . base_url($script) . '"></script>';
-			endforeach;
-			
-		}
-	
+			endforeach;			
+		}	
 	?>
 	
 	

@@ -131,6 +131,7 @@ $(function () {
   //Enable sidebar tree view controls
   $.AdminLTE.tree('.sidebar');
 
+	
   //Add slimscroll to navbar dropdown
   if (o.navbarMenuSlimscroll && typeof $.fn.slimscroll != 'undefined') {
     $(".navbar .menu").slimscroll({
@@ -210,13 +211,14 @@ $.AdminLTE.layout = {
   },
   fix: function () {
     //Get window height and the wrapper height
-    var neg = $('.main-header').outerHeight() + $('.main-footer').outerHeight();
+    var neg = $('.main-header').outerHeight() + $('footer.main-footer').outerHeight();
     var window_height = $(window).height();
     var sidebar_height = $(".sidebar").height();
     //Set the min-height of the content and sidebar based on the
     //the height of the document.
     if ($("body").hasClass("fixed")) {
-      $(".content-wrapper, .right-side").css('min-height', window_height - $('.main-footer').outerHeight());
+      $(".content-wrapper, .right-side").css('min-height', window_height - $('footer.main-footer').outerHeight());
+	  $('.widget-full-page').css({ 'min-height' : window_height - $('footer.main-footer').outerHeight()});
     } else {
       if (window_height >= sidebar_height) {
         $(".content-wrapper, .right-side").css('min-height', window_height - neg);
@@ -242,7 +244,8 @@ $.AdminLTE.layout = {
         $(".sidebar").slimScroll({destroy: true}).height("auto");
         //Add slimscroll
         $(".sidebar").slimscroll({
-          height: ($(window).height() - $(".main-header").height()) + "px",
+          //height: ($(window).height() - $(".main-header").height()) + "px",
+		  height: ($(window).height() - 50) + "px",
           color: "rgba(0,0,0,0.2)",
           size: "3px"
         });

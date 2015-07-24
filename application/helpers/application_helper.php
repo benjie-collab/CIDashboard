@@ -1,6 +1,14 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 
+if ( ! function_exists('widget_has_tools'))
+{
+	function widget_has_tools() {	
+		$ci =& get_instance();	
+		$class = explode('_', $ci->router->fetch_class());		
+		return strcasecmp('pages', reset($class))==0;
+	}
+}
 
 if ( ! function_exists('is_page'))
 {

@@ -10,9 +10,10 @@
 	<?php $this->load->view($main_content); ?>
 </div>
 <?php if($is_admin) { ?>
-<div class="bg-gray p-10 p-l-20 p-r-20 main-footer" id="edit-mode-helper" data-bind="ScrollToFixed:{ bottom: 0, limit: $('#edit-mode-helper').offset().top}">
+<div class="bg-gray p-5 p-l-10 p-r-10 main-footer" id="edit-mode-helper" data-bind="ScrollToFixed:{ bottom: 0, limit: $('#edit-mode-helper').offset().top}">
 	<ul class="list-inline m-0">
-		<li>
+		<li></li>
+		<li class="pull-right">
 			<?php 
 				$atts = array(
 					'class' => '',
@@ -23,12 +24,12 @@
 				echo form_open( 'app/switch_mode/', $atts, $hidden); ?>		
 				<input type="checkbox" <?=(bool)$mode? 'checked' : '' ?> name="mode"
 					data-bind="BootstrapSwitch:{
-						onColor: 'danger', 
+						onColor: 'warning', 
 						offColor: 'warning',
-						size: 'medium', 
+						size: 'mini', 
 						onText: 'Edit', 
 						offText: 'View', 
-						labelText: 'Switch Mode',
+						labelText: 'Mode',
 						onSwitchChange: function(event, state){	
 							$('#app-switch-mode').trigger('submit');							
 						}}"/>
@@ -37,9 +38,13 @@
 	</ul>
 </div>
 <?php } ?>
-<?php 	
-	if($mode)
-	$this->load->view($tools); 	
+<?php 		
+	foreach($tools as $key=>$tool){		
+		if(!strcasecmp($key, 'edit')==0)
+		$this->load->view($tool);
+		elseif($mode && strcasecmp($key, 'edit')==0)
+		$this->load->view($tool);
+	}
 ?>
 
 <?php $this->load->view('template/footer'); ?>

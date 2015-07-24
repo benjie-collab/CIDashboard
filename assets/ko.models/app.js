@@ -954,6 +954,7 @@ var CategoryBuilder = function() {
 		
 		
 		if(nodes){
+			console.log(JSON.stringify(nodes));
 			data.push({ 'name' : 'nodes' , value: JSON.stringify(nodes)  } );
 			self.xhr =
 			$.ajax({

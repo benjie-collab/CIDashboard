@@ -227,7 +227,7 @@ class Application
 		
 		$fileDocComment = array_shift($docComments);
 
-		$regexp = "/\@.*\:\s.*\r/";
+		$regexp = "/\@.*\:\s.*/";
 		preg_match_all($regexp, $fileDocComment[1], $matches, PREG_PATTERN_ORDER);		
 		
 		for($i = 0; $i < sizeof($matches[0]); $i++)

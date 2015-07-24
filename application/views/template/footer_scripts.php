@@ -48,14 +48,16 @@
 		
 			$("body").tooltip({ selector: '[data-toggle=tooltip]' });
 							
-			$('body').on('click', '#floating-tool', function () {	
+			$('body').on('click', '.floating-tools-button', function () {
 				if (!$(this).hasClass("open")) {
 				  $(this).animate({"right": "250px"});
-				  $('#floating-tool-content').animate({"right": "0"});
+				  $(this).next('.floating-tools-content').animate({"right": "0"});
+				  //$('#floating-tool-content').animate({"right": "0"});
 				  $(this).addClass("open");
 				} else {
 				  $(this).animate({"right": "0"});
-				  $('#floating-tool-content').animate({"right": "-250px"});
+				  //$('#floating-tool-content').animate({"right": "-250px"});
+				   $(this).next('.floating-tools-content').animate({"right": "-250px"});
 				  $(this).removeClass("open");
 				}
 			});
