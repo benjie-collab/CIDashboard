@@ -33,6 +33,9 @@
 	$fieldtext[] = 'MATCH{' . (array_key_exists($fieldname, $get_data)? element($fieldname, $get_data) : 'CLOSED') . '}:' .$fieldname;
 	$fieldtext[] = 'EMPTY{}:' .$fieldname;	
 	
+	
+	$page 			= $this->session->userdata('current_page');
+	
 	/**
 						$query = array_merge(
 									//$query_config,
@@ -68,7 +71,7 @@
 											container: '#livesearch-container-" . $ts . "',
 											spinner: '#livesearch-spinner-" . $ts . "',
 											template: '" . htmlspecialchars(json_encode($template_options, JSON_NUMERIC_CHECK), ENT_QUOTES, 'UTF-8') . "',
-											url : '" . base_url('search/') . "',
+											url : '" . base_url('pages/search') . "',
 											event : 'masonry'
 										}", 
 					'method' => 'POST',
@@ -80,12 +83,12 @@
 							$data_options,
 							//$get_data,
 							array(
-								'fieldtext' => join(' OR ', $fieldtext),	
-								'dataType'=> "html",
+								'fieldtext' => join(' OR ', $fieldtext),
 								'summary' => 'concept',
 								'totalresults' => true,	
 								//'action' => 'suggestontext',
-								'template' => $template_options
+								'template' => $template_options,
+								'server' => $page->server
 								
 							) );	
 							
@@ -99,7 +102,7 @@
 						<span class="form-control-feedback"><i class="fa fa-microphone text-muted"></i></span>						
 					</div>
 					<span class="input-group-btn">
-					  <button type="submit" class="btn btn-flat btn-xl <?=element('submit_buttons', $page)?>">Search</button>
+					  <button type="submit" class="btn btn-flat btn-xl">Search</button>
 					</span>
 				</div>
 				</div>

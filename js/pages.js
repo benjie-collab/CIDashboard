@@ -43,9 +43,10 @@ $( document ).ready(function() {
 	.bootstrapSwitch({
 					onColor: 'primary', 
 					offColor: 'warning',
-					size: 'small', 
+					size: 'mini', 
 					onText: 'On', 
 					offText: 'Off', 
+					handleWidth: 40,
 					labelText: '<i class="fa ion-ios-location"></i>'
 				})
 	.bootstrapSwitch('state', shareLocation, true);
@@ -116,11 +117,8 @@ $( document ).ready(function() {
 			widget = $(rw).data('widget');
 			
 			$.ajax({
-				url: $(button).data('url'),
-				type: 'POST',
-				data: {
-					widget_key: widget
-				},
+				url: $(button).data('url') + '/' + encodeURIComponent(widget),
+				type: 'GET',
 				success: function(res){
 					$(rw).remove();
 					var widgets;
@@ -276,40 +274,7 @@ $( document ).ready(function() {
 	
 	
 	
-	$(document).on('change', '.skin-selector li input[type=radio]', function(e){
-		
-		var value= $(e.currentTarget).val();
-		$(e.currentTarget)
-			.parents('.skin-selector')
-			.children('li')
-			.removeClass('active')
-			.end()
-			.end()
-			.parents('li')
-			.addClass('active')
-			
-	});	
 	
-	
-	$(document).on('change', '.button-selector li input[type=radio]', function(e){
-		
-		var value= $(e.currentTarget).val();		
-		$(e.currentTarget)
-			.parents('.button-selector')
-			.children('li')
-			.removeClass('active')
-			.end()
-			.end()
-			.parents('li')	
-			.addClass('active')			
-	});	
-	
-	$(document).on('change', '.layout-selector', function(e){
-		
-		var value= $(e.currentTarget).val();		
-		$('body').toggleClass(value);
-			
-	});	
 		
   
 });

@@ -16,8 +16,9 @@
 **/
 	
 	$query_config	= $this->application->get_config('query','actions');
+	$page 			= $this->session->userdata('current_page');
 	$query_settings = isset($query_settings)?	$query_settings : $this->application->get_session_userdata('current_search');	
-	$dbs_customer 	= $this->application->get_session_userdata('dbs_customer');
+	$dbs_customer 	= $this->session->userdata('dbs_customer');
 	
 	$is_page 		= $this->application->is_page();
 	$options 		= isset($meta_key)? $this->application->get_settings($meta_key) : array();
@@ -54,12 +55,12 @@
 						$issues_data_options,
 						array(
 							'fieldtext' => $fieldtext,
-							'server' =>  element('server', $page)
-						)
-						);
-						
-			
-			$results = $this->search_model->call_search($query);
+							'server' => $page->server,
+							'action' => 'query',
+							'print' => 'all'
+					)
+					);
+			$results = $this->idol->QueryAction($query);
 			$results = clean_json_response($results);
 		}	
 		
@@ -116,7 +117,7 @@
 										}
 									?>
 									</small></p>
-									<p class='text-center'><small class='btn btn-sm btn-flat <?=element('submit_buttons', $page)?>'
+									<p class='text-center'><small class='btn btn-sm btn-flat '
 										data-toggle='modal'
 										data-target='#modal-widget'
 										data-remote='<?=base_url('app/widget_modal/dbs_customer_issues_solution/' . urlencode($meta_key)  
@@ -207,12 +208,12 @@
 									$issues_data_options,
 									array(
 										'fieldtext' => $fieldtext,
-										'server' =>  element('server', $page)
+										'server' =>  $page->server,
+										'print' =>  'all',
 									)
 									);
 									
-						
-						$results = $this->search_model->call_search($query);
+						$results = $this->idol->QueryAction($query);
 						$results = clean_json_response($results);
 						
 					}	
@@ -254,7 +255,7 @@
 										}
 									?>
 									</small></p>
-									<p class='text-center'><small class='btn btn-sm btn-flat <?=element('submit_buttons', $page)?>'
+									<p class='text-center'><small class='btn btn-sm btn-flat '
 										data-toggle='modal'
 										data-target='#modal-widget'
 										data-remote='<?=base_url('app/widget_modal/dbs_customer_issues_solution/' . urlencode($meta_key)  
@@ -334,7 +335,7 @@
 			</div>
 		</div>
 		<div class="box-footer clearfix">
-		  <a href="javascript::;" class="btn btn-sm btn-flat pull-right <?=element('info_buttons', $page)?>">View All Issues</a>
+		  <a href="javascript::;" class="btn btn-sm btn-flat pull-right ">View All Issues</a>
 		</div>
 	</div>
 	

@@ -66,24 +66,34 @@ class App extends CI_Controller {
 	
 	
 	
-	function delete_widget(){
+	function delete_widget($widget_key=null){
 	
 		if (!$this->users->logged_in())
 		{			
 			r_direct_login();
-		}else
+		}elseif($widget_key)
 		{			
-			$method = $this->input->server('REQUEST_METHOD');
-			if($method = 'POST'){
-				$post_data = $_POST;
-				if(element('widget_key', $post_data)){
-				
-					$widget = $this->usermeta_model->delete_usermeta(element('widget_key', $post_data));
-					header('Content-Type: application/json');
-					echo json_encode($widget, true);
-				}				
-			}	
-				
+			header('Content-Type: application/json');
+			$res = $this->widgets_model->delete_widgetoptions($widget_key);
+			
+			if ($res)
+			{			
+				$this->session->set_flashdata('message', $this->notification->messages());
+				echo json_encode(array( 
+					'response' => 'success', 
+					'message' => $this->notification->messages()
+					), 
+				true);	
+			}else{
+				$message = (validation_errors() ? validation_errors() : ($this->notification->errors() ? $this->notification->errors() : $this->session->flashdata('message')));
+				$this->session->set_flashdata('message', $message);
+				echo json_encode(array( 
+					'response' => 'danger', 
+					'message' => $message ), 
+				true);	
+			}
+		}else{
+			r_direct('dashboard');
 		}
 	
 	}
@@ -106,15 +116,15 @@ class App extends CI_Controller {
 	}
 	
 	
-	function widget_options($meta_key=null)
+	function widget_options($meta_key=null, $post_id=null)
 	{
 		if (!$this->users->logged_in())
 		{
 			r_direct_login();
 		}
-		else
+		elseif($meta_key)
 		{
-			$delimiter 	= $this->application->get_config('metakey_delimiter', 'template');
+			$delimiter 			= $this->application->get_config('metakey_delimiter', 'template');
 			$keys				= array();
 			$meta_key 			= urldecode($meta_key);
 			$is_statistics		= false;
@@ -130,31 +140,24 @@ class App extends CI_Controller {
 				$is_statistics 	= true;
 			}
 			
-			$method = $this->input->server('REQUEST_METHOD');			
-			if($widget_key){
-				$get_data = $_GET;					
-				if($is_statistics){
-					$data['modal_title'] 	 	= element('type', $keys) . " Options";
-					$data['modal_content'] 		= 'widgets/'. $folder .'/options';
-					$data['widget_key'] 		= $widget_key;
-					$data['meta_key']  			= $meta_key;
-				}else{
-					$data['modal_title'] 	 	= 'Widget Options';
-					$data['modal_content'] 		= 'widgets/'. $folder .'/options';
-					$data['widget_key'] 		= $widget_key;
-					$data['meta_key']  			= $meta_key;
-				}
-				echo $this->load->view('template/modal-widget-options', $data); 
-			}elseif($method == 'POST'){			
+			$method = $this->input->server('REQUEST_METHOD');	
+			if($method == 'POST'){			
 				header('Content-Type: application/json');
-				$post_data = $_POST;
-				$key = element('meta_key', $post_data);
-				unset($post_data['meta_key']);
-				$widget[$key] = $post_data;
-				$meta = $this->usermeta_model->save_usermeta(NULL, $widget);	
+				$parameters = $_POST;
+				
+				$widget =array(										
+								'post_id' => $post_id,
+								'meta_key' => $meta_key,
+								'meta_value'=> serialize($parameters)									
+							);
+				
+				if($this->widgets_model->get_widgetoptions(array('post_id'=>$post_id, 'meta_key'=>$meta_key))){					
+					$res = $this->widgets_model->update_widgetoptions( $post_id, $meta_key, $widget);	
+				}else{
+					$res = $this->widgets_model->save_widgetoptions($widget);	
+				}
 
-
-				if ($meta)
+				if ($res)
 				{			
 					$this->session->set_flashdata('message', $this->notification->messages());
 					echo json_encode(array( 
@@ -170,9 +173,20 @@ class App extends CI_Controller {
 						'message' => $message ), 
 					true);	
 				}			
+			}else{
+				if($is_statistics)
+					$data['modal_title'] 	 	= element('type', $keys) . " Options";
+				else
+					$data['modal_title'] 	 	= 'Widget Options';
+					
+				$data['modal_content'] 		= 'widgets/'. $folder .'/options';
+				$data['widget_key'] 		= $widget_key;
+				$data['meta_key']  			= $meta_key;
+				echo $this->load->view('template/modal-widget-options', $data); 
 			}
-			
-				
+		}else{
+		
+		
 		}
 	}	
 }

@@ -107,7 +107,7 @@ $autoload['language'] = array('status', 'template', 'settings');
 |
 */
 
-$autoload['model'] = array('notification', 'users_model', 'template_model', 'idol');
+$autoload['model'] = array('notification', 'users_model', 'template_model', 'idol', 'widgets_model');
 
 
 /* End of file autoload.php */

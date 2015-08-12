@@ -8,20 +8,44 @@ class Widgets_model extends CI_Model
 	 *
 	 * @var array
 	 **/	
-	protected $current_user = NULL;	
+	public $tables = array();
 	
-	public $tables 	= array();
 
 	public function __construct()
 	{
-		parent::__construct();	
-		$this->load->database();			
-		$this->load->model('usermeta_model');			
-		$this->load->library('database_lib');
-		$this->current_user 		= $this->users->user()->row();
-		$this->tables  = $this->config->item('tables', 'template');
-		
-	}	
+		parent::__construct();
+		$this->load->database();		
+		$this->load->model('postmeta_model');		
+		$this->load->library('database_lib');			
+		$this->tables  = $this->config->item('tables', 'template');	
+	}
+	
+	
+	public function get_widgetoptions($meta=array()){
+		if(!is_array($meta))
+			$meta = array('meta_key'=> $meta);
+		$result 	= $this->postmeta_model->get_postmeta($meta);			
+		return $result;	
+	}
+	
+	public function save_widgetoptions($widget=array()){
+		$result 	= $this->postmeta_model->save_postmeta($widget);			
+		return $result;	
+	}
+	
+	
+	public function update_widgetoptions($post_id=NULL, $meta_key=NULL, $meta=array()){
+		$result 	= $this->postmeta_model->update_postmeta($post_id, $meta_key, $meta);			
+		return $result;	
+	}
+	
+	
+	public function delete_widgetoptions($meta=array()){
+		if(!is_array($meta))
+			$meta = array('meta_key'=> $meta);
+		$result 	= $this->postmeta_model->delete_postmeta($meta);			
+		return $result;	
+	}
 	
 	/**
 	public function generate_widget_options_key($widget_key=null)

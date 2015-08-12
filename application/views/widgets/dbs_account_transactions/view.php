@@ -16,6 +16,7 @@
 **/
 	
 	$query_config	= $this->application->get_config('query','actions');
+	$page 			= $this->session->userdata('current_page');
 	$query_settings = isset($query_settings)?	$query_settings : $this->application->get_session_userdata('current_search');	
 	$dbs_customer 	= $this->application->get_session_userdata('dbs_customer');
 	
@@ -35,16 +36,17 @@
 	if($query_settings){
 		
 		$query = array_merge(
-					$query_config,
+					//$query_config,
 					$query_options,
 					array(
 						'fieldtext' => $match,
-						'server' => element('server', $page)
+						'server' => $page->server,
+						'action' => 'query',
+						'print' => 'all'
 					)
 					);
-		$results = $this->search_model->call_search($query);
+		$results = $this->idol->QueryAction($query);
 		$results = clean_json_response($results);
-		
 	}	
 	
 	$numhits 	= array_get_value($results, 'autn:numhits');
@@ -109,7 +111,7 @@
 		
 	
 	<div class="box-footer clearfix">
-	  <a class="btn btn-sm btn-flat pull-right <?=element('info_buttons', $page)?> <?=$history? '' : 'disabled'?>" href="javascript::;">View All Transactions</a>
+	  <a class="btn btn-sm btn-flat pull-right <?=$history? '' : 'disabled'?>" href="javascript::;">View All Transactions</a>
 	</div>
 <?php 
 	}

@@ -187,30 +187,27 @@ var Pages = function() {
 	var self = this;
 	self.xhr	= '', 
 	self.ajaxProcess = ko.observable(false),
-	self.updatePage = function(el){	
+	
+	self.updateContent = function(el){	
 		if(self.xhr)
 		self.xhr.abort;		
 		
-		var widgets = [], data = $(el).serializeArray(), widget=[], formData, widget_containers = JSON.parse(localStorage.getItem('widgets'));
+		var widgets = [], widget_containers = JSON.parse(localStorage.getItem('widgets'));
 		
-		if($(el).attr('id') == "page_settings_form" || $(el).hasClass('page_settings_form'))
+		if($(el).attr('id') == "page_update_content_form" || $(el).hasClass('page_update_content_form'))
 		$.map( widget_containers, function( val, i ) {			
 			$.map( JSON.parse(localStorage.getItem(val)), function( v, j ) {				
 				widgets.push({ 'name' : val + '[]', value: v  } );
 			});
-		});
-		
-		
-		formData = $.grep( data, function( n, i ) {	
-						return $.inArray( n.name.replace(/\[]/g, ''), widget_containers )==-1;
-					});
+		});		
+		console.log(widgets);
 		
 		self.xhr =
 		$.ajax({
 			url: $(el).attr('action'),
 			method: 'POST',
 			dataType: "json",
-			data: $.merge(formData,  widgets  ),
+			data: widgets,
 			beforeSend: function(){ self.ajaxProcess(true) },
 			success: function(data){ 
 				self.ajaxProcess(false);	
@@ -243,24 +240,63 @@ var Pages = function() {
 		return false;
 		
 	}.bind(self),
-    self.addPage = function(el){	
+	
+	self.updatePage = function(el){	
 		if(self.xhr)
-		self.xhr.abort;	
+		self.xhr.abort;		
 		
-		var widgets = [], data = $(el).serializeArray(), widget=[];
-		
-		if($(el).attr('id') == "page_edit_form")
-		$.map( JSON.parse(localStorage.getItem('widgets')), function( val, i ) {			
-			$.map( JSON.parse(localStorage.getItem(val)), function( v, j ) {				
-				widgets.push({ 'name' : val + '[]', value: v  } );
-			});
-		})		
+		var widgets = [], formData = $(el).serializeArray();
+		console.log(formData);
 		self.xhr =
 		$.ajax({
 			url: $(el).attr('action'),
 			method: 'POST',
 			dataType: "json",
-			data: $.merge(data,  widgets  ),
+			data: formData,
+			beforeSend: function(){ self.ajaxProcess(true) },
+			success: function(data){ 
+				self.ajaxProcess(false);	
+				var messages = $(data.message).filter('div');
+				if(messages)
+				$.each(messages, function(i,v){
+					$.notify({
+						message: $(v).text() 
+					},
+					{
+						type: data.response
+					});
+				
+				})
+				else
+				$.notify({
+					message: $(data.message).text() 
+				},
+				{
+					type: data.response
+				});
+				
+				
+				
+				if(data.redirect)
+					location.reload();
+				
+			}
+		})
+		return false;
+		
+	}.bind(self),
+    self.addPage = function(el){	
+		if(self.xhr)
+		self.xhr.abort;	
+		
+		var widgets = [], data = $(el).serializeArray();
+		
+		self.xhr =
+		$.ajax({
+			url: $(el).attr('action'),
+			method: 'POST',
+			dataType: "json",
+			data: data,
 			beforeSend: function(){ self.ajaxProcess(true) },
 			success: function(data){ 		
 				self.ajaxProcess(false);
@@ -417,6 +453,48 @@ var User = function() {
 	var self = this;
 	self.xhr	= '', 
 	self.ajaxProcess = ko.observable(false),
+	self.deactivateUser = function(el){	
+		if(self.xhr)
+		self.xhr.abort;	
+		
+		var data = $(el).serializeArray(), widget=[];
+		self.xhr =
+		$.ajax({
+			url: $(el).attr('action'),
+			method: 'POST',
+			dataType: "json",
+			data: data,
+			beforeSend: function(){ self.ajaxProcess(true) },
+			success: function(data){ 		
+				self.ajaxProcess(false);
+				var messages = $(data.message).filter('div');
+				if(messages)
+				$.each(messages, function(i,v){
+					$.notify({
+						message: $(v).text() 
+					},
+					{
+						type: data.response
+					});
+				
+				})
+				else
+				$.notify({
+					message: $(data.message).text() 
+				},
+				{
+					type: data.response
+				});
+				
+				if(data.redirect)
+				window.location.href=data.redirect;
+			}
+		})	
+		return false;		
+		
+	}.bind(self)
+	
+	/**
 	self.update = function(el){	
 		if(self.xhr)
 		self.xhr.abort;		
@@ -442,7 +520,7 @@ var User = function() {
 		})		
 		return false;
 		
-	}.bind(self);
+	}.bind(self);**/
 	
 }
 
@@ -800,7 +878,7 @@ var Servers = function() {
 var Media = function() {
 	var self = this;
 	self.xhr	= '';
-	self.ajaxProcess = ko.observable(false);
+	self.ajaxProcess = ko.observable(false);/**
     self.addMedia = function(el){	
 		if(self.xhr)
 		self.xhr.abort;	
@@ -892,7 +970,7 @@ var Media = function() {
 		})	
 		return false;
 		
-	}.bind(self)
+	}.bind(self)**/
 	
 }
 
@@ -1135,8 +1213,7 @@ var Users = function() {
 	self.ajaxProcess = ko.observable(false);
     self.createUser = function(el){	
 		if(self.xhr)
-		self.xhr.abort;	
-			
+		self.xhr.abort;				
 		var data = $(el).serializeArray(), widget=[];
 		self.xhr =
 		$.ajax({
@@ -1213,8 +1290,49 @@ var Users = function() {
 		})	
 		return false;
 		
-	}.bind(self)
+	}.bind(self);
 	
+	
+	self.updateProfile = function(el){	
+		if(self.xhr)
+		self.xhr.abort;			
+		
+		var data = $(el).serializeArray(), widget=[];
+		self.xhr =
+		$.ajax({
+			url: $(el).attr('action'),
+			method: 'POST',
+			dataType: "json",
+			data: data,
+			beforeSend: function(){ self.ajaxProcess(true) },
+			success: function(data){ 		
+				self.ajaxProcess(false);
+				var messages = $(data.message).filter('div');
+				if(messages)
+				$.each(messages, function(i,v){
+					$.notify({
+						message: $(v).text() 
+					},
+					{
+						type: data.response
+					});
+				
+				})
+				else
+				$.notify({
+					message: $(data.message).text() 
+				},
+				{
+					type: data.response
+				});
+				
+				if(data.redirect)
+				window.location.href=data.redirect;
+			}
+		})	
+		return false;
+		
+	}.bind(self);
 }
 
 

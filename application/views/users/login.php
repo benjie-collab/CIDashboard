@@ -1,11 +1,17 @@
+	<?php
+	$settings 		= $this->application->general_setting();		
+	?> 
 <!DOCTYPE html> 
 <html lang="en-US">
   <head>
-    <title>CodeIgniter Admin Sample Project</title>
-    <meta charset="utf-8">
-	<link href="<?php echo base_url(); ?>assets/css/admin/bootstrap.min.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo base_url(); ?>assets/themes/todc/css/todc-bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="<?php echo base_url(); ?>assets/css/admin/admin.css" rel="stylesheet" type="text/css">
+    <title>K2 Dashboard</title>
+    <meta charset="utf-8"/>
+	<link rel="icon" 
+      type="image/png" 
+      href="<?=base_url(element('favicon', $settings))?>">
+	<link href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url('assets/themes/todc/css/todc-bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo base_url('assets/css/admin.css'); ?>" rel="stylesheet" type="text/css">
   </head>
   <body>
     <div class="container login ">
@@ -61,8 +67,6 @@
 					<?php echo lang('login_remember_label');?>
 					</label>
 				</div>
-			  
-			  		
 				
 				<div class="text-center m-t-20">
 				<?php echo form_submit('Login', lang('login_submit_btn'), "class='btn btn-large btn-primary'");?>
@@ -72,8 +76,7 @@
 			<fieldset>
 		<?php 
 		echo form_close();
-		?>      
-		
+		?>      		
     </div><!--container-->
     <script src="<?php echo base_url(); ?>assets/js/jquery-1.11.2.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>

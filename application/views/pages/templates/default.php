@@ -8,26 +8,30 @@
 
 <?php 
 	$loading_state 		= str_replace('"','\'',$this->template_model->get_box_loading_state()) ;
-	$form_to_submit 	= '#page_settings_form';	
+	$form_to_submit 	= '#page_update_content_form';	
 	$mode 	  			= $this->application->get_mode('pages_mode');
 	$delimiter 			= $this->application->get_config('metakey_delimiter', 'template');
+	
+	$page_content 		= isset($page->post_content)? unserialize($page->post_content): array();
+	
+	
 ?>
 <section class="content">	
 	<div class="row">	
 		<div class="col-md-12">
 			<div class="p-relative" >
-				<?php $id="page_widget_top"; ?>
+				<?php $id="page_widget_top"; 
+					$widgets = array_key_exists($id, $page_content )? element($id, $page_content) : array();
+				?>
 				<div id="<?=$id?>" class="<?=$mode? 'connected-widgets widget':''?>" 
-					data-widget="<?=htmlspecialchars(json_encode(element($id, $page)? element($id, $page) : array()), ENT_QUOTES, 'UTF-8')?>"
+					data-widget="<?=htmlspecialchars(json_encode($widgets), ENT_QUOTES, 'UTF-8')?>"
 					data-form="<?=$form_to_submit?>">	
 					<?php 
-						if(element($id, $page)):
-							foreach(element($id, $page) as $key=>$meta_key):	
-								$data = array();
-								$data['meta_key'] = $meta_key;
-								$this->load->view('widgets/template-pages', $data);	
-							endforeach;					
-						endif;	
+						foreach($widgets as $key=>$meta_key):	
+							$data = array();
+							$data['meta_key'] = $meta_key;
+							$this->load->view('widgets/template-pages', $data);	
+						endforeach;	
 					?>	
 					<?php
 					if ($mode)
@@ -40,17 +44,18 @@
 		
 		<div class="col-md-3">
 			<div class="p-relative" >
-				<?php $id="page_widget_left"; ?>
+				<?php $id="page_widget_left"; 
+					$widgets = array_key_exists($id, $page_content )? element($id, $page_content) : array();
+				?>
 				<div id="<?=$id?>" class="<?=$mode? 'connected-widgets widget':''?> widget-xl" 
-					data-widget="<?=htmlspecialchars(json_encode(element($id, $page)? element($id, $page) : array()), ENT_QUOTES, 'UTF-8')?>"
+					data-widget="<?=htmlspecialchars(json_encode($widgets), ENT_QUOTES, 'UTF-8')?>"
 					data-form="<?=$form_to_submit?>">	
 					<?php 
-						if(element($id, $page)):
-							foreach(element($id, $page) as $key=>$meta_key):	
-								$data['meta_key'] = $meta_key;
-								$this->load->view('widgets/template-pages', $data);	
-							endforeach;					
-						endif;	
+						foreach($widgets as $key=>$meta_key):	
+							$data = array();
+							$data['meta_key'] = $meta_key;
+							$this->load->view('widgets/template-pages', $data);	
+						endforeach;	
 					?>	
 					<?php
 					if ($mode)
@@ -62,19 +67,18 @@
 		
 		<div class="col-md-6">
 			<div class="p-relative" >
-				<?php $id="page_content_top"; ?>
+				<?php $id="page_content_top"; 
+					$widgets = array_key_exists($id, $page_content )? element($id, $page_content) : array();
+				?>
 				<div id="<?=$id?>" class="<?=$mode? 'connected-widgets widget':''?> widget-xs" 
-					data-widget="<?=htmlspecialchars(json_encode(element($id, $page)? element($id, $page) : array()), ENT_QUOTES, 'UTF-8')?>"
+					data-widget="<?=htmlspecialchars(json_encode($widgets), ENT_QUOTES, 'UTF-8')?>"
 					data-form="<?=$form_to_submit?>">	
 					<?php 
-						if(element($id, $page)):
-							foreach(element($id, $page) as $key=>$meta_key):	
-								$data = array();
-								$data['meta_key'] = $meta_key;
-								$data['event'] 	= '';
-								$this->load->view('widgets/template-pages', $data);	
-							endforeach;					
-						endif;	
+						foreach($widgets as $key=>$meta_key):	
+							$data = array();
+							$data['meta_key'] = $meta_key;
+							$this->load->view('widgets/template-pages', $data);	
+						endforeach;	
 					?>	
 					<?php
 					if ($mode)
@@ -83,19 +87,20 @@
 				</div>	
 			</div>
 			<div class="p-relative" >
-				<?php $id="page_content";?>
-				<div class="widget-sm <?=$mode? 'droppable-widgets widget': ''?> widget-md"
-				data-widget="<?=htmlspecialchars(json_encode(element($id, $page)? element($id, $page) : array()), ENT_QUOTES, 'UTF-8')?>"
+				<?php $id="page_content";
+					$widgets = array_key_exists($id, $page_content )? element($id, $page_content) : array();
+				?>
+				<div class="widget-sm <?=$mode? 'droppable-widgets widget': ''?> widget-md"			
+				data-widget="<?=htmlspecialchars(json_encode($widgets), ENT_QUOTES, 'UTF-8')?>"
 				data-form="<?=$form_to_submit?>"
 				id="<?=$id?>">			
 					<?php 
-						if(element($id, $page)):
-					?>
-					
+						if($widgets):
+					?>					
 					<div class="nav-tabs-custom">
 						<ul class="nav nav-tabs">
 							<?php 
-								foreach(element($id, $page) as $key=>$meta_key): 
+								foreach($widgets as $key=>$meta_key): 
 								$widget_key = extract_metakey($meta_key, $delimiter);
 								$options = $this->application->get_settings($meta_key);
 								
@@ -126,7 +131,7 @@
 						<div class="tab-content p-0">	
 
 							<?php 
-								foreach(element($id, $page) as $key=>$meta_key):	
+								foreach($widgets as $key=>$meta_key):	
 									$data = array();
 									$data['meta_key'] = $meta_key;
 									$data['event'] 	= 'tab';
@@ -155,19 +160,18 @@
 			</div>
 			
 			<div class="p-relative" >
-				<?php $id="page_content_bottom"; ?>
+				<?php $id="page_content_bottom"; 
+					$widgets = array_key_exists($id, $page_content )? element($id, $page_content) : array();
+				?>
 				<div id="<?=$id?>" class="<?=$mode? 'connected-widgets widget':''?> widget-xs" 
-					data-widget="<?=htmlspecialchars(json_encode(element($id, $page)? element($id, $page) : array()), ENT_QUOTES, 'UTF-8')?>"
+					data-widget="<?=htmlspecialchars(json_encode($widgets), ENT_QUOTES, 'UTF-8')?>"
 					data-form="<?=$form_to_submit?>">	
 					<?php 
-						if(element($id, $page)):
-							foreach(element($id, $page) as $key=>$meta_key):	
-								$data = array();
-								$data['meta_key'] = $meta_key;
-								$data['event'] 	= '';
-								$this->load->view('widgets/template-pages', $data);	
-							endforeach;					
-						endif;	
+						foreach($widgets as $key=>$meta_key):	
+							$data = array();
+							$data['meta_key'] = $meta_key;
+							$this->load->view('widgets/template-pages', $data);	
+						endforeach;	
 					?>	
 					<?php
 					if ($mode)
@@ -180,19 +184,18 @@
 		
 		<div class="col-md-3">
 			<div class="p-relative" >
-				<?php $id="page_widget_right"; ?>
+				<?php $id="page_widget_right"; 
+					$widgets = array_key_exists($id, $page_content )? element($id, $page_content) : array();
+				?>
 				<div id="<?=$id?>" class="<?=$mode? 'connected-widgets widget':''?> widget-xl" 
-					data-widget="<?=htmlspecialchars(json_encode(element($id, $page)? element($id, $page) : array()), ENT_QUOTES, 'UTF-8')?>"
+					data-widget="<?=htmlspecialchars(json_encode($widgets), ENT_QUOTES, 'UTF-8')?>"
 					data-form="<?=$form_to_submit?>">	
 					<?php 
-						if(element($id, $page)):
-							foreach(element($id, $page) as $key=>$meta_key):	
-								$data = array();
-								$data['meta_key'] = $meta_key;
-								$data['event'] 	= '';
-								$this->load->view('widgets/template-pages', $data);	
-							endforeach;					
-						endif;	
+						foreach($widgets as $key=>$meta_key):	
+							$data = array();
+							$data['meta_key'] = $meta_key;
+							$this->load->view('widgets/template-pages', $data);	
+						endforeach;	
 					?>	
 					<?php
 					if ($mode)

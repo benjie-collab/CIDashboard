@@ -45,6 +45,7 @@ CREATE TABLE `users` (
   `last_name` varchar(50) DEFAULT NULL,
   `company` varchar(100) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
+  `profile_pic` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -154,7 +155,7 @@ CREATE TABLE `servers` (
 
 
 
-CREATE TABLE `media` (
+CREATE TABLE `uploads` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) unsigned NOT NULL ,
   `file_name` varchar(255) NOT NULL,
@@ -184,3 +185,56 @@ CREATE TABLE IF NOT EXISTS  `ci_sessions` (
 	PRIMARY KEY (session_id),
 	KEY `last_activity_idx` (`last_activity`)
 );
+
+
+
+
+
+
+CREATE TABLE `posts` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) unsigned NOT NULL ,
+  `post_title` varchar(50) NOT NULL,
+  `server` varchar(30) NOT NULL,
+  `post_description` varchar(100) ,
+  `post_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  `modified_date` TIMESTAMP DEFAULT 0 NOT NULL,
+  `post_type` varchar(20) NOT NULL,
+  `post_content` longtext NOT NULL,
+  `active` tinyint(1) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TRIGGER `insert_modified_date` BEFORE INSERT ON `posts`
+	FOR EACH ROW SET NEW.modified_date = CURRENT_TIMESTAMP
+CREATE TRIGGER `update_modified_date` BEFORE UPDATE ON `posts`
+	FOR EACH ROW SET NEW.modified_date = CURRENT_TIMESTAMP
+CREATE TRIGGER `delete_post` AFTER DELETE ON `posts`
+	FOR EACH ROW DELETE FROM post_meta WHERE post_id=OLD.id
+
+CREATE TRIGGER `delete_user` AFTER DELETE ON `users`
+ FOR EACH ROW BEGIN
+DELETE FROM posts WHERE user_id=OLD.id;
+DELETE FROM widgets WHERE user_id=OLD.id;
+DELETE FROM user_meta WHERE user_id=OLD.id;
+DELETE FROM servers WHERE user_id=OLD.id;
+DELETE FROM rules WHERE user_id=OLD.id;
+DELETE FROM user_groups WHERE user_id=OLD.id;
+DELETE FROM uploads WHERE user_id=OLD.id;
+DELETE FROM categorization WHERE user_id=OLD.id;
+END
+	
+	
+	
+CREATE TABLE `post_meta` (
+  `meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `post_id` bigint(20) unsigned NOT NULL,
+  `meta_key` varchar(50) NOT NULL,
+  `meta_value` longtext NOT NULL,
+  PRIMARY KEY (`meta_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+

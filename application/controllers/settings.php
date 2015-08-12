@@ -60,27 +60,175 @@ class Settings extends CI_Controller {
 		}
 	}
 	
-	function general()
-	{		
+	
+	//create a new user
+	function logo()
+	{
+	
+		if (!$this->users->logged_in())
+		{		
+			r_direct_login();
+		}
+		elseif ($this->users->is_admin()) //remove this elseif if you want to enable this for non-admins
+		{	
+			$method = $this->input->server('REQUEST_METHOD');
+			if($method == 'POST'){
+				$config['upload_path'] = './uploads/';
+				$config['allowed_types'] = 'gif|jpg|png';
+				//$config['max_size']	= '100';
+				//$config['max_width']  = '1024';
+				//$config['max_height']  = '768';
+				$this->load->library('upload', $config);
+				$parameters = $_POST;
+				
+				header('Content-Type: application/json');
+				if ( ! $this->upload->do_upload('file'))
+				//if ( ! $this->upload->do_multi_upload('file'))
+				{					
+					$this->notification->set_error($this->upload->display_errors());
+					$message = $this->notification->errors();
+					
+					echo json_encode(array( 
+					'response' => 'danger', 
+					'message' => $message
+					), true);
+				}
+				else
+				{
+					//$file_data = $this->upload->get_multi_upload_data();
+					$file_data = $this->upload->data();
+					$logo = $config['upload_path'] . element('file_name', $file_data);
+					
+					if($this->usermeta_model->save_usermeta(0, array(element('meta_key', $parameters) => $logo )))
+					{
+						$this->session->set_flashdata('message', $this->notification->messages() );		
+						echo json_encode(array( 
+							'response' => 'success', 
+							'message' => $this->notification->messages()
+							), 
+						true);	
+
+					}
+					else
+					{
+						//redirect them back to the admin page if admin, or to the base url if non admin
+						$this->session->set_flashdata('message', $this->notification->errors() );
+						echo json_encode(array( 
+							'response' => 'danger', 
+							'message' => $this->notification->errors()
+							), 
+						true);	
+
+					}						
+				}	
+			}else{
+				$data['title'] 		= "General Settings";
+				$data['js'] 	 	= array('js/settings.js');	
+				$data['settings'] = $this->application->general_setting();
+				$data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+				$data['main_content'] = 'settings/pages/general';
+				$this->load->view('settings/template', $data);  
+			}
+		}else
+		{		
+			r_direct('dashboard');
+		}		
+	}
+	
+	
+	function favicon()
+	{
+	
+		if (!$this->users->logged_in())
+		{		
+			r_direct_login();
+		}
+		elseif ($this->users->is_admin()) //remove this elseif if you want to enable this for non-admins
+		{	
+			$method = $this->input->server('REQUEST_METHOD');
+			if($method == 'POST'){
+				$config['upload_path'] = './uploads/';
+				$config['allowed_types'] = '*';
+				//$config['max_size']	= '100';
+				//$config['max_width']  = '1024';
+				//$config['max_height']  = '768';
+				$this->load->library('upload', $config);
+				$parameters = $_POST;
+				
+				header('Content-Type: application/json');
+				if ( ! $this->upload->do_upload('file'))
+				//if ( ! $this->upload->do_multi_upload('file'))
+				{					
+					$this->notification->set_error($this->upload->display_errors());
+					$message = $this->notification->errors();
+					
+					echo json_encode(array( 
+					'response' => 'danger', 
+					'message' => $message
+					), true);
+				}
+				else
+				{
+					//$file_data = $this->upload->get_multi_upload_data();
+					$file_data = $this->upload->data();
+					$logo = $config['upload_path'] . element('file_name', $file_data);
+					
+					if($this->usermeta_model->save_usermeta(0, array(element('meta_key', $parameters) => $logo )))
+					{
+						$this->session->set_flashdata('message', $this->notification->messages() );		
+						echo json_encode(array( 
+							'response' => 'success', 
+							'message' => $this->notification->messages()
+							), 
+						true);	
+
+					}
+					else
+					{
+						//redirect them back to the admin page if admin, or to the base url if non admin
+						$this->session->set_flashdata('message', $this->notification->errors() );
+						echo json_encode(array( 
+							'response' => 'danger', 
+							'message' => $this->notification->errors()
+							), 
+						true);	
+
+					}						
+				}	
+			}else{
+				$data['title'] 		= "General Settings";
+				$data['js'] 	 	= array('js/settings.js');	
+				$data['settings'] = $this->application->general_setting();
+				$data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+				$data['main_content'] = 'settings/pages/general';
+				$this->load->view('settings/template', $data);  
+			}
+		}else
+		{		
+			r_direct('dashboard');
+		}
 		
+	}
+	
+	function general()
+	{				
 		if (!$this->users->logged_in())
 		{
 			//redirect them to the login page
 			r_direct_login();
 		}
 		elseif ($this->users->is_admin()) //remove this elseif if you want to enable this for non-admins
-		{							
+		{	
 			$data['title'] 		= "General Settings";
 			$data['js'] 	 	= array('js/settings.js');	
 			$data['settings'] = $this->application->general_setting();
 			$data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 			$data['main_content'] = 'settings/pages/general';
-			$this->load->view('settings/template', $data);  
+			$this->load->view('settings/template', $data); 
 		}else
 		{		
 			r_direct('dashboard');
-		}
-	
+		}	
 	}
 	
 	function styles()

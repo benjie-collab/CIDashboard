@@ -16,3 +16,19 @@ function get_buttons($id, $url='', $btns=array('edit', 'delete'))
     $html.='</span>';    
     return $html;
 }
+
+
+
+function user_status($id, $active=false)
+{
+    $CI   = & get_instance();	
+	$html= '';	
+	$html.=		((bool)$active)==true? 
+				anchor("user/deactivate/".$id, 'active', array('data-toggle'=>'modal', 'data-target'=> '#modal-user')) : 
+				anchor("user/activate/".$id, 'inactive', array());
+	
+    return $html;
+}
+
+
+

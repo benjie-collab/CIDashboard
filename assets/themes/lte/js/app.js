@@ -230,24 +230,28 @@ $.AdminLTE.layout = {
   fixSidebar: function () {
     //Make sure the body tag has the .fixed class
     if (!$("body").hasClass("fixed")) {
-      if (typeof $.fn.slimScroll != 'undefined') {
-        $(".sidebar").slimScroll({destroy: true}).height("auto");
+      if (typeof $.fn.mCustomScrollbar != 'undefined') {
+        $(".sidebar").mCustomScrollbar('destroy').height("auto");
       }
       return;
-    } else if (typeof $.fn.slimScroll == 'undefined' && console) {
-      console.error("Error: the fixed layout requires the slimscroll plugin!");
+    } else if (typeof $.fn.mCustomScrollbar == 'undefined' && console) {
+      console.error("Error: the fixed layout requires the mCustomScrollbar plugin!");
     }
-    //Enable slimscroll for fixed layout
+    //Enable mCustomScrollbar for fixed layout
     if ($.AdminLTE.options.sidebarSlimScroll) {
-      if (typeof $.fn.slimScroll != 'undefined') {
+      if (typeof $.fn.mCustomScrollbar != 'undefined') {
         //Distroy if it exists
-        $(".sidebar").slimScroll({destroy: true}).height("auto");
-        //Add slimscroll
-        $(".sidebar").slimscroll({
+        $(".sidebar").mCustomScrollbar('destroy').height("auto");
+        //Add mCustomScrollbar
+        $(".sidebar").mCustomScrollbar({
           //height: ($(window).height() - $(".main-header").height()) + "px",
-		  height: ($(window).height() - 50) + "px",
-          color: "rgba(0,0,0,0.2)",
-          size: "3px"
+		  setHeight: ($(window).height() - 50) + "px",
+		  axis:'y', theme:'minimal-dark', scrollbarPosition: 'outside',
+		  autoExpandScrollbar: true 
+          //color: "rgba(0,0,0,1)",
+          //size: "3px",
+		 // railVisible: true,
+			//allowPageScroll: true
         });
       }
     }

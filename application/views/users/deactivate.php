@@ -1,7 +1,17 @@
+<?php 
+	$atts = array(
+		'data-bind'=>"submit: deactivateUser",
+		'onsubmit'=>"return false;",
+		
+	);
+	$hidden = array(
+		'id' => $user->id
+	);
+?>
 <div class="text-center">
 	<p><?php echo sprintf(lang('deactivate_subheading'), $user->username);?></p>
 
-	<?php echo form_open("user/deactivate/".$user->id);?>
+	<?php echo form_open("user/deactivate/".$user->id, $atts, $hidden);?>
 
 
   <p>
@@ -15,9 +25,7 @@
   </p>
 
 	<?php echo form_hidden($csrf); ?>
-	<?php echo form_hidden(array('id'=>$user->id)); ?>
 	<?php echo form_close();?>
-
 </div>
 
 

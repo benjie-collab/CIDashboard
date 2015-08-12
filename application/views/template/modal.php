@@ -5,7 +5,7 @@
 	<h4 class="modal-title text-capitalize"><?=$modal_title;?></h4>
 </div>
 <div class="modal-body">
-	<?=$this->load->view($modal_content, $parameters);?>
+	<?=$this->load->view($modal_content);?>
 </div>
 <div class="modal-footer">
 	<button data-dismiss="modal" class="btn btn-default btn-flat pull-left" type="button">Close</button>
@@ -22,13 +22,5 @@
 		Save Changes
 	</button>
 </div>
-<script>
-	<?php
-		$container 	= array_key_exists('container', $parameters) ? element('container', $parameters) : '#modal-widget-options';
-		$model   	= array_key_exists('komodel', $parameters) ? element('komodel', $parameters) : 'WidgetOptions';
-	?>
-	var modal_container = $('<?=$container?>').get(0) ;	
-	ko.applyBindings(<?=$model?>, modal_container);	
-</script>
 
 

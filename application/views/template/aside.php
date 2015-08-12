@@ -3,9 +3,9 @@
 	$template_url 	= base_url('assets/themes/lte/');	
 	$application 	= $this->application->data();
 	$menu 			= $this->application->menu();	
-	$pages 			= $this->pages_model->get_pages_menu();
 	$item			= $this->uri->segment(3);	
 	$modal_size		= is_statistic()? 'modal-full-screen' : 'modal-lg';
+	
  ?>
 
 <!-- Left side column. contains the logo and sidebar -->
@@ -17,7 +17,7 @@
   <!-- Sidebar user panel (optional) -->
   <div class="user-panel">
 	<div class="pull-left image">
-	  <img src="<?=$template_url?>/img/user.jpg" class="img-circle" alt="User Image" />
+	  <img src="<?=base_url($current_user->profile_pic)?>" class="img-circle" alt="<?=$current_user->first_name?> <?=$current_user->last_name?>"/>
 	</div>
 	<div class="pull-left info">
 	  <p><?php echo $current_user->first_name; ?> <?php echo $current_user->last_name; ?> </p>
@@ -106,34 +106,76 @@
 	</li>
 	
 	
-	
-	
-	<li class="header">My Pages</li>
-	
 	<?php 
+	$user_ids[] = $current_user->id;
+	$user_pages 		= $this->pages_model->get_pages(
+							$user_ids,
+							array()
+						);
+						
+	$user_ids = (array)$this->users->users(1) ;
+	$user_ids = array_column($user_ids, 'id');
+	$other_pages 		= $this->pages_model->get_pages(
+						$user_ids,
+						array(
+							'active'=> true,
+							'user_id !=' => $current_user->id
+						)
+						);
 	
+	$user_page_ids = array_map(function($n){ return $n->id; }, $user_pages);
+	$other_page_ids = array_map(function($n){ return $n->id; }, $other_pages);
 	
-	foreach($pages as $page):
-		$pg = unserialize( element('meta_value', $page) );
-	?>		
-	<li class="<?=$item===element('id', $page)? 'active': ''?>">
-		<a href="<?=base_url('pages/index')?>/<?=element('id', $page)?>">
-			<i class="ion-ios-albums-outline ion"></i> 
-			<?=element('page_name', $pg)?>
-		</a>
-	</li>
-	<?php		
-	endforeach;				
 	?>
 	
-	<li class="<?=strcasecmp($application['current_fetch_method'], 'create' )==0?  'active': ''; ?>">
 	
-		<a
+	<li class="header" id="pages-scroll">Pages</li>	
+	<li class="treeview <?=strcasecmp($application['current_class'], 'pages')==0 && in_array($item, $user_page_ids) ? 'active': '' ?>">
+		<a href="#"><i class="fa fa-circle-o text-info"></i>My Pages <i class="fa fa-angle-left pull-right"></i></a>
+		<ul class="treeview-menu">
+			<?php 
+			foreach($user_pages as $pg):
+			$active = (bool)isset($pg->active)? $pg->active: false;
+			?>		
+			<li class="<?=$item==$pg->id? 'active': ''?> <?=$item?>">
+				<a href="<?=base_url('pages/index')?>/<?=$pg->id?>">
+					<i class="ion-ios-albums-outline ion"></i> 
+					<?=$pg->post_title?>					
+					<small class="label label-danger pull-right <?=$active? 'hidden': ''?>">inactive</small>
+				</a>
+			</li>
+			<?php		
+			endforeach;				
+			?>
+		</ul>
+	</li>
+	<li class="treeview <?=strcasecmp($application['current_class'], 'pages')==0 && in_array($item, $other_page_ids) ? 'active': '' ?>">
+		<a href="#"><i class="fa fa-circle-o text-success"></i>Other Pages <i class="fa fa-angle-left pull-right"></i></a>
+		<ul class="treeview-menu">
+			<?php 
+			foreach($other_pages as $pg):
+			?>		
+			<li class="<?=$item==$pg->id? 'active': ''?>">
+				<a href="<?=base_url('pages/index')?>/<?=$pg->id?>">
+					<i class="ion-ios-albums-outline ion"></i> 
+					<?=$pg->post_title?>
+				</a>
+			</li>
+			<?php		
+			endforeach;				
+			?>
+		</ul>
+	</li>
+	
+	<li class=""
+		data-bbind="ScrollToFixed:{ bottom: 10, limit: $('#pages-scroll').offset().top}"
+	>	
+		<a class="text-info"
 			data-remote="<?=base_url('pages/add/?title='.urlencode('Add New Page'))?>"
 			data-backdrop="static" data-toggle="modal" href="#modal-page-options"
 		>
-			<i class="ion ion-ios-plus-outline"></i> 
-			Add New Page
+			<i class="fa fa-plus"></i> 
+			New Page
 		</a>
 	</li>
 	
@@ -143,8 +185,6 @@
 </section>
 <!-- /.sidebar -->
 </aside>
-
-
 
 <div class="modal fade" id="modal-page-options">
 	<div class="modal-dialog modal-lg">

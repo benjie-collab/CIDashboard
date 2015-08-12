@@ -24,17 +24,22 @@
 	
 	$tools_exist		= file_exists( FCPATH . '\\application\\views\\widgets\\' . $folder . '\\tools.php');	
 	$tool 				= 'widgets/' . $folder . '/tools';
-	if($tools_exist && !in_array($tool, $widgets_tool))	{
+	if($tools_exist && !in_array($tool, $widgets_tool))	{		
 		array_push($widgets_tool, $tool);
 		$this->session->set_userdata('widgets_tool', $widgets_tool);		
 	}
 	
 	
 	$js_exist		= file_exists( FCPATH . '\\application\\views\\widgets\\' . $folder . '\\index.js');	
-	if($js_exist)	{
-		$js = 'application/views/widgets/' . $folder . '/index.js';
+	$js = 'application/views/widgets/' . $folder . '/index.js';
+	if($js_exist && !in_array($js, $widgets_js) )	{		
 		array_push($widgets_js, $js);
 		$this->session->set_userdata('widgets_js', $widgets_js);		
+	}
+	$css_exist		= file_exists( FCPATH . '\\application\\views\\widgets\\' . $folder . '\\style.css');	
+	if($css_exist)	{
+		$css = 'application/views/widgets/' . $folder . '/style.css';
+		echo '<link href="'. base_url($css) . '" rel="stylesheet" type="text/css"> ';
 	}
 	
 	$data['widget_key'] = $widget_key;
@@ -84,7 +89,7 @@
 		</div>
 		<div class="box-body">		
 	<?php }?>	
-				<div class="p-relative o-hidden">
+				<div class="p-relative">
 					<?=$this->load->view('widgets/'. $folder . '/view', $data)?>
 					
 					<?php if(!$config && $is_statistics){ ?>

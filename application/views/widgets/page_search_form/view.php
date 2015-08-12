@@ -35,12 +35,9 @@ $tagnames = $this->tags_model->call_get_tag_names(
 			array(
 				'fieldtype'=> 'parametric'
 			));
-$tagnames = array_key_exists('autn:name', $tagnames)? element('autn:name', $tagnames) : array();	
+$tagnames = array_key_exists('autn:name', $tagnames)? element('autn:name', $tagnames) : array();
 
-
-
-
-$hidden = array( 'server' => element('server',$page) );
+$hidden = array( 'server' => $page->server );
 
 $suggest = element('suggest', $options);				
 $databasematch = element('databasematch', $suggest)? element('databasematch', $suggest): array();
@@ -63,7 +60,7 @@ $databasematch = element('databasematch', $suggest)? element('databasematch', $s
 					'method' => 'GET'
 				);
 				
-				echo form_open( current_url(). '?' . http_build_query($_GET), $attributes, $hidden); ?>	
+				echo form_open( current_url(). '?' . http_build_query($_GET), $attributes); ?>	
 					<div class="input-group input-group-lg">
 						<div class="form-group has-feedback">						 
 						  <input id="customer-search-input-1"
@@ -75,7 +72,7 @@ $databasematch = element('databasematch', $suggest)? element('databasematch', $s
 										params: {
 											print: 'all',
 											databasematch: '<?=join(',', $databasematch)?>',
-											server: '<?=element('server',$page)?>'
+											server: '<?=$page->server?>'
 										}								
 									},	
 								display: 'NRIC_M_FT',								
@@ -120,11 +117,11 @@ $databasematch = element('databasematch', $suggest)? element('databasematch', $s
 		data-placement="auto"
 		data-trigger="hover"
 		data-title="Description"
-		data-content="<?=element('page_desc', $page); ?>"
+		data-content="<?=$page->post_description?>"
 		data-html="true"
 		href="javascript:void(0)">
 		<b><i class="fa <?=element('icon', $options)? element('icon', $options) : 'ion-ios-albums-outline' ?>"></i></b>
-		<?=element('page_name', $page); ?></a>
+		<?=$page->post_title?></a>
 		
 	<nav role="navigation" class="navbar navbar-static-top">
 	 <?php echo form_open( current_url(), $attributes, $hidden); ?>	
@@ -178,7 +175,8 @@ $databasematch = element('databasematch', $suggest)? element('databasematch', $s
 							params: {
 								print: 'all',
 								databasematch: '<?=join(',', $databasematch)?>',
-								server: '<?=element('server',$page)?>'
+								server: '<?=$page->server?>'
+							}								
 						},	
 					display: 'NRIC_M_FT',								
 					templates: {

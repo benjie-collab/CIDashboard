@@ -282,20 +282,22 @@ class Application
 	
 	public function styles_setting()
 	{		
-		$styles = $this->usermeta_model->get_usermeta(0,array( 'meta_key' => 'settings_styles'));
-		return $styles;
+		$setting = $this->usermeta_model->get_usermeta(0,array( 'meta_key' => 'settings_styles'));
+		return $setting;
 	}
 	
 	public function general_setting()
 	{		
-		$styles = $this->usermeta_model->get_usermeta(0,array( 'meta_key' => 'settings_general'));
-		return $styles;
+		$setting = $this->usermeta_model->get_usermeta(0,array( 'meta_key' => 'settings_general'));
+		$setting['logo'] = $this->usermeta_model->get_usermeta(0,array( 'meta_key' => 'logo'));
+		$setting['favicon'] = $this->usermeta_model->get_usermeta(0,array( 'meta_key' => 'favicon'));		
+		return $setting;
 	}
 	
 	public function search_setting()
 	{		
-		$styles = $this->usermeta_model->get_usermeta(0,array( 'meta_key' => 'settings_search'));
-		return $styles;
+		$setting = $this->usermeta_model->get_usermeta(0,array( 'meta_key' => 'settings_search'));
+		return $setting;
 	}
 	
 	

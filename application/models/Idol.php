@@ -39,7 +39,7 @@ class Idol extends CI_Model
 		
 		$this->response_time =  round(microtime(true) - $start, 3) . " seconds"; 		
 		if($data !== false) {
-			if(strcasecmp(element('responseformat', $post_opts), 'json')==0)
+			if(strcasecmp(element('responseformat', $post_data), 'json')==0)
 			$response = json_decode($data, true);
 			else
 			$response = $data;			
@@ -76,7 +76,7 @@ class Idol extends CI_Model
 		
 		$this->response_time =  round(microtime(true) - $start, 3) . " seconds"; 		
 		if($data !== false) {
-			if(strcasecmp(element('responseformat', $post_opts), 'json')==0)
+			if(strcasecmp(element('responseformat', $post_data), 'json')==0)
 			$response = json_decode($data, true);
 			else
 			$response = $data;			
@@ -112,7 +112,7 @@ class Idol extends CI_Model
 		
 		$this->response_time =  round(microtime(true) - $start, 3) . " seconds"; 		
 		if($data !== false) {
-			if(strcasecmp(element('responseformat', $post_opts), 'json')==0)
+			if(strcasecmp(element('responseformat', $post_data), 'json')==0)
 			$response = json_decode($data, true);
 			else
 			$response = $data;			
@@ -148,7 +148,7 @@ class Idol extends CI_Model
 		
 		$this->response_time =  round(microtime(true) - $start, 3) . " seconds"; 		
 		if($data !== false) {
-			if(strcasecmp(element('responseformat', $post_opts), 'json')==0)
+			if(strcasecmp(element('responseformat', $post_data), 'json')==0)
 			$response = json_decode($data, true);
 			else
 			$response = $data;			
@@ -185,7 +185,7 @@ class Idol extends CI_Model
 		
 		$this->response_time =  round(microtime(true) - $start, 3) . " seconds"; 		
 		if($data !== false) {
-			if(strcasecmp(element('responseformat', $post_opts), 'json')==0)
+			if(strcasecmp(element('responseformat', $post_data), 'json')==0)
 			$response = json_decode($data, true);
 			else
 			$response = $data;			
@@ -221,7 +221,7 @@ class Idol extends CI_Model
 		
 		$this->response_time =  round(microtime(true) - $start, 3) . " seconds"; 		
 		if($data !== false) {
-			if(strcasecmp(element('responseformat', $post_opts), 'json')==0)
+			if(strcasecmp(element('responseformat', $post_data), 'json')==0)
 			$response = json_decode($data, true);
 			else
 			$response = $data;			
@@ -258,7 +258,7 @@ class Idol extends CI_Model
 		
 		$this->response_time =  round(microtime(true) - $start, 3) . " seconds"; 		
 		if($data !== false) {
-			if(strcasecmp(element('responseformat', $post_opts), 'json')==0)
+			if(strcasecmp(element('responseformat', $post_data), 'json')==0)
 			$response = json_decode($data, true);
 			else
 			$response = $data;			
@@ -295,7 +295,7 @@ class Idol extends CI_Model
 		
 		$this->response_time =  round(microtime(true) - $start, 3) . " seconds"; 		
 		if($data !== false) {
-			if(strcasecmp(element('responseformat', $post_opts), 'json')==0)
+			if(strcasecmp(element('responseformat', $post_data), 'json')==0)
 			$response = json_decode($data, true);
 			else
 			$response = $data;			
@@ -331,7 +331,7 @@ class Idol extends CI_Model
 		
 		$this->response_time =  round(microtime(true) - $start, 3) . " seconds"; 		
 		if($data !== false) {
-			if(strcasecmp(element('responseformat', $post_opts), 'json')==0)
+			if(strcasecmp(element('responseformat', $post_data), 'json')==0)
 			$response = json_decode($data, true);
 			else
 			$response = $data;			
@@ -367,7 +367,7 @@ class Idol extends CI_Model
 		
 		$this->response_time =  round(microtime(true) - $start, 3) . " seconds"; 		
 		if($data !== false) {
-			if(strcasecmp(element('responseformat', $post_opts), 'json')==0)
+			if(strcasecmp(element('responseformat', $post_data), 'json')==0)
 			$response = json_decode($data, true);
 			else
 			$response = $data;			
@@ -404,7 +404,7 @@ class Idol extends CI_Model
 		
 		$this->response_time =  round(microtime(true) - $start, 3) . " seconds"; 		
 		if($data !== false) {
-			if(strcasecmp(element('responseformat', $post_opts), 'json')==0)
+			if(strcasecmp(element('responseformat', $post_data), 'json')==0)
 			$response = json_decode($data, true);
 			else
 			$response = $data;			
@@ -440,7 +440,7 @@ class Idol extends CI_Model
 		
 		$this->response_time =  round(microtime(true) - $start, 3) . " seconds"; 		
 		if($data !== false) {
-			if(strcasecmp(element('responseformat', $post_opts), 'json')==0)
+			if(strcasecmp(element('responseformat', $post_data), 'json')==0)
 			$response = json_decode($data, true);
 			else
 			$response = $data;			
@@ -477,7 +477,7 @@ class Idol extends CI_Model
 		
 		$this->response_time =  round(microtime(true) - $start, 3) . " seconds"; 		
 		if($data !== false) {
-			if(strcasecmp(element('responseformat', $post_opts), 'json')==0)
+			if(strcasecmp(element('responseformat', $post_data), 'json')==0)
 			$response = json_decode($data, true);
 			else
 			$response = $data;			
@@ -514,7 +514,7 @@ class Idol extends CI_Model
 		
 		$this->response_time =  round(microtime(true) - $start, 3) . " seconds"; 		
 		if($data !== false) {
-			if(strcasecmp(element('responseformat', $post_opts), 'json')==0)
+			if(strcasecmp(element('responseformat', $post_data), 'json')==0)
 			$response = json_decode($data, true);
 			else
 			$response = $data;			
@@ -551,7 +551,7 @@ class Idol extends CI_Model
 		
 		$this->response_time =  round(microtime(true) - $start, 3) . " seconds"; 		
 		if($data !== false) {
-			if(strcasecmp(element('responseformat', $post_opts), 'json')==0)
+			if(strcasecmp(element('responseformat', $post_data), 'json')==0)
 			$response = json_decode($data, true);
 			else
 			$response = $data;			
@@ -588,7 +588,7 @@ class Idol extends CI_Model
 		
 		$this->response_time =  round(microtime(true) - $start, 3) . " seconds"; 		
 		if($data !== false) {
-			if(strcasecmp(element('responseformat', $post_opts), 'json')==0)
+			if(strcasecmp(element('responseformat', $post_data), 'json')==0)
 			$response = json_decode($data, true);
 			else
 			$response = $data;			
@@ -625,7 +625,7 @@ class Idol extends CI_Model
 		
 		$this->response_time =  round(microtime(true) - $start, 3) . " seconds"; 		
 		if($data !== false) {
-			if(strcasecmp(element('responseformat', $post_opts), 'json')==0)
+			if(strcasecmp(element('responseformat', $post_data), 'json')==0)
 			$response = json_decode($data, true);
 			else
 			$response = $data;			
@@ -662,7 +662,7 @@ class Idol extends CI_Model
 		
 		$this->response_time =  round(microtime(true) - $start, 3) . " seconds"; 		
 		if($data !== false) {
-			if(strcasecmp(element('responseformat', $post_opts), 'json')==0)
+			if(strcasecmp(element('responseformat', $post_data), 'json')==0)
 			$response = json_decode($data, true);
 			else
 			$response = $data;			

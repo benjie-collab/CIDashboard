@@ -41,6 +41,50 @@ $( document ).ready(function() {
 	})
 	
 	
+	$('body').on('loaded.bs.modal', '#modal-user', function(){
+		ko.applyBindings( User, $(this).get(0));	
+	})
+	$('body').on('hidden.bs.modal', '#modal-user', function(){	
+		 ko.cleanNode($(this).get(0));
+	})
+	
+	
+	$(document).on('change', '.skin-selector li input[type=radio]', function(e){
+		
+		var value= $(e.currentTarget).val();
+		$(e.currentTarget)
+			.parents('.skin-selector')
+			.children('li')
+			.removeClass('active')
+			.end()
+			.end()
+			.parents('li')
+			.addClass('active')
+			
+	});	
+	
+	
+	$(document).on('change', '.button-selector li input[type=radio]', function(e){
+		
+		var value= $(e.currentTarget).val();		
+		$(e.currentTarget)
+			.parents('.button-selector')
+			.children('li')
+			.removeClass('active')
+			.end()
+			.end()
+			.parents('li')	
+			.addClass('active')			
+	});	
+	
+	$(document).on('change', '.layout-selector', function(e){
+		
+		var value= $(e.currentTarget).val();		
+		$('body').toggleClass(value);
+			
+	});	
+	
+	
 	
 })
 

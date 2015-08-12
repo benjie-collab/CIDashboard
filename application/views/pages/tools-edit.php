@@ -13,19 +13,23 @@
 			
 		$atts = array(
 				'class' => '',
-				'data-bind' => 'submit: $root.Pages.updatePage', 
+				'data-bind' => 'submit: $root.Pages.updateContent', 
 				'method' => 'POST',
 				'onSubmit' => 'return false;',
-				'id' => 'page_settings_form'
+				'id' => 'page_update_content_form'
 		);	
-		$hidden = $page;	
-		echo form_open( '/pages/edit/' . element('id', $page) , $atts, $hidden ); ?>
+		//$hidden = (array)$page;	
+		$hidden = array();
+		echo form_open( '/pages/edit_content/' . $page->id , $atts, $hidden ); ?>
 		<?=form_close()?>
 
 		<h4 class="text-light-blue p-b-15 m-t-0 m-b-5" style="border-bottom: 1px solid #ddd; ">Widgets Available</h4>
 		<small>Drag widgets below to the template on the right. And drag widgets back to this area to remove.</small>
 		
-		<div data-bind="CustomScrollbar: { axis:'y', theme:'dark', scrollbarPosition: 'inside'}" class="max-height-420">
+		<div data-bind="CustomScrollbar: { 
+			theme:'minimal-dark', 
+			scrollbarPosition: 'outside',
+			autoExpandScrollbar: true}" class="max-height-420">
 		<?php 
 			foreach($statistics as $key=>$widget):
 			
@@ -87,10 +91,10 @@
 			<div class="box-footer">
 				<a class="btn btn-danger btn-flat btn-sm delete-confirm"
 					href="javascript:void(0)"
-					data-url="<?=base_url('pages/delete/'.$page['id'])?>"						
+					data-url="<?=base_url('pages/delete/'.$page->id)?>"						
 				>Delete</a>		
 				<a
-					data-remote="<?=base_url('pages/edit/'.element('id', $page))?>"
+					data-remote="<?=base_url('pages/edit/'.$page->id)?>"
 					data-backdrop="static" data-toggle="modal" href="#modal-page-options"
 					class="pull-right btn btn-sm btn-warning btn-flat"
 				>

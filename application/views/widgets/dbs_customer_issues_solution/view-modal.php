@@ -11,7 +11,7 @@
 	$dbs_customer 	= $this->application->get_session_userdata('dbs_customer');
 	
 	$is_page 		= $this->application->is_page();
-	$page			= isset($page)? $page: $this->application->get_session_userdata('current_page');	
+	$page 			= $this->session->userdata('current_page');
 	$options 		= isset($meta_key)? $this->application->get_settings(urldecode($meta_key)) : array();
 	$solution_options = array_key_exists('solution', $options)? element('solution', $options): array();
 	
@@ -41,9 +41,12 @@
 										'maxresults' => 4,	
 										'start' => 1,
 										'totalresults' => 'true',
-										'server' => element('server', $page)
-									));									
-						$results = $this->search_model->call_search($query);
+										'action' => 'query',
+										'print' => 'all',
+										'server' => $page->server,
+									)
+									);
+						$results = $this->idol->QueryAction($query);
 						$results = clean_json_response($results);						
 						
 						$totalhits 	= array_get_value($results, 'autn:totalhits');
@@ -85,7 +88,7 @@
 						<span class="form-control-feedback"><i class="fa fa-microphone text-muted"></i></span>
 					</div>
 					<span class="input-group-btn">
-					  <button type="submit" class="btn btn-flat btn-xl <?=element('submit_buttons', $page)?>">Filter</button>
+					  <button type="submit" class="btn btn-flat btn-xl">Filter</button>
 					</span>
 					</div>					
 				</div>
@@ -121,7 +124,7 @@
 											container: '#livesearch-container-" . $ts . "',
 											spinner: '#livesearch-spinner-" . $ts . "',
 											template: '" . htmlspecialchars(json_encode($solution_template_options, JSON_NUMERIC_CHECK), ENT_QUOTES, 'UTF-8') . "',
-											url : '" . base_url('search/') . "'
+											url : '" . base_url('pages/search') . "'
 										}", 
 					'method' => 'POST',
 					'onSubmit' => 'return false;',
@@ -137,7 +140,7 @@
 								'totalresults' => 'true',	
 								//'action' => 'suggestontext'	,
 								'template' => $solution_template_options,
-								'server' => element('server', $page)
+								'server' => $page->server
 							) );	
 
 			 echo form_open( 'app/widget_options', $atts, $hidden ); ?>			
@@ -150,7 +153,7 @@
 						<span class="form-control-feedback"><i class="fa fa-microphone text-muted"></i></span>						
 					</div>
 					<span class="input-group-btn">
-					  <button type="submit" class="btn btn-flat btn-xl <?=element('submit_buttons', $page)?>">Search</button>
+					  <button type="submit" class="btn btn-flat btn-xl">Search</button>
 					</span>
 				</div>
 				</div>
@@ -170,8 +173,8 @@
 		</div>
 	</div>	
 	<div class="box-footer clearfix">
-	  <a class="btn btn-sm btn-flat pull-left <?=element('submit_buttons', $page)?>" href="javascript::;">Save this Solutions</a>
-	  <a class="btn btn-sm btn-flat pull-right <?=element('info_buttons', $page)?>" href="javascript::;">View All Solutions</a>
+	  <a class="btn btn-sm btn-flat pull-left " href="javascript::;">Save this Solutions</a>
+	  <a class="btn btn-sm btn-flat pull-right " href="javascript::;">View All Solutions</a>
 	</div>
 </div>
 				

@@ -214,7 +214,6 @@ class Tools extends CI_Controller {
 									
 					$message = ($this->notification->errors()? $this->notification->errors() : $this->notification->messages());
 					
-					
 					header('Content-Type: application/json');	
 					if($cat)
 					echo json_encode(array( 
@@ -368,6 +367,35 @@ class Tools extends CI_Controller {
   
   
   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
   
   
   

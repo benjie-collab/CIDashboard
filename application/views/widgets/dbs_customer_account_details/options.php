@@ -23,7 +23,7 @@ $hidden 		= array(
 					'query[print]' => 'all',
 					
 				);	
-//$widget_options = $this->config->item('widget_options', 'template');
+$page 			= $this->session->userdata('current_page');
 
  echo form_open( 'app/widget_options', $atts, $hidden ); ?>
 
@@ -79,6 +79,7 @@ $hidden 		= array(
 													var params = {
 														text: \'{{{q}}}\',
 														source: \'autn:name\',
+														server:\'' . $page->server . '\'
 													};
 													return params;
 												}
@@ -132,7 +133,8 @@ $hidden 		= array(
 																	params: {
 																		print: 'all',
 																		totalresults: 'true',
-																		source: 'autn:name'
+																		source: 'autn:name',
+																		server: '" . $page->server . "'
 																	}								
 																}
 														}"
@@ -160,7 +162,7 @@ $hidden 		= array(
 						<div class="col-sm-9" >		
 						   <?php 
 								$value		= array_get_value($options, 'databasematch');
-								$databases	= $this->application->get_databases();
+								$databases	= $this->application->get_databases(array('server'=>$page->server));
 								$databases	= element('database', $databases );
 								$dbs = array();
 								if($databases)
@@ -193,7 +195,8 @@ $hidden 		= array(
 																params: {
 																	print: 'all',
 																	totalresults: 'true',
-																	source: 'autn:name'
+																	source: 'autn:name',
+																	server: '" . $page->server . "'
 																}								
 															}
 													}"

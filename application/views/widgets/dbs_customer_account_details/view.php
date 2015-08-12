@@ -16,6 +16,7 @@
 **/
 	
 	$query_config	= $this->application->get_config('query','actions');
+	$page 			= $this->session->userdata('current_page');
 	$query_settings = isset($query_settings)?	$query_settings : $this->application->get_session_userdata('current_search');	
 	$dbs_customer 	= $this->application->get_session_userdata('dbs_customer');
 	
@@ -39,14 +40,13 @@
 					$query_options,
 					array(
 						'fieldtext' => $match,
-						'server' => element('server', $page)
+						'server' => $page->server,
+						'action' => 'query',
+						'print' => 'all'
 					)
 					);
-					
-		
-		$results = $this->search_model->call_search($query);
+		$results = $this->idol->QueryAction($query);
 		$results = clean_json_response($results);
-		
 	}	
 	
 	$numhits 	= array_get_value($results, 'autn:numhits');
@@ -55,58 +55,58 @@
 	$hit 		= array_get_value($results, 'autn:hit');	
 	$accounts 	= intval($numhits)===1? array( 0 => $hit) : $hit;
 ?>
-	<div data-bind="CustomScrollbar: { axis:'y', theme:'dark', setHeight: 350 }" class="box-body">
-			<?php 
-			if($accounts)			
-			foreach($accounts as $key=>$acct){
-			$document 	= array_get_value($acct, 'DOCUMENT');
-			$link = array_merge(
-					$_GET, 
-					array( 'DREREFERENCE' => element('DREREFERENCE', $document))
-					);
-			?>
-				<table class="table no-margin table-striped table-condensed">
-				 <tbody>
-				<?php 
-				
-				foreach($document as $key=>$dm){			
-				?>                     
-					<tr>
-					  <th><?=$key?>: </th>
-					  <td><?=$dm?></td>                          
-					</tr>		
-				<?php			
-				}				
-				?>
-				</tbody>
-				</table>			
-			<?php			
-			}				
-			?>
-	</div>
-	<div class="box-footer clearfix">
-	  <a class="btn btn-sm btn-default btn-flat pull-right <?=$accounts? '' : 'disabled'?>" href="javascript::;">View All Details</a>
-	</div>
+	
 	
 	
 
 
 	<?php if($accounts){ ?>
+	
+		<div data-bind="CustomScrollbar: { axis:'y', theme:'dark', setHeight: 350 }" class="box-body">
+				<?php 
+				if($accounts)			
+				foreach($accounts as $key=>$acct){
+				$document 	= array_get_value($acct, 'DOCUMENT');
+				$link = array_merge(
+						$_GET, 
+						array( 'DREREFERENCE' => element('DREREFERENCE', $document))
+						);
+				?>
+					<table class="table no-margin table-striped table-condensed">
+					 <tbody>
+					<?php 
+					
+					foreach($document as $key=>$dm){			
+					?>                     
+						<tr>
+						  <th><?=$key?>: </th>
+						  <td><?=$dm?></td>                          
+						</tr>		
+					<?php			
+					}				
+					?>
+					</tbody>
+					</table>			
+				<?php			
+				}				
+				?>
+		</div>
+		<div class="box-footer clearfix">
+		  <a class="btn btn-sm btn-default btn-flat pull-right <?=$accounts? '' : 'disabled'?>" href="javascript::;">View All Details</a>
+		</div>
 	<?php 
 		}else{
 	?>	
-	<div class="box-body">	
-		<?=$this->application->get_config('info_start_delimiter', 'template')?>
-		Account not found...
-		<?=$this->application->get_config('info_end_delimiter', 'template')?>
-	</div>
+		<div class="box-body">	
+			<?=$this->application->get_config('info_start_delimiter', 'template')?>
+			Account not found...
+			<?=$this->application->get_config('info_end_delimiter', 'template')?>
+		</div>
 	<?php 
 		}
-	?>
-<?php 
-	}else{
-	?>	
-	<div class="no-content"></div>
-<?php	
-}
+	
+	}else{	
+	
+	echo '<div class="no-content"></div>';
+	}
 ?>

@@ -1,13 +1,15 @@
-<div id="floating-tool" 
-	class="no-print  floating-tools-button">
-	<i class="fa fa-gear"></i>
-</div>
-<div id="floating-tool-content" class="no-print floating-tools-content" data-bind="">
-	
+<a href="javascript:void(0)" 
+	class="no-print floating-tools-button">
+	<i class="fa-gear fa"></i>
+</a>
+<div class="no-print floating-tools-content">	
 	<h4 style="border-bottom: 1px solid #ddd; " class="m-b-5 m-t-0 p-b-15 text-light-blue"><?php echo lang('statistics_heading');?></h4>
 	<small><?php echo lang('statistics_subheading');?></small>
 	
-	<div class="m-t-10 p-t-10 p-b-10" data-bind="SlimScroll: { height: 350, width: '100%'}">
+	<div data-bind="CustomScrollbar: { axis:'y', 
+			theme:'minimal-dark', 
+			scrollbarPosition: 'outside',
+			autoExpandScrollbar: true}" class="max-height-320">
 		  <ul class="nav nav-pills nav-stacked">
 			
 			<li class="<?=!$category? 'active': '' ?>"><a href="<?=base_url()?>statistics/index/" >

@@ -39,12 +39,14 @@ $config['metakey_delimiter'] = '$@$';
 | -------------------------------------------------------------------------
 | Menu item names.
 */
-$config['tables']['user_meta'] = 'user_meta';
-$config['tables']['widgets'] 	= 'widgets';
-$config['tables']['rules'] 		= 'rules';
-$config['tables']['categorization']= 'categorization';
-$config['tables']['servers']= 'servers';
-$config['tables']['uploads']= 'uploads';
+$config['tables']['user_meta']	 	= 'user_meta';
+$config['tables']['widgets'] 		= 'widgets';
+$config['tables']['rules'] 			= 'rules';
+$config['tables']['categorization']	= 'categorization';
+$config['tables']['servers']		= 'servers';
+$config['tables']['uploads']		= 'uploads';
+$config['tables']['post_meta']		= 'post_meta';
+$config['tables']['posts']			= 'posts';
 
 /*
 | -------------------------------------------------------------------------

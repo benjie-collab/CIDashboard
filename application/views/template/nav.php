@@ -39,7 +39,7 @@
 				<a href="#">
 				  <div class="pull-left">
 					<!-- User Image -->
-					<img src="<?=$template_url?>/img/user.jpg" class="img-circle" alt="User Image"/>
+					<img src="<?=base_url($current_user->profile_pic)?>" class="img-circle" alt="<?=$current_user->first_name?> <?=$current_user->last_name?>"/>
 				  </div>
 				  <!-- Message title and timestamp -->
 				  <h4>                            
@@ -118,14 +118,14 @@
 		<!-- Menu Toggle Button -->
 		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 		  <!-- The user image in the navbar-->
-		  <img src="<?=$template_url?>/img/user.jpg" class="user-image" alt="User Image"/>
+		  <img src="<?=base_url($current_user->profile_pic)?>" class="user-image" alt="<?=$current_user->first_name?> <?=$current_user->last_name?>"/>
 		  <!-- hidden-xs hides the username on small devices so only the image appears. -->
 		  <span class="text-capitalize hidden-xs"><?=$current_user->first_name; ?></span> <span class="text-capitalize hidden-xs"><?=$current_user->last_name; ?></span>
 		</a>
 		<ul class="dropdown-menu">
 		  <!-- The user image in the menu -->
 		  <li class="user-header">
-			<img src="<?=$template_url?>/img/user.jpg" class="img-circle" alt="User Image" />
+			<img src="<?=base_url($current_user->profile_pic)?>" class="img-circle" alt="<?=$current_user->first_name?> <?=$current_user->last_name?>"/>
 			<p>
 			  <span class="text-capitalize"><?=$current_user->first_name; ?></span> <span class="text-capitalize"><?=$current_user->last_name; ?></span>
 			  <small>Member since <?=date('M Y', $current_user->created_on)?></small>
@@ -146,7 +146,7 @@
 		  <!-- Menu Footer-->
 		  <li class="user-footer">
 			<div class="pull-left">				
-			  <?php echo anchor('profile/', 'Profile', 'class="btn btn-default btn-flat"')?> 
+			  <?php echo anchor('user/profile/', 'Profile', 'class="btn btn-default btn-flat"')?> 
 			</div>
 			<div class="pull-right">
 			  <?php echo anchor('user/logout', 'Sign out', 'class="btn btn-default btn-flat"')?> 

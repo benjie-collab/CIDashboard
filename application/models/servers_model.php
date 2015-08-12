@@ -54,19 +54,16 @@ class Servers_model extends CI_Model
 	public function get_server($server_id=NULL)
 	{	
 		$result = array();
-		$tb = $this->tables['servers'];	
-		$where = array();		
+		$tb = $this->tables['servers'];			
 		
 		if(!$server_id)
 		return $result;	
-		
-		$where = $this->database_lib->db_where($where, 'id', $server_id);	
 		
 		
 		$result =
 		$this->db->select()
 		  ->from($tb)
-		  ->where($where)
+		  ->where('id',$server_id)
 		  ->limit(1)
 		  ->get();
 		  

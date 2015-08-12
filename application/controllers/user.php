@@ -20,6 +20,7 @@ class User extends CI_Controller {
 	//redirect if needed, otherwise display the user list
 	function index()
 	{
+		
 		$this->data['title'] = "Current Users";
 		$this->data['js'] 	 = array('js/user.js');	
 		if (!$this->users->logged_in())
@@ -27,8 +28,8 @@ class User extends CI_Controller {
 			r_direct_login();
 		}elseif ($this->users->is_admin()) 
 		{			
-			$this->session->set_flashdata('message', '' );	
-			$this->data['message'] = '';
+			$this->session->set_flashdata('message', '' );				
+			$this->data['message'] = $this->notification->messages()? $this->notification->messages(): $this->session->flashdata('message');;
 			$this->data['main_content'] = 'users/users';
 			$this->load->view('users/template', $this->data); 
 		}
@@ -49,10 +50,11 @@ class User extends CI_Controller {
 	
 	
 	function datatable()
-    {
+    {		
         $this->datatables->select('id,email,active,first_name,last_name,phone')
             ->unset_column('id')
 			->add_column('actions', get_buttons('$1', 'user'), 'id')
+			->add_column('status', user_status('$1', '$1'), 'id, active')
 			->add_column('groups', '$1', 'id')
             ->from('users');			
         echo $this->datatables->generate();
@@ -69,6 +71,7 @@ class User extends CI_Controller {
 		elseif ($this->users->is_admin())
 		{
 			$method = $this->input->server('REQUEST_METHOD');
+			$groups=$this->users->groups()->result_array();
 			if($method == 'POST'){
 				header('Content-Type: application/json');
 				$tables = $this->config->item('tables','users');
@@ -87,29 +90,46 @@ class User extends CI_Controller {
 					$email    = strtolower($this->input->post('email'));
 					$password = $this->input->post('password');
 
-					$additional_data = array(
+					$additional_data = array(						
 						'first_name' => $this->input->post('first_name'),
 						'last_name'  => $this->input->post('last_name'),
 						'company'    => $this->input->post('company'),
 						'phone'      => $this->input->post('phone'),
+						'profile_pic' => $this->input->post('profile_pic'),
 					);
-				}
-				
-				
-				if ($this->form_validation->run() == true && $this->users->register($username, $password, $email, $additional_data))
-				{
-					$message = $this->notification->messages();
-					//$this->session->set_flashdata('message', $message);
-					echo json_encode(array( 
-						'response' => 'success', 
-						'message' => $message, 
-						'redirect' => base_url('user')
-						), 
-					true);	
 					
-				}else{
-					$message = (validation_errors() ? validation_errors() : ($this->notification->errors() ? $this->notification->errors() : $this->notification->messages()));	
-					//$this->session->set_flashdata('message', $message);
+					$id = $this->users->register($username, $password, $email, $additional_data);
+					if ($id)
+					{
+						$message = $this->notification->messages();
+						// Only allow updating groups if user is admin
+						if ($this->users->is_admin())
+						{
+							//Update the groups user belongs to
+							$groupData = $this->input->post('groups');
+							if (isset($groupData) && !empty($groupData)) {
+								foreach ($groupData as $grp) {
+									$this->users->add_to_group($grp, $id);
+								}
+							}
+						}						
+						echo json_encode(array( 
+							'response' => 'success', 
+							'message' => $message, 
+							'redirect' => base_url('user')
+							), 
+						true);	
+						
+					}else{
+						$message =  $this->notification->errors();
+						echo json_encode(array( 
+							'response' => 'danger', 
+							'message' => $message ), 
+						true);						
+					}					
+				}
+				else{
+					$message = validation_errors();	
 					echo json_encode(array( 
 						'response' => 'danger', 
 						'message' => $message ), 
@@ -119,7 +139,7 @@ class User extends CI_Controller {
 				//display the create user form
 				//set the flash data error message if there is one
 				$this->data['message'] = (validation_errors() ? validation_errors() : ($this->notification->errors() ? $this->notification->errors() : $this->session->flashdata('message')));
-
+				$this->data['groups'] = $groups;
 				$this->data['first_name'] = array(
 					'name'  => 'first_name',
 					'id'    => 'first_name',
@@ -366,6 +386,275 @@ class User extends CI_Controller {
 	}
 	
 	
+	//create a new user
+	function profile_pic($id=null)
+	{
+	
+		if (!$this->users->logged_in())
+		{		
+			r_direct_login();
+		}
+		elseif ($id)
+		{
+			$method = $this->input->server('REQUEST_METHOD');
+			$user = $this->users->user($id)->row();
+			
+			$config['upload_path'] = './uploads/';
+			$config['allowed_types'] = 'gif|jpg|png';
+			//$config['max_size']	= '100';
+			//$config['max_width']  = '1024';
+			//$config['max_height']  = '768';
+			$this->load->library('upload', $config);		
+			if($method == 'POST'){				
+				
+				header('Content-Type: application/json');
+				if ( ! $this->upload->do_upload('file'))
+				//if ( ! $this->upload->do_multi_upload('file'))
+				{					
+					$this->notification->set_error($this->upload->display_errors());
+					$message = $this->notification->errors();
+					
+					echo json_encode(array( 
+					'response' => 'danger', 
+					'message' => $message
+					), true);
+				}
+				else
+				{
+					//$file_data = $this->upload->get_multi_upload_data();
+					$file_data = $this->upload->data();
+					$data = array(
+							'profile_pic' => $config['upload_path'] . element('file_name', $file_data)
+						);
+					if($this->users->update($user->id, $data))
+					{
+						$this->session->set_flashdata('message', $this->notification->messages() );						
+						$r_direct = $this->users->is_admin()? 'user' : 'dashboard';
+						echo json_encode(array( 
+							'response' => 'success', 
+							'message' => $this->notification->messages(), 
+							'redirect' => base_url($r_direct)
+							), 
+						true);	
+
+					}
+					else
+					{
+						//redirect them back to the admin page if admin, or to the base url if non admin
+						$this->session->set_flashdata('message', $this->notification->errors() );
+						echo json_encode(array( 
+							'response' => 'danger', 
+							'message' => $this->notification->errors(),
+							'redirect' => base_url('user/profile/'.$id)
+							), 
+						true);	
+
+					}
+						
+				}
+				
+			}else{
+				$this->data['message'] = $this->notification->errors() ? $this->notification->errors() : ($this->notification->messages()? $this->notification->messages() : $this->session->flashdata('message'));			
+				$this->data['title'] = 'Add New Media';
+				$this->data['main_content'] = 'media/add';
+				$this->load->view('media/template', $this->data);			
+			}
+		}
+		else 
+		{
+			r_direct('dashboard');
+		}
+		
+	}
+	
+	
+	//edit a user
+	function profile()
+	{
+		$id = $this->users->get_user_id();
+		if (!$this->users->logged_in())
+		{		
+			r_direct_login();
+		}
+		elseif ($id)
+		{
+			$method = $this->input->server('REQUEST_METHOD');
+			$user = $this->users->user($id)->row();
+			$groups=$this->users->groups()->result_array();
+			$currentGroups = $this->users->get_users_groups($id)->result();
+
+			//validate form input
+			$this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'required');
+			$this->form_validation->set_rules('last_name', $this->lang->line('edit_user_validation_lname_label'), 'required');
+			$this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'required');
+			$this->form_validation->set_rules('company', $this->lang->line('edit_user_validation_company_label'), 'required');
+			
+			if ($method=='POST')
+			{
+								
+				header('Content-Type: application/json');
+				// do we have a valid request?
+				if ($this->_valid_csrf_nonce() === FALSE)
+				{					
+					$this->session->set_flashdata('message', $this->lang->line('error_csrf') );	
+					echo json_encode(array( 
+						'response' => 'info', 
+						'message' => $this->lang->line('error_csrf'),
+						'redirect' => base_url('user')
+						), 
+					true);	
+					
+				}else{
+
+					//update the password if it was posted
+					if ($this->input->post('password'))
+					{
+						$this->form_validation->set_rules('password', $this->lang->line('edit_user_validation_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'users') . ']|max_length[' . $this->config->item('max_password_length', 'users') . ']|matches[password_confirm]');
+						$this->form_validation->set_rules('password_confirm', $this->lang->line('edit_user_validation_password_confirm_label'), 'required');
+					}
+					
+					if ($this->form_validation->run() === TRUE)
+					{
+						$data = array(
+							'first_name' => $this->input->post('first_name'),
+							'last_name'  => $this->input->post('last_name'),
+							'company'    => $this->input->post('company'),
+							'phone'      => $this->input->post('phone'),
+						);
+
+						//update the password if it was posted
+						if ($this->input->post('password'))
+						{
+							$data['password'] = $this->input->post('password');
+						}
+
+
+						// Only allow updating groups if user is admin
+						if ($this->users->is_admin())
+						{
+							//Update the groups user belongs to
+							$groupData = $this->input->post('groups');
+
+							if (isset($groupData) && !empty($groupData)) {
+
+								$this->users->remove_from_group('', $id);
+
+								foreach ($groupData as $grp) {
+									$this->users->add_to_group($grp, $id);
+								}
+
+							}
+						}
+
+					//check to see if we are updating the user
+					   if($this->users->update($user->id, $data))
+						{
+							$this->session->set_flashdata('message', $this->notification->messages() );						
+							$r_direct = $this->users->is_admin()? 'user' : 'dashboard';
+							echo json_encode(array( 
+								'response' => 'success', 
+								'message' => $this->notification->messages()
+								//'redirect' => base_url($r_direct)
+								), 
+							true);	
+
+						}
+						else
+						{
+							//redirect them back to the admin page if admin, or to the base url if non admin
+							$this->session->set_flashdata('message', $this->notification->errors() );
+							echo json_encode(array( 
+								'response' => 'danger', 
+								'message' => $this->notification->errors(),
+								'redirect' => base_url('user/profile/'.$id)
+								), 
+							true);	
+
+						}
+
+					}else{
+						$this->session->set_flashdata('message', validation_errors() ? validation_errors() : $this->notification->errors() );	
+						echo json_encode(array( 
+							'response' => 'danger', 
+							'message' => $this->notification->errors(),
+							//'redirect' => base_url('user/profile/'.$id)
+							), 
+						true);					
+					}
+				}
+			}else{
+
+				//display the edit user form
+				$this->data['csrf'] = $this->_get_csrf_nonce();
+
+				//set the flash data error message if there is one
+				$this->data['message'] = (validation_errors() ? validation_errors() : ($this->notification->errors() ? $this->notification->errors() : $this->notification->messages()));
+
+				//pass the user to the view
+				$this->data['user'] = $user;
+				$this->data['groups'] = $groups;
+				$this->data['currentGroups'] = $currentGroups;
+	
+				$this->data['profile_pic'] = array(
+					'name'  => 'profile_pic',
+					'id'    => 'profile_pic',
+					'type'  => 'file',
+					'class'  => 'form-control ',
+					'value' => $this->form_validation->set_value('profile_pic', $user->profile_pic),
+				);
+				$this->data['first_name'] = array(
+					'name'  => 'first_name',
+					'id'    => 'first_name',
+					'type'  => 'text',
+					'class'  => 'form-control ',
+					'value' => $this->form_validation->set_value('first_name', $user->first_name),
+				);
+				$this->data['last_name'] = array(
+					'name'  => 'last_name',
+					'id'    => 'last_name',
+					'type'  => 'text',
+					'class'  => 'form-control ',
+					'value' => $this->form_validation->set_value('last_name', $user->last_name),
+				);
+				$this->data['company'] = array(
+					'name'  => 'company',
+					'id'    => 'company',
+					'type'  => 'text',
+					'class'  => 'form-control ',
+					'value' => $this->form_validation->set_value('company', $user->company),
+				);
+				$this->data['phone'] = array(
+					'name'  => 'phone',
+					'id'    => 'phone',
+					'type'  => 'text',
+					'class'  => 'form-control ',
+					'value' => $this->form_validation->set_value('phone', $user->phone),
+				);
+				$this->data['password'] = array(
+					'name' => 'password',
+					'id'   => 'password',
+					'class'  => 'form-control ',
+					'type' => 'password'
+				);
+				$this->data['password_confirm'] = array(
+					'name' => 'password_confirm',
+					'id'   => 'password_confirm',
+					'class'  => 'form-control ',
+					'type' => 'password'
+				);
+				$this->data['title'] = 'User Profile';		
+				$this->data['main_content'] = 'users/profile';
+				$this->load->view('users/template', $this->data);
+			}
+		}
+		else 
+		{
+			r_direct('dashboard');
+		}
+		
+		
+		
+	}
 	
 	
 	function delete($id=null)
@@ -813,6 +1102,7 @@ class User extends CI_Controller {
 
 		$id = (int) $id;
 
+		
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('confirm', $this->lang->line('deactivate_validation_confirm_label'), 'required');
 		$this->form_validation->set_rules('id', $this->lang->line('deactivate_validation_user_id_label'), 'required|alpha_numeric');
@@ -822,18 +1112,14 @@ class User extends CI_Controller {
 			// insert csrf check
 			$this->data['csrf'] = $this->_get_csrf_nonce();
 			$this->data['user'] = $this->users->user($id)->row();
-
 			$this->data['modal_title'] 	 = lang('deactivate_heading');
 			$this->data['modal_content'] = 'users/deactivate';
-			$this->data['parameters'] 	=  array(
-											'container' => '#modal-user',
-											'komodel' => 'User'
-										);
 			echo $this->load->view('template/modal', $this->data); 		
 			
 		}
 		else
 		{
+			header('Content-Type: application/json');
 			// do we really want to deactivate?
 			if ($this->input->post('confirm') == 'yes')
 			{
@@ -847,12 +1133,22 @@ class User extends CI_Controller {
 				if ($this->users->logged_in() && $this->users->is_admin())
 				{
 					$this->users->deactivate($id);
+					$message = $this->notification->messages()? $this->notification->messages(): $this->session->flashdata('message');
+					echo json_encode( 
+						array( 
+							'response' => 'success', 
+							'message' => $message
+						), true);	
 				}
 			}
 
 			//redirect them back to the auth page
-			r_direct('user');	
+			//r_direct('user');	
 		}
+		
+		
+		
+		
 	}
 
 

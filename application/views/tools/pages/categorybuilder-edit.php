@@ -5,6 +5,7 @@
 			'method' => 'POST',
 			'id' => ''
 	);
+	$categorization = (array)$categorization;
 	$hidden 		= array('active' => false, 'id' => element('id', $categorization));	
 	$cat_settings   = unserialize(element('cat_settings', $categorization));	
 	$cat_settings	= $cat_settings && is_json($cat_settings)? $cat_settings

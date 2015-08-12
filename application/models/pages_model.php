@@ -15,57 +15,59 @@ class Pages_model extends CI_Model
 	{
 		parent::__construct();
 		$this->load->database();		
-		$this->load->model('usermeta_model');		
+		//$this->load->model('usermeta_model', 'postmeta_model');		
 		$this->load->library('database_lib');			
 		$this->tables  = $this->config->item('tables', 'template');	
 	}
 	
 	
-	public function get_pages_menu($user_id=NULL)
+	public function get_pages($user_ids=array(), $meta=array())
 	{
 		$result = false;
-		$tb = $this->tables['user_meta'];	
-		$where = array();
+		$tb = $this->tables['posts'];	
+			  
+		$this->db->cache_on();
 		
-		$user_id = $user_id? $user_id : $this->users->get_user_id();
-		
-		if(!$user_id)
-		return $result;			  
+		$this->db
+			->select()
+			->from($tb)
+			->where('post_type', 'page');
 		  
-		$menu = $this->usermeta_model->get_usermeta($user_id, array('meta_key' =>'custom_menu' ));
-		if(!$menu){
-			$where = $this->database_lib->db_where($where, 'user_id', $user_id);
-			$where = $this->database_lib->db_where($where, 'meta_key', 'page');
-			$this->db->cache_on();
-			$result =
-			$this->db->select("id, meta_value")
-			  ->from($tb)
-			  ->where($where)
-			  ->get()
-			  ->result_array();			  
-			return $result;			
-		}
-		else
-			return $menu;
-	}	
+		if($user_ids)		
+			$this->db->where_in('user_id', $user_ids);		  
+		if($meta)	
+			$this->db->where($meta);
+			
+		$result =
+		$this->db
+			->get()
+			->result();
+		 
+		if ($this->db->_error_message()) {
+			$this->notification->set_error('pages_error_get');
+		} else {
+			$this->notification->set_message('pages_success_get');			
+		} 		
+			
+		return $result;		
+	}
+	
 	
 	
 	public function get_page($id=NULL)
 	{	
 		$result = false;
-		$tb = $this->tables['user_meta'];	
-		$where = array();		
+		$tb = $this->tables['posts'];		
 		
 		if(!$id){
 			$this->notification->set_error('pages_error_get');
 			return $result;	
 		}
 		
-		$where = $this->database_lib->db_where($where, 'id', $id);	
 		$result =
-		$this->db->select("meta_value")
+		$this->db->select()
 		  ->from($tb)
-		  ->where($where)
+		  ->where('id',$id)
 		  ->limit(1)
 		  ->get()
 		  ->row();
@@ -74,8 +76,8 @@ class Pages_model extends CI_Model
 			$this->notification->set_error('pages_error_get');
 		} else {
 			$this->notification->set_message('pages_success_get');
-			if($result)
-			$result = unserialize($result->meta_value);
+			$result->styles= $this->postmeta_model->get_postmeta(array('post_id'=> $result->id, 'meta_key'=>'styles'));
+			$result->users= $this->postmeta_model->get_postmeta(array('post_id'=> $result->id, 'meta_key'=>'users'));
 		} 		
 			
 		return $result;				
@@ -84,20 +86,41 @@ class Pages_model extends CI_Model
 	public function add_page($meta=array())
 	{	
 		$result = false;
-		$tb = $this->tables['user_meta'];			
-		$user_id = $this->users->get_user_id();
-		
+		$tb = $this->tables['posts'];			
+		$user_id = $this->users->get_user_id();	
 		if(!$meta || !$user_id){
 			$this->notification->set_error('pages_error_add');
 			return $result;	
 		}
-				
-		$data = array(
-		    'user_id'   => $user_id,
-		    'meta_key'   => 'page',
-		    'meta_value' => serialize($meta)
-		);				
-		$this->db->insert($this->tables['user_meta'], $data);
+		
+		$post_meta = array_key_exists('post_meta', $meta) ? element('post_meta', $meta) : array();
+		$post_content = array_key_exists('post_content', $meta) ? element('post_content', $meta) : array();
+		
+		$meta = elements(
+				array(
+					'user_id',
+					'post_title',
+					'server',
+					'post_description',
+					'post_date',
+					'post_type',
+					'post_content',
+					'active'
+				)
+				, $meta);
+		$data = array_merge(
+					$meta,
+					array(
+						'user_id'   => $user_id,
+						'post_type'   => 'page',
+						'post_content' => serialize($post_content)
+					)		
+				);	
+		$data =
+		array_filter($data, function($var) {
+			return !is_null($var) && !empty($var);
+		});
+		$this->db->insert($tb, $data);
 		$id = $this->db->insert_id();
 		
 		if ($this->db->_error_message()) {
@@ -114,21 +137,33 @@ class Pages_model extends CI_Model
 	public function update_page($id=NULL, $meta=array())
 	{	
 		$result = false;
-		$tb = $this->tables['user_meta'];	
+		$tb = $this->tables['posts'];	
 		$where = array();
 		
 		if(!$meta || !$id){
 			$this->notification->set_error('pages_error_update');
 			return $result;	
 		}	
-		
-		$data = array(
-		    'meta_value' => serialize($meta)
-		);	
-		
-		$where = $this->database_lib->db_where($where, 'id', $id);
-		$this->db->where($where);
-		$this->db->update($tb, $data); 
+		$meta = elements(
+				array(
+					'user_id',
+					'post_title',
+					'server',
+					'post_description',
+					'post_date',
+					'post_type',
+					'post_content',
+					'active'
+				)
+				, $meta);
+		$active = (bool)element('active', $meta);		
+		$meta =
+		array_filter($meta, function($var) {
+			return !is_null($var) && !empty($var);
+		});
+		$meta['active'] = $active;
+		$this->db->where('id', $id);
+		$this->db->update($tb, $meta); 
 		
 		if ($this->db->_error_message()) {
 			$this->notification->set_error('pages_error_update');
@@ -145,8 +180,7 @@ class Pages_model extends CI_Model
 	public function delete_page($id=NULL)
 	{
 		$result = false;
-		$tb = $this->tables['user_meta'];
-		$where = array();
+		$tb = $this->tables['posts'];
 		
 		if(!$id){
 			$this->notification->set_error('pages_error_delete');
@@ -154,8 +188,7 @@ class Pages_model extends CI_Model
 		}
 			
 		
-		$where = $this->database_lib->db_where($where, 'id', $id);
-		$this->db->where($where);
+		$this->db->where('id', $id);
 		$this->db->delete($tb); 
 		
 		if ($this->db->_error_message()) {

@@ -19,9 +19,9 @@
 ?>
 
 
-<div  class="">		
+<div class="">		
 	<div class="sigma-parent">
-		<div class="sigma-expand widget widget-xl widget-full-page" id="sigma-canvas" data-bind="SigmaNetwork:{ data: '<?=base_url('assets/ko.models/twitter_mutual.json')?>',}"></div>
+		<div class="sigma-expand widget widget-xl widget-full-page m-0" id="sigma-canvas" data-bind="SigmaNetwork:{ data: '<?=base_url('assets/ko.models/twitter_mutual.json')?>',}"></div>
 	</div>
 </div>
 

@@ -247,7 +247,7 @@ $current_page = $this->application->get_session_userdata('current_page');
 						<div class="col-sm-9" >		
 						   <?php 
 								$databasematch = array_get_value($issues_data_options, 'databasematch');
-								$databases	= $this->application->get_databases($current_page);
+								$databases	= $this->application->get_databases((array)$current_page);
 								$databases	= element('database', $databases );
 								$dbs = array();
 								if($databases)
@@ -280,7 +280,7 @@ $current_page = $this->application->get_session_userdata('current_page');
 																params: {
 																	totalresults: 'true',
 																	source: 'autn:name',
-																	server: '". element('server', $current_page). "',
+																	server: '". $current_page->server. "',
 																}								
 															}
 													}"
@@ -323,7 +323,7 @@ $current_page = $this->application->get_session_userdata('current_page');
 							<div class="col-sm-9" >		
 							   <?php 
 									$databasematch		= array_get_value($solution_data_options, 'databasematch');
-									$databases			= $this->application->get_databases();
+									$databases			= $this->application->get_databases(array('server'=>$current_page->server));
 									$databases			= element('database', $databases );
 									$dbs = array();
 									if($databases)
@@ -356,7 +356,7 @@ $current_page = $this->application->get_session_userdata('current_page');
 																	params: {
 																		totalresults: 'true',
 																		source: 'autn:name',
-																		server: '". element('server', $current_page). "',
+																		server: '". $current_page->server. "',
 																	}								
 																}
 														}"

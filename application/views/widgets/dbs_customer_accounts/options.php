@@ -23,7 +23,7 @@ $hidden 		= array(
 					'query[print]' => 'all',
 					
 				);	
-//$widget_options = $this->config->item('widget_options', 'template');
+$page = $this->session->userdata('current_page');
 
  echo form_open( 'app/widget_options', $atts, $hidden ); ?>
 
@@ -71,7 +71,7 @@ $hidden 		= array(
 								
 								
 								<?php 
-									$atts = 'class="form-control selectpicker" data-live-search="true" data-max-options="10" multiple data-size="5" 
+									$atts = 'class="form-control selectpicker" data-live-search="true" data-max-options="5" multiple data-size="5" 
 									data-bind="BootstrapSelectAjax: {											
 											ajax: {
 												url: \'' . base_url('tags/get_tag_names') . '\',
@@ -79,6 +79,7 @@ $hidden 		= array(
 													var params = {
 														text: \'{{{q}}}\',
 														source: \'autn:name\',
+														server: \'' . $page->server . '\',
 													};
 													return params;
 												}
@@ -132,7 +133,8 @@ $hidden 		= array(
 																	params: {
 																		print: 'all',
 																		totalresults: 'true',
-																		source: 'autn:name'
+																		source: 'autn:name',
+																		server: '" . $page->server . "',
 																	}								
 																}
 														}"
@@ -159,8 +161,8 @@ $hidden 		= array(
 						<label class="col-sm-3 control-label" for="database">Database</label>				
 						<div class="col-sm-9" >		
 						   <?php 
-								$value		= array_get_value($options, 'databasematch');
-								$databases	= $this->application->get_databases();
+								$databasematch		= array_get_value($options, 'databasematch');
+								$databases	= $this->application->get_databases(array('server' => $page->server));
 								$databases	= element('database', $databases );
 								$dbs = array();
 								if($databases)
@@ -169,7 +171,7 @@ $hidden 		= array(
 								}													
 								$dbs 	= array_merge( array(''=> 'All'), $dbs);
 								$atts = 'class=" form-control" data-max-options="5" data-live-search="true" data-size="5" data-bind="BootstrapSelect:{}" multiple';
-								echo form_dropdown( 'query[databasematch][]', $dbs, $value, $atts);
+								echo form_dropdown( 'query[databasematch][]', $dbs, $databasematch, $atts);
 							?>
 							<p class="help-block">Some help text</p>
 							
@@ -193,7 +195,9 @@ $hidden 		= array(
 																params: {
 																	print: 'all',
 																	totalresults: 'true',
-																	source: 'autn:name'
+																	source: 'autn:name',
+																	databasematch: '" . join(',', $databasematch) . "',
+																	server: '" . $page->server . "',
 																}								
 															}
 													}"

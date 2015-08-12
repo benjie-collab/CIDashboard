@@ -15,7 +15,8 @@
 	$query_settings
 **/
 
-	$options 	= $this->application->get_settings($meta_key);	
+	$options 	= $this->application->get_settings($meta_key);
+	$page		= $this->session->userdata('current_page');
 	
 	/** Dropdown options **/
 	$sorts				= $this->application->get_config('sorts', 'search');
@@ -23,7 +24,12 @@
 	$default_elements	= array_keys($this->document_lib->default_elements());	
 
 
-$responsedata 		= $this->tags_model->call_get_tag_names(array('fieldtype'=> 'parametric'));
+$responsedata 		= $this->idol->TagAction(
+						array(
+							'fieldtype'=> 'parametric',
+							'server'=> $page->server,
+							'action'=> 'gettagnames'
+						));
 $attributes = array(
 				'class' => ''
 				);

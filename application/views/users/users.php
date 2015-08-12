@@ -71,13 +71,9 @@ $styles = $this->application->styles_setting();
 									sortable: false
 								},
 								{ 
-									data: 'active',
+									data: 'status',
 									sortable: false,
-									render: function ( data, type, full, meta ) {
-									  var color = data==0? 'label-warning' : 'label-primary';
-									  var status = data==0? '<?=lang('members_inactive_link');?>' : '<?=lang('members_active_link');?>';
-									  return '<span class=\'label '+color+'\'>' + status + '</span>';
-									}
+									
 								},
 								{ 
 									data: 'actions',

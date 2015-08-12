@@ -15,7 +15,7 @@ class Pages extends CI_Controller {
 		$this->load->database();
 		$this->lang->load('pages');  		
 		$this->load->library(array('statistics_lib'));	
-		$this->load->model(array('pages_model', 'statistics_model', 'widgets_model', 'search_model', 'tags_model', 'servers_model'));	
+		$this->load->model(array('postmeta_model', 'pages_model','statistics_model', 'search_model', 'tags_model', 'servers_model', 'categorization_model'));	
 		$this->load->helper(array('url','language'));		
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'users'), $this->config->item('error_end_delimiter', 'users'));
     }
@@ -36,12 +36,13 @@ class Pages extends CI_Controller {
 				$parameters =  $_GET;
 			}
 				
-			$page = $this->pages_model->get_page($id);					
-			if($page){	
-				$page = array_merge($page, array('id'=>$id));			
-				$template 					= element('template', $page) ? element('template', $page) : 'default';
+			$page 		= $this->pages_model->get_page($id);		
+			$post_meta 	=  (object)$this->postmeta_model->get_postmeta(array('post_id' => $id));		
+			if($page && $post_meta){
+				$page->post_meta			= $post_meta;
+				$template 					= isset($post_meta->template)? $post_meta->template: 'default';
 				$data['query_settings'] 	= $parameters;
-				$data['title'] 				= element('page_name', $page);
+				$data['title'] 				= $page->post_title;
 				$data['js'] 				= array('js/pages.js');				
 				$data['page'] 				= $page;
 				$data['tools'] 				= array(
@@ -52,6 +53,7 @@ class Pages extends CI_Controller {
 				$this->session->set_userdata('current_page', $page);
 				$this->session->set_userdata('widgets_tool', array());
 				$this->session->set_userdata('widgets_js', array());
+				$this->session->set_userdata('widgets_css', array());
 				$this->session->set_userdata('current_search', $parameters);
 				$this->load->view('pages/index', $data); 
 			}else{
@@ -75,7 +77,7 @@ class Pages extends CI_Controller {
 		else
 		{
 			$method = $this->input->server('REQUEST_METHOD');
-			$this->form_validation->set_rules('page_name', 'page_name', 'required|min_length[5]');
+			$this->form_validation->set_rules('post_title', 'post_title', 'required|min_length[5]');
 			$this->form_validation->set_rules('server', 'server', 'required');
 			
 			if($method == 'POST'){
@@ -85,15 +87,26 @@ class Pages extends CI_Controller {
 				if ($this->form_validation->run()){
 					$id = $this->pages_model->add_page($parameters);
 					if ($id){
+						$styles_meta =array(										
+										'post_id' => $id,
+										'meta_key' => 'styles',
+										'meta_value'=> serialize(element('styles_meta', $parameters))									
+									);
+						$p_id = $this->postmeta_model->save_postmeta($styles_meta);
+						$users_meta =array(										
+										'post_id' => $id,
+										'meta_key' => 'users',
+										'meta_value'=> serialize(element('users_meta', $parameters))									
+									);
+						$p_id = $this->postmeta_model->save_postmeta($users_meta);
 						
-						$message = $this->notification->messages()? $this->notification->messages(): $this->session->flashdata('message');							
-						header('Content-Type: application/json');
+						$message = $this->notification->messages()? $this->notification->messages(): $this->session->flashdata('message');
 						echo json_encode( 
 							array( 
 								'response' => 'success', 
 								'message' => $message,
 								'redirect' => base_url('pages/index/'.$id)
-							), true);
+							), true);			
 						
 					}else{	
 					
@@ -154,7 +167,48 @@ class Pages extends CI_Controller {
 		}
 	}
 	
-	
+	function edit_content($id = null)
+	{
+		$method = $this->input->server('REQUEST_METHOD');	
+		if (!$this->users->logged_in())
+		{
+			//redirect them to the login page
+			r_direct_login();
+		}
+		elseif($id && $method == 'POST'){	
+			$parameters = $_POST;
+			header('Content-Type: application/json');
+			
+			$parameters = array(
+						'post_content' => serialize($parameters)
+						);
+						
+			if ($this->pages_model->update_page($id, $parameters)){
+					
+				$message = $this->notification->messages()? $this->notification->messages(): $this->session->flashdata('message');	
+				echo json_encode( 
+					array( 
+						'response' => 'success', 
+						'message' => $message,
+						'redirect' => base_url('pages/index/'.$id)
+					), true);
+			}
+			else
+			{
+				$message = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');	
+				echo json_encode( array( 'response' => 'danger', 'message' => $message), true);		
+			}
+		}else{
+			$this->notification->set_error('pages_error_notfound');
+			$message = $this->notification->errors()? $this->notification->errors(): $this->session->flashdata('message');			
+			echo json_encode(array( 
+				'response' => 'danger', 
+				'message' => $message),
+			true);	
+			r_direct('dashboard');
+		}
+		
+	}
 	
 	function edit($id = null)
 	{
@@ -165,44 +219,8 @@ class Pages extends CI_Controller {
 			r_direct_login();
 		}
 		elseif($id){
-		
-			/**
 			$method = $this->input->server('REQUEST_METHOD');
-			$this->form_validation->set_rules('page_name', 'page_name', 'required|min_length[5]');
-			$this->form_validation->set_rules('server', 'server', 'required');
-			
-			if($method == 'POST'){
-				$parameters = $_POST;
-				header('Content-Type: application/json');
-				if ($this->form_validation->run() == true && $this->pages_model->update_page($id, $parameters)  ){
-					
-					$message = $this->notification->messages()? $this->notification->messages(): $this->session->flashdata('message');		
-					
-					header('Content-Type: application/json');
-					echo json_encode( 
-						array( 
-							'response' => 'success', 
-							'message' => $message,
-							'redirect' => base_url('pages/index/'.$id)
-						), true);
-					
-				}else{	
-				
-					$message = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');				
-					
-					header('Content-Type: application/json');
-					echo json_encode( array( 'response' => 'danger', 'message' => $message), true);					
-						
-				}
-				
-			}else{		
-				r_direct('dashboard');	
-			}		**/
-			
-			
-			
-			$method = $this->input->server('REQUEST_METHOD');
-			$this->form_validation->set_rules('page_name', 'page_name', 'required|min_length[5]');
+			$this->form_validation->set_rules('post_title', 'post_title', 'required|min_length[5]');
 			$this->form_validation->set_rules('server', 'server', 'required');
 			
 			if($method == 'POST'){
@@ -210,22 +228,22 @@ class Pages extends CI_Controller {
 				header('Content-Type: application/json');
 				
 				if ($this->form_validation->run() && $this->pages_model->update_page($id, $parameters)){
-					if ($id){
-						
-						$message = $this->notification->messages()? $this->notification->messages(): $this->session->flashdata('message');	
-						echo json_encode( 
-							array( 
-								'response' => 'success', 
-								'message' => $message,
-								'redirect' => base_url('pages/index/'.$id)
-							), true);
-						
-					}else{	
+					$styles_meta =array(			
+									'meta_value'=> serialize(element('styles_meta', $parameters))							
+								);
+					$p_id = $this->postmeta_model->update_postmeta($id, 'styles', $styles_meta);
+
+					$users_meta =array(			
+									'meta_value'=> serialize(element('users_meta', $parameters))							
+								);
+					$p_id = $this->postmeta_model->update_postmeta($id, 'users', $users_meta);	
 					
-						$message = $this->notification->errors()? $this->notification->errors(): $this->session->flashdata('message');			
-						echo json_encode( array( 'response' => 'danger', 'message' => $message), true);			
-							
-					}
+					$message = $this->notification->messages()? $this->notification->messages(): $this->session->flashdata('message');
+					echo json_encode( 
+						array( 
+							'response' => 'success', 
+							'message' => $message
+						), true);	
 				}
 				else
 				{
@@ -234,11 +252,16 @@ class Pages extends CI_Controller {
 				}
 				
 			}else{		
-				$page = $this->pages_model->get_page($id);	
+				$page = $this->pages_model->get_page($id);		
+				$styles_meta 				=  (object)$this->postmeta_model->get_postmeta(array('post_id' => $id, 'meta_key' => 'styles'));	
+				$page->styles_meta			= $styles_meta;
+				$users_meta 				=  (object)$this->postmeta_model->get_postmeta(array('post_id' => $id, 'meta_key' => 'users'));	
+				$page->users_meta			= $users_meta;
+				
 				$this->data['modal_title'] 	 = 'Edit Page';
 				$this->data['modal_content'] = 'pages/edit';
 				$this->data['parameters'] 	 =  $_GET;
-				$this->data['page'] 		 =  array_merge($page, array('id'=> $id));
+				$this->data['page'] 		 =  $page;
 				echo $this->load->view('template/modal-pages', $this->data); 	
 			}			
 			
@@ -252,6 +275,63 @@ class Pages extends CI_Controller {
 			r_direct('dashboard');
 		}
 		
+	}
+	
+	
+	
+	function modal()
+	{
+		if (!$this->users->logged_in())
+		{
+			r_direct_login();
+		}
+		else
+		{
+			$get_data 		= $_GET;
+			$path			= element('path', $get_data);
+			if($path)
+			{				
+				$data['data']	= $get_data;		
+				echo $this->load->view(urldecode($path), $data); 				
+			}else{
+				r_direct('dashboard');
+			}			
+		}
+	}
+	
+	
+	function search($start=null)
+	{
+		if (!$this->users->logged_in())
+		{
+			r_direct_login();
+		}
+		else
+		{
+			$parameters = array();	
+			if ($this->input->server('REQUEST_METHOD') === 'POST'){
+				$parameters = $_POST;			
+			}			
+			elseif ($this->input->server('REQUEST_METHOD') === 'GET'){
+				$parameters = $_GET;						
+			}
+
+
+			$search_results	 = $this->idol->QueryAction($parameters);			
+			$message = $this->notification->errors()? $this->notification->errors(): ($this->notification->messages()? $this->notification->messages() : $this->session->flashdata('message'));
+			
+			if(!empty($search_results)):					
+				$results = clean_json_response($search_results);				
+				$responsedata = get_responsedata($results);
+				$data['responsedata'] = $responsedata;
+				$data['template']		= element('template', $parameters);
+				$data['search_parameters']= $parameters;
+				$template = isset($parameters['template'])? $parameters['template']['name']: 'document-template-chat';	
+				echo $this->load->view('template/'.$template, $data); 
+			else:
+				echo 'No results...';
+			endif;
+		}
 	}
 	
 	

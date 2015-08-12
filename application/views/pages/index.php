@@ -3,8 +3,10 @@
 <?php $this->load->view('template/aside'); ?>
 <?php 
 	$mode   = $this->application->get_mode('pages_mode');
+	$post_meta = $page->post_meta;
+	$template = isset($post_meta->template)? $post_meta->template: 'default';
 ?>
- <div class="content-wrapper <?=strcasecmp(element('template', $page), 'full-page')==0? 'p-0' : ''?>" id="pages_page">	
+ <div class="content-wrapper <?=strcasecmp($template, 'full-page')==0? 'p-0' : ''?>" id="pages_page">	
 	<?php $this->load->view($main_content); ?>
 </div>
 
@@ -21,8 +23,8 @@
 			<label class="control-label ">Toggle Menu</label>
 			<div class="">
 				<a class="sidebar-toggle btn-group" href="javascript:void(0)" data-toggle="offcanvas">
-				  <button class="btn btn-default btn-sm" type="button">Menu</button>
-				  <button class="btn btn-default btn-sm" type="button" >
+				  <button class="btn btn-default btn-xs" type="button">Menu</button>
+				  <button class="btn btn-default btn-xs" type="button" >
 					<i class="fa fa-bars"></i>
 				  </button>			 
 				</a>
@@ -49,9 +51,10 @@
 				data-bind="BootstrapSwitch:{
 					onColor: 'danger', 
 					offColor: 'warning',
-					size: 'small', 
+					size: 'mini', 
 					onText: 'Edit', 
 					offText: 'View', 
+					handleWidth: 40,
 					onSwitchChange: function(event, state){	
 						$('#app-switch-mode').trigger('submit');							
 					}}"/>

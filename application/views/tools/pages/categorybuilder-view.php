@@ -1,4 +1,5 @@
 <?php 
+	$categorization = (array)$categorization;
 	$cat_settings   = unserialize(element('cat_settings', $categorization));	
 	$cat_settings	= $cat_settings && is_json($cat_settings)? $cat_settings
 						: json_encode(array('url' => base_url('data/category-builder-template.js')), JSON_UNESCAPED_SLASHES);

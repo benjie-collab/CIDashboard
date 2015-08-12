@@ -19,7 +19,7 @@ $atts = array(
 /** Add meta_key for options form recognition **/
 $hidden 		= array('meta_key' => $widget_key);	
 
-	//$widget_options = $this->config->item('widget_options', 'template');
+$page = $this->session->userdata('current_page');
 ?>
 <?php echo form_open( 'app/widget_options', $atts, $hidden ); ?>
 
@@ -105,7 +105,7 @@ $hidden 		= array('meta_key' => $widget_key);
 			<div id="options-tab-3" class="tab-pane ">
 				<div class="form-group">
 					<label class="col-sm-3 control-label" for="suggestbox">Suggest Box</label>				
-					<div class="col-sm-9" >		
+					<div class="col-sm-9 checkbox" >		
 						<input type="hidden" name="suggestbox" value="0"/>
 					   <?php $data = array(
 							'name'        => 'suggestbox',
@@ -124,20 +124,21 @@ $hidden 		= array('meta_key' => $widget_key);
 				<div class="form-group">
 					<label class="col-sm-3 control-label" for="database">Database to Suggest</label>				
 					<div class="col-sm-9" >		
-					   <?php 
-							$suggest = element('suggest', $options) ;
-							$value		= element('databasematch', $suggest) ;
-							$databases	= $this->application->get_databases();
-							$databases	= element('database', $databases );
-							$dbs = array();
-							if($databases)
-							foreach( $databases as $key=>$db){
-								$dbs[element('name',$db)] =  element('name',$db) . ' (' . element('documents',$db) . ')';
-							}													
-							$dbs 	= array_merge( array(''=> 'All'), $dbs);
-							$atts = 'class=" form-control" data-max-options="5" data-live-search="true" data-size="5" data-bind="BootstrapSelect:{}" multiple';
-							echo form_dropdown( 'suggest[databasematch][]', $dbs, $value, $atts);
-						?>
+						<?php 
+								$databasematch		= array_get_value($options, 'databasematch');
+								$databases	= $this->application->get_databases(array('server' => $page->server));
+								$databases	= element('database', $databases );
+								$dbs = array();
+								if($databases)
+								foreach( $databases as $key=>$db){
+									$dbs[element('name',$db)] =  element('name',$db) . ' (' . element('documents',$db) . ')';
+								}													
+								$dbs 	= array_merge( array(''=> 'All'), $dbs);
+								$atts = 'class=" form-control" data-max-options="5" data-live-search="true" data-size="5" data-bind="BootstrapSelect:{}" multiple';
+								echo form_dropdown( 'suggest[databasematch][]', $dbs, $databasematch, $atts);
+							?>
+							
+							
 						<p class="help-block">Some help text</p>
 						
 					</div>	

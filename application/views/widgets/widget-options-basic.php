@@ -18,7 +18,7 @@ $widget_options = $this->config->item('widget_options', 'template');
 </div>
 <div class="form-group">
 	<label class="col-sm-3 control-label" for="widgetize">Widgetize</label>				
-	<div class="col-sm-9" >		
+	<div class="col-sm-9 checkbox" >		
 		<input type="hidden" name="widgetize" value="0"/>
 	   <?php $data = array(
 			'name'        => 'widgetize',

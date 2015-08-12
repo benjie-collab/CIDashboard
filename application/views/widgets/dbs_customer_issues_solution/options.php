@@ -5,7 +5,7 @@
 */
 	
 $options 	= $this->application->get_settings($widget_key);	
-	
+$page 			= $this->session->userdata('current_page');
 	
 	
 /** Form attributes with some Knockoutjs bindings for submission. **/
@@ -68,7 +68,7 @@ $data_options  = array_key_exists('data', $options)? element('data', $options): 
 						<div class="col-sm-9" >		
 						   <?php 
 								$databasematch		= array_get_value($data_options, 'databasematch');
-								$databases	= $this->application->get_databases();
+								$databases	= $this->application->get_databases(array('server'=>$page->server));
 								$databases	= element('database', $databases );
 								$dbs = array();
 								if($databases)
@@ -102,6 +102,7 @@ $data_options  = array_key_exists('data', $options)? element('data', $options): 
 																	print: 'all',
 																	totalresults: 'true',
 																	source: 'autn:name',
+																	server: '" . $page->server . "',
 																	'databasematch[]': " . htmlspecialchars(json_encode($databasematch), ENT_QUOTES, 'UTF-8') . "
 																}								
 															}

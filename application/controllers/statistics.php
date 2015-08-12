@@ -38,7 +38,9 @@ class Statistics extends CI_Controller {
 			$data['title'] 		= 'Statistical Visualizations';
 			$data['js'] 		= array('js/statistics.js');
 			$data['main_content'] = 'statistics/index' ;		
-			$data['tools'] 		= 'statistics/tools-index' ;	
+			$data['tools'] 		= array(
+									0=>'statistics/tools-index'
+									) ;	
 			$data['category']	= $category;
 			$data['parameters'] = $parameters ;				
 			$this->load->view('statistics/template', $data);			

@@ -19,24 +19,16 @@ class Categorization_model extends CI_Model
 	
 	
 	
-	public function get_categorizations($user_id=NULL, $meta=array())
+	public function get_categorizations($meta=array())
 	{	
 		$result = array();
 		$tb = $this->tables['categorization'];			
 		$this->db->cache_on();
-		$where = array();	
-		
-		$user_id = $user_id? $user_id : $this->users->get_user_id(); 
-		
-		foreach($meta as $key=>$value){			
-			$where = $this->database_lib->db_where($where, $key, $value);
-		}				
-		$where = $this->database_lib->db_where($where, 'user_id', $user_id);
 		
 		$result =
-		$this->db->select("id, active, cat_settings")
+		$this->db->select()
 		  ->from($tb)
-		  ->where($where)
+		  ->where($meta)
 		  ->order_by('id', 'desc')
 		  ->limit(10)
 		  ->get()
@@ -49,28 +41,40 @@ class Categorization_model extends CI_Model
 	
 	public function get_categorization($id=NULL)
 	{
-		$result = array();
-		
+		$tb = $this->tables['categorization'];	
+		$result = false;		
 		if(!$id)
 		return $result;
 		
+		/**
 		$user_id = $this->users->get_user_id(); 
-		
-		$tb = $this->tables['categorization'];			
 		$this->db->cache_on();
-		$where = array();	
-				
+		$where = array();					
 		$where = $this->database_lib->db_where($where, 'id', $id);
-		$where = $this->database_lib->db_where($where, 'user_id', $user_id);
-		
+		$where = $this->database_lib->db_where($where, 'user_id', $user_id);		
 		$result =
 		$this->db->select()
 		  ->from($tb)
 		  ->where($where)
 		  ->limit(1)
 		  ->get()
-		  ->result_array();			
-		return array_shift($result);		
+		  ->result_array();	**/	
+
+		$result =
+		$this->db->select()
+		  ->from($tb)
+		  ->where('id',$id)
+		  ->limit(1)
+		  ->get()
+		  ->row();
+		
+		if ($this->db->_error_message()) {
+			$this->notification->set_error('database_error_get');
+		} else {
+			$this->notification->set_message('database_success_get');
+		} 
+		  
+		return $result;		
 	}
 	
 	public function add_categorization($user_id=NULL, $meta=array())

@@ -16,7 +16,7 @@
 **/
 	
 	$query_config	= $this->application->get_config('query','actions');
-	
+	$page 			= $this->session->userdata('current_page');
 	$is_page 		= $this->application->is_page();
 	$options 		= isset($meta_key)? $this->application->get_settings($meta_key) : array();
 	$query_options	= array_key_exists('query', $options)? element('query', $options): array();
@@ -28,8 +28,13 @@
 		$query = array_merge(
 					$query_config,					
 					$query_options, 
-					$query_settings);
-		$results = $this->search_model->call_search($query);
+					$query_settings,
+					array(
+						'action'=> 'query',
+						'print'=> 'all',
+						'server'=> $page->server,
+					));
+		$results = $this->idol->QueryAction($query);
 		$results = clean_json_response($results);
 		
 	}	
@@ -44,6 +49,7 @@
 	$hit 		= array_get_value($results, 'autn:hit');
 	$document 	= array_get_value($hit, 'DOCUMENT');
 	$this->session->set_userdata('dbs_customer', $document);
+
 ?>
 <div class="box box-solid">
 	<div class="box-body no-padding">		
@@ -57,6 +63,8 @@
 			if($doc_meta){
 			$dm = $doc_meta[0];
 			$dm = end(explode('/', $dm));
+			
+			
 			?>
 			<li class="">
 				<a href="javascript:void(0)">
@@ -92,7 +100,7 @@
 	  data-toggle="modal"
 	  data-target="#modal-page-search-form"
 	  ><i class="fa fa-toggle-on"></i> Switch Customer</button>-->
-	  <button class="btn btn-flat btn-sm <?=element('info_buttons', $page)?>"  data-toggle="collapse" data-target="#acct-details-full"
+	  <button class="btn btn-flat btn-sm"  data-toggle="collapse" data-target="#acct-details-full"
 	  ><i class="fa fa-chevron-down"></i> Full Details</button>
 	</div>
 </div>

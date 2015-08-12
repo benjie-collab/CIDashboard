@@ -1,0 +1,36 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+
+$config['google_map']['backgroundcolor'] 		= 10;
+$config['google_map']['center'] 				= 10;
+$config['google_map']['disableDefaultUI'] 		= 10;
+$config['google_map']['disableDoubleClickZoom'] = 10;
+$config['google_map']['draggable'] 				= 10;
+$config['google_map']['draggableCursor'] 		= 10;
+$config['google_map']['draggingCursor'] 		= 10;
+$config['google_map']['heading'] 				= 10;
+$config['google_map']['keyboardShortcuts'] 		= 10;
+$config['google_map']['mapMaker'] 				= 10;
+$config['google_map']['mapTypeControl'] 		= 10;
+$config['google_map']['mapTypeControlOptions'] 	= 10;
+$config['google_map']['mapTypeId'] 				= 10;
+$config['google_map']['maxZoom'] 				= 10;
+$config['google_map']['minZoom'] 				= 10;
+$config['google_map']['noClear'] 				= 10;
+$config['google_map']['overviewMapControl'] 	= 10;
+$config['google_map']['overviewMapControlOptions']= 10;
+$config['google_map']['panControl'] 			= 10;
+$config['google_map']['panControlOptions'] 		= 10;
+$config['google_map']['rotateControl'] 			= 10;
+$config['google_map']['rotateControlOptions'] 	= 10;
+$config['google_map']['scaleControl'] 			= 10;
+$config['google_map']['scaleControlOptions'] 	= 10;
+$config['google_map']['scrollwheel'] 			= 10;
+$config['google_map']['streetView'] 			= 10;
+$config['google_map']['streetViewControl'] 		= 10;
+$config['google_map']['streetViewControlOptions']= 10;
+$config['google_map']['styles'] 				= 10;
+$config['google_map']['tilt'] 					= 10;
+$config['google_map']['zoom'] 					= 10;
+$config['google_map']['zoomControl'] 			= 10;
+$config['google_map']['zoomControlOptions'] 	= 10;

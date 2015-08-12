@@ -17,7 +17,39 @@
 <section class="content">	
 	<?php echo $message;?>
 	<div class="dropzone widget widget-md" data-bind="Dropzone: { 
-		url: '<?=base_url('document/add')?>'}"></div>
+		url: '<?=base_url('document/add')?>',
+		acceptedFiles: '.csv,.doc,.docx,.pdf',
+		maxFiles: 5,
+		success: function(e, r){					
+			var messages = $(r.message).filter('div');
+			if(messages)
+			$.each(messages, function(i,v){
+				$.notify({
+					message: $(v).text() 
+				},
+				{
+					type: r.response
+				});
+			
+			})
+			else
+			$.notify({
+				message: $(r.message).text() 
+			},
+			{
+				type: r.response
+			});					
+		},
+		error: function(e, r){					
+			$.notify({
+				message: r
+			},
+			{
+				type: 'danger'
+			});
+		},
+		}"></div>
+		<p class="help-block">Accepted files: .csv,.doc,.docx,.pdf</p>
 	<div class="row">
 		<div class="col-md-9">
 			

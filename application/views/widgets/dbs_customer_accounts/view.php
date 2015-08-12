@@ -23,8 +23,8 @@
 	$options 		= isset($meta_key)? $this->application->get_settings($meta_key) : array();
 	$query_options	= array_key_exists('query', $options)? element('query', $options): array();
 	
+	$page 			= $this->session->userdata('current_page');
 	$ts = generate_timestamp();
-			
 ?>
 <?php 
 	if($dbs_customer){	
@@ -37,17 +37,18 @@
 					$query_options,
 					array(
 						'fieldtext' => $match,
-						'server' =>  element('server', $page)
+						'server' =>  $page->server,
+						'action'=> 'query',
+						'print'=> 'all'
+						
 					)
 					);
-		$results = $this->search_model->call_search($query);
+		$results = $this->idol->QueryAction($query);
 		$results = clean_json_response($results);
 		
 	}	
 	
-	$numhits 	= array_get_value($results, 'autn:numhits');
-	$document_options = $this->application->get_config('document_options', 'template');	
-	
+	$numhits 	= array_get_value($results, 'autn:numhits');	
 	$hit 		= array_get_value($results, 'autn:hit');	
 	$accounts 	= intval($numhits)===1? array( 0 => $hit) : $hit;
 	$accounts	= intval($numhits)==0? array(): $accounts;	
@@ -129,7 +130,7 @@
 			
 			
 			<div class="box-footer clearfix text-center">			 
-			  <span class="btn btn-flat btn-sm <?=element('info_buttons', $page)?>"  data-toggle="collapse" data-target="#accts-list"
+			  <span class="btn btn-flat btn-sm"  data-toggle="collapse" data-target="#accts-list"
 			  ><i class="fa fa-chevron-down"></i> Accounts</span>
 			</div>
 			

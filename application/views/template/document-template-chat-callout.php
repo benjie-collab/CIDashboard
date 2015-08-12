@@ -7,7 +7,7 @@
 
 
 $ts = generate_timestamp();	
-
+if(isset($responsedata)){
 $numhits 	= array_key_exists('autn:numhits', $responsedata)?  	element('autn:numhits', $responsedata) : 0;	
 $autnhit 	=  ($numhits > 0)?
 			($numhits > 1)? 
@@ -101,6 +101,13 @@ if($autnhit){
 }else{
 	?>
 	No results...
+<?php 
+}
+?>
+<?php
+}else{
+	?>
+	Cant find response...
 <?php 
 }
 ?>

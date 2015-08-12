@@ -12,91 +12,107 @@
 	$this->load->view($main_content); ?>
 </div>
 
-<?php $this->load->view($tools); ?>
 
-<div class="bg-gray p-10 p-l-20 p-r-20 main-footer" id="edit-mode-helper" data-bind="ScrollToFixed:{ bottom: 0, limit: $('#edit-mode-helper').offset().top}">
-	
-
-	<ul class="list-inline m-0">
-		<li>
-			<?php 
-				$atts = array(
-					'class' => '',
-					'method' => 'POST',
-					'id' => 'app-switch-mode'
-				);					
-				$hidden = array('name'=> 'statistics_mode');
+<a href="javascript:void(0)" 
+	class="no-print floating-tools-button">
+	<i class="fa-wrench fa"></i>
+</a>
+<div class="no-print floating-tools-content">
+	<h4 class="text-light-blue p-b-15 m-t-0 m-b-5" style="border-bottom: 1px solid #ddd;">Tools</h4>
+	<div class="">
+		<div class="form-group">
+			<label class="control-label ">Statistics Mode</label>
+			<div class="">
+				<?php 
+					$atts = array(
+						'class' => '',
+						'method' => 'POST',
+						'id' => 'app-switch-mode'
+					);					
+					$hidden = array('name'=> 'statistics_mode');
 				echo form_open( 'app/switch_mode/', $atts, $hidden); ?>		
 				<input type="checkbox" <?=(bool)$mode? 'checked' : '' ?> name="mode"
-					data-bind="BootstrapSwitch:{
-						onColor: 'danger', 
-						offColor: 'warning',
-						size: 'medium', 
-						onText: 'Edit', 
-						offText: 'View', 
-						labelText: 'Switch Mode',
-						onSwitchChange: function(event, state){	
-							$('#app-switch-mode').trigger('submit');							
-						}}"/>
-			<?=form_close()?>			
-		</li>	
-
-		<li class="pull-right">	
-			<?php 	
+				data-bind="BootstrapSwitch:{
+					onColor: 'danger', 
+					offColor: 'warning',
+					size: 'mini', 
+					onText: 'Edit', 
+					offText: 'View', 
+					handleWidth: 40,
+					onSwitchChange: function(event, state){	
+						$('#app-switch-mode').trigger('submit');							
+					}}"/>
+				<?=form_close()?>
+			</div>
+		</div>
+		
+		
+		<?php 	
+		$hidden = array('user_id'=>element('user_id', $parameters));
+		$atts = array(
+				'class' => '',
+				'method' => 'GET'
+		);	
+		$value = element('active', $parameters); 
+		?>
+		<?php echo form_open( 'statistics/index/' . $category, $atts, $hidden ); ?>	
+		<div class="form-group">
+			<label class="control-label ">Status</label>
+			<div class="">
+				<?php 
+					$atts = 'class="form-control" data-bind=" event: { change: function(d,e){ $(e.currentTarget).closest(\'form\').trigger(\'submit\')} }, 
+						BootstrapSelect:{ style: \'btn-sm\'}"';
+					$value = element('active', $parameters); 							
+					if($value==1)
+					$status = 'primary';
+					elseif(strcasecmp($value,"'0'")==0 )
+					$status = 'gray';
+					else
+					$status = 'warning';
+					
+					$elements = array(1 => 'Active', "'0'" => 'Inactive', ''=>'All');
+				
+					echo form_dropdown('active', $elements , $value , $atts);								
+				?>
+			</div>
+		</div>
+		<?=form_close()?>
+		<?php 	
 			$hidden = array('active'=>element('active', $parameters));
+			$value = element('user_id', $parameters); 
 			$atts = array(
 					'class' => '',
 					'method' => 'GET'
 			);		
 			?>
-			<?php echo form_open( 'statistics/index/' . $category, $atts, $hidden ); ?>	
-		
+		<?php echo form_open( 'statistics/index/' . $category, $atts, $hidden ); ?>
+		<div class="form-group">
+			<label class="control-label ">Only My Charts</label>
+			<div class="">
 				<input type="checkbox" <?=(bool)element('user_id', $parameters)? 'checked' : '' ?> name="user_id" value="<?=$this->users->get_user_id()?>"
 				data-bind="BootstrapSwitch:{
 					onColor: 'primary', 
 					offColor: 'warning',
-					size: 'medium', 
+					size: 'mini', 
 					onText: 'Yes', 
 					offText: 'No', 
-					labelText: 'My Charts',
+					handleWidth: 40,
 					onSwitchChange: function(event, state){		
 						$(event.currentTarget).closest('form').trigger('submit')
 					}}"/>
-			<?=form_close()?>
-		</li>	
-		<li class="pull-right">	
-			<?php 	
-				$hidden = array('user_id'=>element('user_id', $parameters));
-				$atts = array(
-						'class' => '',
-						'method' => 'GET'
-				);		
-				?>
-				<?php echo form_open( 'statistics/index/' . $category, $atts, $hidden ); ?>		
-					<?php 
-						$atts = 'class="form-control dropup w-auto pull-right" data-bind=" event: { change: function(d,e){ $(e.currentTarget).closest(\'form\').trigger(\'submit\')} }, BootstrapSelect:{}"';
-						$value = element('active', $parameters); 							
-						if($value==1)
-						$status = 'primary';
-						elseif(strcasecmp($value,"'0'")==0 )
-						$status = 'gray';
-						else
-						$status = 'warning';
-						
-						$elements = array(1 => 'Active', "'0'" => 'Inactive', ''=>'All');
-					
-						echo form_dropdown('active', $elements , $value , $atts);								
-					?>
-				<?=form_close()?>
-				
-				
-			
-		</li>	
-	</ul>
-	
+			</div>
+		</div>
+		<?=form_close()?>
+	</div>
 </div>
-
-
+<?php 		
+foreach($tools as $key=>$tool){		
+	if(!strcasecmp($key, 'edit')==0)
+	$this->load->view($tool);
+	elseif($mode && strcasecmp($key, 'edit')==0)
+	$this->load->view($tool);
+}	
+?>
 
 <?php $this->load->view('template/footer'); ?>
 <?php $this->load->view('template/footer_scripts'); ?>

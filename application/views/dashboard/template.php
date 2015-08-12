@@ -9,35 +9,46 @@
  <div class="content-wrapper">	
 	<?php $this->load->view($main_content); ?>
 </div>
-<?php if($is_admin) { ?>
-<div class="bg-gray p-5 p-l-10 p-r-10 main-footer" id="edit-mode-helper" data-bind="ScrollToFixed:{ bottom: 0, limit: $('#edit-mode-helper').offset().top}">
-	<ul class="list-inline m-0">
-		<li></li>
-		<li class="pull-right">
-			<?php 
-				$atts = array(
-					'class' => '',
-					'method' => 'POST',
-					'id' => 'app-switch-mode'
-				);					
-				$hidden = array('name'=> 'dashboard_mode');
+
+
+<a href="javascript:void(0)" 
+	class="no-print floating-tools-button">
+	<i class="fa-wrench fa"></i>
+</a>
+<div class="no-print floating-tools-content">
+	<h4 class="text-light-blue p-b-15 m-t-0 m-b-5" style="border-bottom: 1px solid #ddd;">Dashboard Tools</h4>
+	<div class="">
+		<div class="form-group">
+			<label class="control-label ">Dashboard Mode</label>
+			<div class="">
+				<?php 
+					$atts = array(
+						'class' => '',
+						'method' => 'POST',
+						'id' => 'app-switch-mode'
+					);					
+					$hidden = array('name'=> 'dashboard_mode');
 				echo form_open( 'app/switch_mode/', $atts, $hidden); ?>		
 				<input type="checkbox" <?=(bool)$mode? 'checked' : '' ?> name="mode"
-					data-bind="BootstrapSwitch:{
-						onColor: 'warning', 
-						offColor: 'warning',
-						size: 'mini', 
-						onText: 'Edit', 
-						offText: 'View', 
-						labelText: 'Mode',
-						onSwitchChange: function(event, state){	
-							$('#app-switch-mode').trigger('submit');							
-						}}"/>
-			<?=form_close()?>			
-		</li>
-	</ul>
+				data-bind="BootstrapSwitch:{
+					onColor: 'danger', 
+					offColor: 'warning',
+					size: 'mini', 
+					onText: 'Edit', 
+					offText: 'View',
+					handleWidth: 40,
+					onSwitchChange: function(event, state){	
+						$('#app-switch-mode').trigger('submit');							
+					}}"/>
+				<?=form_close()?>
+			</div>
+		</div>
+	</div>
+	
+	
 </div>
-<?php } ?>
+
+
 <?php 		
 	foreach($tools as $key=>$tool){		
 		if(!strcasecmp($key, 'edit')==0)

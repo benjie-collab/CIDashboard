@@ -65,7 +65,7 @@ $( document ).ready(function() {
 	});	
 	
 	
-	
+	/**
 	$(document).on('change', '.skin-selector li input[type=radio]', function(e){
 		
 		var value= $(e.currentTarget).val(),
@@ -104,7 +104,7 @@ $( document ).ready(function() {
 		var value= $(e.currentTarget).val();		
 		$('body').toggleClass(value);
 			
-	});	
+	});	**/
 	
 	
 	
